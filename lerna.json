@@ -1,0 +1,31 @@
+{
+  "version": "0.0.0",
+  "packages": [
+    "packages/*"
+  ],
+  "command": {
+    "publish": {
+      "ignoreChanges": [
+        "*.md",
+        "package-lock.json"
+      ]
+    },
+    "bootstrap": {
+      "hoist": true,
+      "noCi": true,
+      "nohoist": [
+        "cross-env",
+        "egg"
+      ],
+      "npmClientArgs": [
+        "--no-package-lock"
+      ]
+    },
+    "version": {
+      "conventionalCommits": true,
+      "allowBranch": ["master", "release"],
+      "registry": "https://registry.npmjs.org/"
+    }
+  },
+  "npmClient": "npm"
+}
