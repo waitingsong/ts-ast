@@ -97,7 +97,7 @@ describe(filename, () => {
       const tsPath = join(__dirname, '../literal/dict.ts')
       const opts: TransTypetoLiteralObjOpts = {
         ...defaultOpts,
-        importModuleName: './dict',
+        importModuleName: './types',
         tsPath,
       }
       const tf = transTypetoLiteralObj(program, opts)

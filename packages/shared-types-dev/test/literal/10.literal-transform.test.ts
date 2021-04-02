@@ -55,7 +55,7 @@ describe(filename, () => {
       const opts: TransFormOptions = {
         ...defaultOpts,
         sourceFile: file,
-        importModuleName: './dict',
+        importModuleName: './types',
       }
 
       transformCallExpressionToLiteralType(opts)
@@ -85,7 +85,7 @@ describe(filename, () => {
       const opts: TransFormOptions = {
         ...defaultOpts,
         sourceFile: file,
-        importModuleName: './dict',
+        importModuleName: './types',
       }
 
       const ret = transformCallExpressionToLiteralType(opts)
@@ -100,7 +100,7 @@ describe(filename, () => {
       const opts: TransFormOptions = {
         ...defaultOpts,
         sourceFile: file,
-        importModuleName: './dict',
+        importModuleName: './types',
       }
 
       transformCallExpressionToLiteralType(opts)
@@ -137,7 +137,7 @@ describe(filename, () => {
       const opts: TransFormOptions = {
         ...defaultOpts,
         sourceFile: file,
-        importModuleName: './dict',
+        importModuleName: './types',
       }
 
       const ret = transformCallExpressionToLiteralType(opts)
@@ -152,7 +152,7 @@ describe(filename, () => {
       const opts: TransFormOptions = {
         ...defaultOpts,
         sourceFile: file,
-        importModuleName: './dict',
+        importModuleName: './types',
       }
 
       transformCallExpressionToLiteralType(opts)
@@ -190,7 +190,7 @@ describe(filename, () => {
       const opts: TransFormOptions = {
         ...defaultOpts,
         sourceFile: file,
-        importModuleName: './dict',
+        importModuleName: './types',
       }
 
       const ret = transformCallExpressionToLiteralType(opts)
