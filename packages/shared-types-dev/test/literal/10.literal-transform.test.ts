@@ -26,6 +26,7 @@ describe(filename, () => {
   const path1 = join(__dirname, 'demo1.ts')
   const path2 = join(__dirname, 'demo2.ts')
   const path3 = join(__dirname, 'demo3.ts')
+  const path4 = join(__dirname, 'demo4.ts')
   const tsConfigFilePath = join(__dirname, '../../tsconfig.json')
   const defaultOpts = {
     needle: 'genDbDict',
@@ -38,11 +39,13 @@ describe(filename, () => {
     await run(`cp -f "${path1}.example.ts" ${path1}`).toPromise()
     await run(`cp -f "${path2}.example.ts" ${path2}`).toPromise()
     await run(`cp -f "${path3}.example.ts" ${path3}`).toPromise()
+    await run(`cp -f "${path4}.example.ts" "${path4}"`).toPromise()
   })
   after(async () => {
     await rimraf(path1)
     await rimraf(path2)
     await rimraf(path3)
+    await rimraf(path4)
   })
 
   describe('Should transformCallExpressionToLiteralType works', () => {
@@ -86,8 +89,8 @@ describe(filename, () => {
       }
 
       const ret = transformCallExpressionToLiteralType(opts)
-      const obj = ret.get('dict')
-
+      assert(ret.varKeyMap.size === ret.fullKeyMap.size)
+      const obj = ret.varKeyMap.get('dict')
       assert.deepStrictEqual(obj, expectedDict)
     })
 
@@ -138,8 +141,8 @@ describe(filename, () => {
       }
 
       const ret = transformCallExpressionToLiteralType(opts)
-      const obj = ret.get('dict')
-
+      assert(ret.varKeyMap.size === ret.fullKeyMap.size)
+      const obj = ret.varKeyMap.get('dict')
       assert.deepStrictEqual(obj, expectedDict)
     })
 
@@ -191,10 +194,26 @@ describe(filename, () => {
       }
 
       const ret = transformCallExpressionToLiteralType(opts)
-      const obj1 = ret.get('dict1')
+      assert(ret.varKeyMap.size === ret.fullKeyMap.size)
+
+      const obj1 = ret.varKeyMap.get('dict1')
       assert.deepStrictEqual(obj1, expectedDict)
-      const obj2 = ret.get('dict2')
+      const obj2 = ret.varKeyMap.get('dict2')
       assert.deepStrictEqual(obj2, expectedDict2)
+    })
+
+
+    it('demo4', () => {
+      const path = path4
+      const file = createSourceFile(path, { tsConfigFilePath })
+      const opts: TransFormOptions = {
+        ...defaultOpts,
+        sourceFile: file,
+        importModuleName: '',
+      }
+
+      const ret = transformCallExpressionToLiteralType(opts)
+      assert(ret.varKeyMap.size + 1 === ret.fullKeyMap.size)
     })
   })
 

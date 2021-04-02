@@ -7,6 +7,9 @@ import {
   TransFormOptions,
   TransformCallExpressionToLiteralTypeRet,
   transformCallExpressionToLiteralType,
+  CallExpressionFullKey,
+  CallExpressionToLiteralTypeVarKeyMap,
+  CallExpressionToLiteralTypeFullKeyMap,
 } from '../ts-morph/tpl-literal'
 import {
   createObjectLiteralExpression,
@@ -34,7 +37,7 @@ export interface TransTypetoLiteralObjOpts {
 }
 
 interface VOpts extends VisitNodeOpts, TransTypetoLiteralObjOpts {
-  literalRetMap: TransformCallExpressionToLiteralTypeRet
+  literalRet: TransformCallExpressionToLiteralTypeRet
 }
 
 export function transTypetoLiteralObj(
@@ -42,9 +45,13 @@ export function transTypetoLiteralObj(
   options: TransTypetoLiteralObjOpts,
 ): ts.TransformerFactory<ts.SourceFile> {
 
+  const literalRet = {
+    varKeyMap: new Map() as CallExpressionToLiteralTypeVarKeyMap,
+    fullKeyMap: new Map() as CallExpressionToLiteralTypeFullKeyMap,
+  }
   const visitNodeOpts: VOpts = {
     program,
-    literalRetMap: new Map() as TransformCallExpressionToLiteralTypeRet,
+    literalRet,
     ...options,
   }
   const opts: GenTransformerFactorOpts<VOpts> = {
@@ -60,7 +67,7 @@ function visitNode(node: ts.SourceFile, options: VOpts): ts.SourceFile
 function visitNode(node: ts.Node, options: VOpts): ts.Node | undefined
 function visitNode(node: ts.Node, options: VOpts): ts.Node | undefined {
   if (ts.isSourceFile(node)) {
-    if (! options.literalRetMap.size) {
+    if (! options.literalRet.fullKeyMap.size) {
       const path = node.fileName
       const file = createSourceFile(path, { tsConfigFilePath: options.tsConfigFilePath })
       const opts: TransFormOptions = {
@@ -71,8 +78,8 @@ function visitNode(node: ts.Node, options: VOpts): ts.Node | undefined {
         leadingString: options.leadingString,
         trailingString: options.trailingString,
       }
-      const retMap = transformCallExpressionToLiteralType(opts)
-      options.literalRetMap = retMap
+      const retObj = transformCallExpressionToLiteralType(opts)
+      options.literalRet = retObj
     }
     return node
   }
@@ -92,13 +99,18 @@ function visitNode(node: ts.Node, options: VOpts): ts.Node | undefined {
 
   const pNode = node.parent
   if (pNode.kind === ts.SyntaxKind.VariableDeclaration) {
+    const start = pNode.getStart()
     const sym = typeChecker.getSymbolAtLocation(pNode)
     // @ts-expect-error
     const { symbol }: { symbol: ts.Symbol | undefined } = pNode
     const pNodeName = sym
       ? sym.getName()
       : symbol ? symbol.getName() : ''
-    const literalObj = options.literalRetMap.get(pNodeName)
+
+    const { line, character } = pNode.getSourceFile().getLineAndCharacterOfPosition(start)
+    const fullKey = `${pNodeName}:${line + 1}:${character + 1}` as CallExpressionFullKey
+
+    const literalObj = options.literalRet.fullKeyMap.get(fullKey)
     if (! literalObj) { return node }
 
     const newNode = createObjectLiteralExpression(literalObj)

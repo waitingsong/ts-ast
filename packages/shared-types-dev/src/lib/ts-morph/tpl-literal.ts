@@ -14,7 +14,7 @@ import {
   findCallExpressionsByName,
   hasImportNecessaryType,
   retrieveFirstTypeArgTextFromCallExpression,
-  retrieveVarnameFromCallExpression,
+  retrieveVarInfoFromCallExpression,
 } from './morph-common'
 
 
@@ -39,10 +39,22 @@ export interface ProcessExpressionOptions {
   needle: TransFormOptions['needle']
   resultType: string
 }
-export type TransformCallExpressionToLiteralTypeRet = Map<string, LiteralObject>
+export interface TransformCallExpressionToLiteralTypeRet {
+  /** value is the last one */
+  varKeyMap: CallExpressionToLiteralTypeVarKeyMap
+  fullKeyMap: CallExpressionToLiteralTypeFullKeyMap
+}
+export type CallExpressionToLiteralTypeVarKeyMap = Map<string, LiteralObject>
+export type CallExpressionToLiteralTypeFullKeyMap = Map<CallExpressionFullKey, LiteralObject>
+/**
+ * format "varname:startNumber:lineNumber:columnNumber"
+ */
+export type CallExpressionFullKey = `${string}:${LineNumber}:${ColumnNumber}`
+type LineNumber = number
+type ColumnNumber = number
 
 /**
- * Tansform **top** varialbe declaraion
+ * Tansform varialbe declaraion
  * @returns Map<varname, computer object>
  */
 export function transformCallExpressionToLiteralType(
@@ -57,7 +69,9 @@ export function transformCallExpressionToLiteralType(
     leadingString,
     trailingString,
   } = options
-  const ret = new Map<string, LiteralObject>()
+
+  const varKeyMap = new Map<string, LiteralObject>()
+  const fullKeyMap = new Map<CallExpressionFullKey, LiteralObject>()
 
   const insertedNum = importModuleName
     ? hasImportNecessaryType(sourceFile, [resultType], importModuleName)
@@ -71,9 +85,14 @@ export function transformCallExpressionToLiteralType(
       needle,
       resultType,
     }
-    const varname = retrieveVarnameFromCallExpression(express)
+    const info = retrieveVarInfoFromCallExpression(express)
+    const fullKey = `${info.name}:${info.line}:${info.column}` as CallExpressionFullKey
+    if (fullKeyMap.has(fullKey)) {
+      throw new Error(`Duplicate varKey: "${fullKey}"`)
+    }
     const obj = genLiteralObjectFromExpression(opts)
-    ret.set(varname, obj)
+    fullKeyMap.set(fullKey, obj)
+    varKeyMap.set(info.name, obj) // override by last one !
 
     const jsonCode = `/* ${leadingString} */ `
       + JSON.stringify(obj, null, 2)
@@ -90,6 +109,7 @@ export function transformCallExpressionToLiteralType(
   //   sourceFile.saveSync()
   // }
 
+  const ret = { varKeyMap, fullKeyMap }
   return ret
 }
 
