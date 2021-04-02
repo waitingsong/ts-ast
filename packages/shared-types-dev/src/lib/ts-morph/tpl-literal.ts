@@ -15,7 +15,7 @@ import {
   hasImportNecessaryType,
   retrieveFirstTypeArgTextFromCallExpression,
   retrieveVarnameFromCallExpression,
-} from './common'
+} from './morph-common'
 
 
 const props = {

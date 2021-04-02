@@ -1,5 +1,5 @@
 
-export * from './ts-morph/common'
+export * from './ts-morph/morph-common'
 export {
   ProcessExpressionOptions,
   TransFormOptions,

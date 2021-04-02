@@ -2,7 +2,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ts from 'typescript'
 
-import { createSourceFile } from '../ts-morph/common'
+import { createSourceFile } from '../ts-morph/morph-common'
 import {
   TransFormOptions,
   TransformCallExpressionToLiteralTypeRet,

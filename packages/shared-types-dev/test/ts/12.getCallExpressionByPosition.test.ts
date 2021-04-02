@@ -5,7 +5,6 @@ import {
   basename,
   join,
 } from '@waiting/shared-core'
-import ts from 'typescript'
 
 import {
   retrieveVarnameFromCallerInfo,
