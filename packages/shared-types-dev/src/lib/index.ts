@@ -11,7 +11,7 @@ export {
   isKeysCallExpression,
   isKeysImportExpression,
   processImportDeclaration,
-} from './ts/common'
+} from './ts/ts-common'
 
 export {
   transTypeKeystoLiteralArray,

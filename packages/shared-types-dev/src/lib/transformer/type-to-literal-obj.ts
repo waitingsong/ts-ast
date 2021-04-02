@@ -13,7 +13,7 @@ import {
   isKeysCallExpression,
   isKeysImportExpression,
   processImportDeclaration,
-} from '../ts/common'
+} from '../ts/ts-common'
 
 import {
   genTransformerFactor,
