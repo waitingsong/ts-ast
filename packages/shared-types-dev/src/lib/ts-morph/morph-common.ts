@@ -129,17 +129,46 @@ export function retrieveVarnameFromVariableDeclaration(
   input: Node<ts.Node>,
 ): string {
 
+  const info = retrieveVarInfoFromVariableDeclaration(input)
+  return info.name
+}
+
+
+export interface VariableNameInfo {
+  name: string
+  line: number
+  column: number
+}
+
+export function retrieveVarInfoFromCallExpression(
+  expression: CallExpression<ts.CallExpression>,
+): VariableNameInfo {
+
+  const parentNode = expression.getParent()
+  if (! parentNode) {
+    throw new TypeError('expression has no parent node')
+  }
+  const ret = retrieveVarInfoFromVariableDeclaration(parentNode)
+  return ret
+}
+
+
+export function retrieveVarInfoFromVariableDeclaration(
+  input: Node<ts.Node>,
+): VariableNameInfo {
+
   const kind = input.getKind()
   const sym = input.getSymbol()
   if (kind === SyntaxKind.VariableDeclaration && sym) {
     // eslint-disable-next-line
     // const name = input.getNameNode().getText() as string
     const name = sym.getName()
-    return name
+    const start = input.getStart()
+    const { line, column } = input.getSourceFile().getLineAndColumnAtPos(start)
+    return { name, line, column }
   }
   throw new TypeError('input is not VariableDeclaration node')
 }
-
 
 export interface RetrieveCallExpressionByPosOpts {
   sourceFile: SourceFile
