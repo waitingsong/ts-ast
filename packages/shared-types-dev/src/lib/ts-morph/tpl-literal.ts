@@ -42,6 +42,7 @@ export interface ProcessExpressionOptions {
 export type TransformCallExpressionToLiteralTypeRet = Map<string, LiteralObject>
 
 /**
+ * Tansform **top** varialbe declaraion
  * @returns Map<varname, computer object>
  */
 export function transformCallExpressionToLiteralType(
