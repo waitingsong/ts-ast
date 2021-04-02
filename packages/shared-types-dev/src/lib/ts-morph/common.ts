@@ -9,6 +9,8 @@ import {
   ProjectOptions,
 } from 'ts-morph'
 
+import { CallerInfo } from '../callstack/index'
+
 
 export function createSourceFile(
   sourcePath: string,
@@ -163,11 +165,6 @@ export function retrieveCallExpressionByPos(
 }
 
 
-export interface CallerInfo {
-  path: string
-  line: number
-  column: number
-}
 export function retrieveVarnameFromCallerInfo(
   options: CallerInfo,
 ): string {

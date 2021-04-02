@@ -23,12 +23,9 @@ import assert = require('power-assert')
 const filename = basename(__filename)
 
 describe(filename, () => {
-  const demo1 = 'demo1.ts'
-  const path1 = join(__dirname, demo1)
-  const demo2 = 'demo2.ts'
-  const path2 = join(__dirname, demo2)
-  const demo3 = 'demo3.ts'
-  const path3 = join(__dirname, demo3)
+  const path1 = join(__dirname, 'demo1.ts')
+  const path2 = join(__dirname, 'demo2.ts')
+  const path3 = join(__dirname, 'demo3.ts')
   const tsConfigFilePath = join(__dirname, '../../tsconfig.json')
   const defaultOpts = {
     needle: 'genDbDict',

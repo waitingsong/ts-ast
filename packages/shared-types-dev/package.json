@@ -31,7 +31,9 @@
     "ts-morph": "10"
   },
   "devDependencies": {
-    "cross-env": "7"
+    "@types/source-map-support": "*",
+    "cross-env": "7",
+    "source-map-support": "*"
   },
   "engines": {
     "node": ">=14.14.0"
