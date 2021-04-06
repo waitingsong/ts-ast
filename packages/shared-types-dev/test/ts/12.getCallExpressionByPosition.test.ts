@@ -7,7 +7,7 @@ import {
 } from '@waiting/shared-core'
 
 import {
-  retrieveVarnameFromCallerInfo,
+  retrieveVarnameFromCallExpressionCallerInfo,
   CallerInfo,
 } from '../../src/index'
 
@@ -21,7 +21,7 @@ const filename = basename(__filename)
 
 describe(filename, () => {
 
-  describe('Should getCallExpressionByPosition works', () => {
+  describe('Should retrieveVarnameFromCallExpressionCallerInfo() works', () => {
     it('normal 1', () => {
       const path = join(__dirname, 'config3.ts')
       const opts: CallerInfo = {
@@ -29,7 +29,7 @@ describe(filename, () => {
         line: 5,
         column: 23,
       }
-      const name = retrieveVarnameFromCallerInfo(opts)
+      const name = retrieveVarnameFromCallExpressionCallerInfo(opts)
       assert(name === 'dbDict')
     })
   })

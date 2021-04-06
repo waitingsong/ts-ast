@@ -228,7 +228,7 @@ export function retrieveCallExpressionByPos(
 /**
  * Retrieve variable name from CallExpression CallerInfo
  */
-export function retrieveVarnameFromCallerInfo(
+export function retrieveVarnameFromCallExpressionCallerInfo(
   options: CallerInfo,
 ): string {
 
