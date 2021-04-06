@@ -9,7 +9,7 @@ import ts from 'typescript'
 
 import { expectedDict } from '../literal/config'
 
-import { Db, DbDict, genDbDict, alter } from './demo6'
+import { Db, DbDict, genDbDict, alter, fake } from './demo6'
 
 // eslint-disable-next-line import/order
 import assert = require('power-assert')
@@ -28,6 +28,18 @@ describe(filename, () => {
     it('with needle', async () => {
       const ret: DbDict<Db> = genDbDict<Db>()
       assert.deepStrictEqual(ret, expectedDict)
+    })
+
+    it('fake', async () => {
+      try {
+        const ret: DbDict<Db> = fake<Db>()
+        void ret
+      }
+      catch (ex) {
+        assert((ex.message as string).includes('ret:35:15'))
+        return
+      }
+      assert(false, 'Should throw error, but not')
     })
   })
 
