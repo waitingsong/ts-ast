@@ -258,7 +258,7 @@ export function retrieveVarnameFromCallerInfo(
 /**
  * Retrieve variable CallerInfo from CallExpression CallerInfo
  */
-export function retrieveVarInfoFromCallerInfo(
+export function retrieveVarInfoFromCallExpressionCallerInfo(
   options: CallerInfo,
 ): VariableNameInfo | undefined {
 

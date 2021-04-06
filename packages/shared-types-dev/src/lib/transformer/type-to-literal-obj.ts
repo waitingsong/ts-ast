@@ -3,7 +3,7 @@
 import ts from 'typescript'
 
 import { getCallerStack } from '../callstack/index'
-import { createSourceFile, retrieveVarInfoFromCallerInfo } from '../ts-morph/morph-common'
+import { createSourceFile, retrieveVarInfoFromCallExpressionCallerInfo } from '../ts-morph/morph-common'
 import {
   TransFormOptions,
   transformCallExpressionToLiteralType,
@@ -141,7 +141,7 @@ export function computeCallExpressionToLiteralObj(
   }
 
   const callerInfo = getCallerStack(2)
-  const vinfo = retrieveVarInfoFromCallerInfo(callerInfo)
+  const vinfo = retrieveVarInfoFromCallExpressionCallerInfo(callerInfo)
   if (! vinfo) {
     throw new Error('Retrieve variable name failed')
   }
