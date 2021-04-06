@@ -225,6 +225,9 @@ export function retrieveCallExpressionByPos(
 }
 
 
+/**
+ * Retrieve variable name from CallExpression CallerInfo
+ */
 export function retrieveVarnameFromCallerInfo(
   options: CallerInfo,
 ): string {
@@ -249,5 +252,30 @@ export function retrieveVarnameFromCallerInfo(
   }
 
   return ''
+}
+
+
+/**
+ * Retrieve variable CallerInfo from CallExpression CallerInfo
+ */
+export function retrieveVarInfoFromCallerInfo(
+  options: CallerInfo,
+): VariableNameInfo | undefined {
+
+  const file = createSourceFile(options.path)
+
+  const opts: RetrieveCallExpressionByPosOpts = {
+    sourceFile: file,
+    line: options.line,
+    column: options.column,
+  }
+
+  const express = retrieveCallExpressionByPos(opts)
+  if (! express) {
+    return
+  }
+
+  const info = retrieveVarInfoFromCallExpression(express)
+  return info
 }
 
