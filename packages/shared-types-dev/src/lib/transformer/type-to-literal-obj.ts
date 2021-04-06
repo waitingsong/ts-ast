@@ -25,13 +25,13 @@ import {
 
 export interface TransTypetoLiteralObjOpts {
   needle: string
-  resultType: string
-  // importModuleName?: string
   leadingString: string
   trailingString: string
   tsConfigFilePath: string
   jsPath: string
   tsPath: string
+  /** Appending ` as DbDict<D>` at end of the literal object result */
+  appendingTypeAssert: boolean
 }
 
 interface VOpts extends VisitNodeOpts, TransTypetoLiteralObjOpts {
@@ -68,9 +68,9 @@ function visitNode(node: ts.Node, options: VOpts): ts.Node | undefined {
         sourceFile: file,
         // importModuleName: options.importModuleName,
         needle: options.needle,
-        resultType: options.resultType,
         leadingString: options.leadingString,
         trailingString: options.trailingString,
+        appendingTypeAssert: options.appendingTypeAssert,
       }
       const retObj = transformCallExpressionToLiteralType(opts)
       options.literalRet = retObj
@@ -104,7 +104,7 @@ function visitNode(node: ts.Node, options: VOpts): ts.Node | undefined {
     const { line, character } = pNode.getSourceFile().getLineAndCharacterOfPosition(start)
     const fullKey = `${pNodeName}:${line + 1}:${character + 1}` as CallExpressionPosKey
 
-    const literalObj = options.literalRet?.fromPosKey(fullKey)
+    const literalObj = options.literalRet ? options.literalRet.fromPosKey(fullKey) : void 0
     if (! literalObj) { return node }
 
     const newNode = createObjectLiteralExpression(literalObj)

@@ -27,12 +27,13 @@ describe(filename, () => {
   const path2 = join(__dirname, 'demo2.ts')
   const path3 = join(__dirname, 'demo3.ts')
   const path4 = join(__dirname, 'demo4.ts')
+  const path5 = join(__dirname, 'demo5.ts')
   const tsConfigFilePath = join(__dirname, '../../tsconfig.json')
   const defaultOpts = {
     needle: 'genDbDict',
-    resultType: 'DbDict',
     leadingString: 'eslint-disable',
     trailingString: 'eslint-enable',
+    appendingTypeAssert: true,
   }
 
   beforeEach(async () => {
@@ -40,12 +41,14 @@ describe(filename, () => {
     await run(`cp -f "${path2}.example.ts" ${path2}`).toPromise()
     await run(`cp -f "${path3}.example.ts" ${path3}`).toPromise()
     await run(`cp -f "${path4}.example.ts" ${path4}`).toPromise()
+    await run(`cp -f "${path5}.example.ts" ${path5}`).toPromise()
   })
   after(async () => {
     await rimraf(path1)
     await rimraf(path2)
     await rimraf(path3)
     await rimraf(path4)
+    await rimraf(path5)
   })
 
   describe('Should transformCallExpressionToLiteralType works', () => {
@@ -177,6 +180,51 @@ describe(filename, () => {
       const obj2 = ret.fromPosKey(posKey)
       assert.deepStrictEqual(obj2, expectedDict2)
     })
+
+    it('demo5', () => {
+      const path = path5
+      const file = createSourceFile(path)
+      const opts: TransFormOptions = {
+        ...defaultOpts,
+        sourceFile: file,
+        needle: 'transPlaceHolder',
+      }
+
+      transformCallExpressionToLiteralType(opts)
+      file.saveSync()
+
+      const { dict1, dict2 } = require(path)
+      assert.deepStrictEqual(dict1, expectedDict)
+      assert.deepStrictEqual(dict2, expectedDict2)
+    })
+    it('demo5 result', () => {
+      const path = path5
+      const file = createSourceFile(path)
+      const opts: TransFormOptions = {
+        ...defaultOpts,
+        sourceFile: file,
+        needle: 'transPlaceHolder',
+      }
+
+      const ret = transformCallExpressionToLiteralType(opts)
+      assert(ret.size === 2)
+
+      const arr1 = ret.fromKey('dict1')
+      assert(arr1.length === 1)
+      const [obj1] = arr1
+      assert.deepStrictEqual(obj1, expectedDict)
+
+      const arr2 = ret.fromKey('dict2')
+      assert(arr2.length === 1)
+      const [obj2] = arr2
+      assert.deepStrictEqual(obj2, expectedDict2)
+
+      let posKey = 'dict1:5:14'
+      assert.deepStrictEqual(ret.fromPosKey(posKey), expectedDict)
+      posKey = 'dict2:31:14'
+      assert.deepStrictEqual(ret.fromPosKey(posKey), expectedDict2)
+    })
+
   })
 
 })

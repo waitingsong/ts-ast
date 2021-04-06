@@ -6,14 +6,12 @@ import {
   SourceFile,
   TypeAliasDeclaration,
   CallExpression,
-  Type,
 } from 'ts-morph'
 
 import { deepFind } from '../util'
 
 import {
   findCallExpressionsByName,
-  retrieveFirstTypeArgTextFromCallExpression,
   retrieveVarInfoFromCallExpression,
 } from './morph-common'
 
@@ -27,17 +25,18 @@ const props = {
 export interface TransFormOptions {
   sourceFile: SourceFile
   needle: string
-  resultType: string
   leadingString: string
   trailingString: string
+  /** Default: true */
+  appendingTypeAssert: boolean
 }
 
 export interface ProcessExpressionOptions {
   file: SourceFile
   express: CallExpression<ts.CallExpression>
   needle: TransFormOptions['needle']
-  resultType: string
-  type?: Type<ts.Type>
+  // type: Type<ts.Type>
+  typeReferenceText: string
 }
 export type CallExpressionToLiteralTypeVarKeyMap = Map<string, LiteralObject>
 export type CallExpressionToLiteralTypePosKeyMap = Map<CallExpressionPosKey, LiteralObject>
@@ -93,9 +92,9 @@ export function transformCallExpressionToLiteralType(
   const {
     sourceFile,
     needle,
-    resultType,
     leadingString,
     trailingString,
+    appendingTypeAssert,
   } = options
 
   const posKeyMap = new Map<CallExpressionPosKey, LiteralObject>()
@@ -107,6 +106,10 @@ export function transformCallExpressionToLiteralType(
   const expressions = findCallExpressionsByName(sourceFile, needle)
   expressions.forEach((express) => {
     const info = retrieveVarInfoFromCallExpression(express)
+    if (! info.type.getText() && ! info.typeReferenceText) {
+      throw new Error('typeof variable is invalid')
+    }
+    const typeText = info.typeReferenceText ? info.typeReferenceText : info.type.getText()
     const posKey = `${info.name}:${info.line}:${info.column}` as CallExpressionPosKey
     if (posKeyMap.has(posKey)) {
       throw new Error(`Duplicate varKey: "${posKey}"`)
@@ -115,14 +118,14 @@ export function transformCallExpressionToLiteralType(
       file: sourceFile,
       express,
       needle,
-      resultType,
-      type: info.type,
+      typeReferenceText: typeText,
     }
     const obj = genLiteralObjectFromExpression(opts)
     posKeyMap.set(posKey, obj)
 
     const jsonCode = `/* ${leadingString} */ `
       + JSON.stringify(obj, null, 2)
+      + (appendingTypeAssert ? ` as ${typeText}` : '')
       + ` /* ${trailingString} */`
     express.replaceWithText(jsonCode)
   })
@@ -143,26 +146,24 @@ export function genLiteralObjectFromExpression(
   const {
     file,
     express,
-    needle,
-    resultType,
-    type,
+    typeReferenceText,
   } = options
 
   const ret = {}
 
-  let typeText = ''
-  if (type) {
-    typeText = type.getText()
-  }
-  else {
-    const doName = retrieveFirstTypeArgTextFromCallExpression(express)
-    if (! doName) {
-      // throw new Error(`Parameter D of ${AstKey.genDbDict}<D>() missing`)
-      throw new Error(`Parameter D of ${needle}<D>() missing`)
-    }
-    typeText = `${resultType}<${doName}>`
-  }
-
+  // let typeText = ''
+  // if (type) {
+  //   typeText = type.getText()
+  // }
+  // else {
+  //   const doName = retrieveFirstTypeArgTextFromCallExpression(express)
+  //   if (! doName) {
+  //     // throw new Error(`Parameter D of ${AstKey.genDbDict}<D>() missing`)
+  //     throw new Error(`Parameter D of ${needle}<D>() missing`)
+  //   }
+  //   typeText = `${resultType}<${doName}>`
+  // }
+  const typeText = typeReferenceText
   const aliasName = 'T' + Math.random().toString().slice(-5)
 
   file.addStatements(`type ${aliasName} = ${typeText}`)

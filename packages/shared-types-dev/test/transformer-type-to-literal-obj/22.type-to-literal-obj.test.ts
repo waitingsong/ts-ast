@@ -34,10 +34,10 @@ describe(filename, () => {
   const defaultOpts = {
     tsConfigFilePath,
     needle: 'genDbDict',
-    resultType: 'DbDict',
     leadingString: 'eslint-disable',
     trailingString: 'eslint-enable',
     jsPath: '',
+    appendingTypeAssert: true,
   }
 
   before(async () => {

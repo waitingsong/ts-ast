@@ -103,15 +103,16 @@ export function findCallExpressionsByName(
   matchName: string,
 ): CallExpression<ts.CallExpression>[] {
 
+  // func<T>()
   const regx = new RegExp(`\\b${matchName}\\s*<\\s*\\S+\\s*>`, 'u')
 
   const arr = file.getDescendantsOfKind(SyntaxKind.CallExpression)
   const ret = arr.filter((expression) => {
     const code = expression.getText()
-    if (! regx.test(code)) {
-      return false
+    if (regx.test(code)) {
+      return true
     }
-    return true
+    return false
   })
 
   return ret
@@ -143,6 +144,8 @@ export interface VariableNameInfo {
   line: number
   column: number
   type: Type<ts.Type>
+  /** May blank string */
+  typeReferenceText: string
 }
 
 export function retrieveVarInfoFromCallExpression(
@@ -170,10 +173,26 @@ export function retrieveVarInfoFromVariableDeclaration(
     const name = sym.getName()
     const start = input.getStart()
     const { line, column } = input.getSourceFile().getLineAndColumnAtPos(start)
-    const type = input.getType()
+    const type = input.getType() // getText() => "import(..).DbDict<import(...).D>"
+
+    let typeReferenceText = '' // "DbDict<D>"
+    try {
+      // @ts-expect-error
+      if (typeof input.getTypeNode === 'function') {
+        // @ts-expect-error
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        const typeReference = input.getTypeNode() as ts.TypeReferenceNode
+        typeReferenceText = typeReference.getText()
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        // if (typeReference.getKind() !== SyntaxKind.TypeReference) {
+        //   throw new TypeError(`Variable type must be TypeReference, like "const dict: DbDict<Db> = ..."`)
+        // }
+      }
+    }
+    catch (ex) { void 0 }
 
     return {
-      name, line, column, type,
+      name, line, column, type, typeReferenceText,
     }
   }
   throw new TypeError('input is not VariableDeclaration node')
