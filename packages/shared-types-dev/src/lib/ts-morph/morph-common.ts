@@ -217,7 +217,7 @@ export function retrieveCallExpressionByPos(
     const start = node.getStart()
     const { line, column } = file.getLineAndColumnAtPos(start)
 
-    if (options.line + 1 === line && options.column + 1 === column) {
+    if (options.line === line && options.column === column) {
       return true
     }
   })
