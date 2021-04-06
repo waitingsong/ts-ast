@@ -21,6 +21,7 @@ export {
 export {
   TransTypetoLiteralObjOpts,
   transTypetoLiteralObj,
+  computeCallExpressionToLiteralObj,
 } from './transformer/type-to-literal-obj'
 
 export * from './transformer/common'

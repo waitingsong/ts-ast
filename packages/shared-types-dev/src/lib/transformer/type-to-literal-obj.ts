@@ -2,7 +2,8 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ts from 'typescript'
 
-import { createSourceFile } from '../ts-morph/morph-common'
+import { getCallerStack } from '../callstack/index'
+import { createSourceFile, retrieveVarInfoFromCallerInfo } from '../ts-morph/morph-common'
 import {
   TransFormOptions,
   transformCallExpressionToLiteralType,
@@ -130,3 +131,39 @@ function visitNode(node: ts.Node, options: VOpts): ts.Node | undefined {
   return node
 }
 
+
+export function computeCallExpressionToLiteralObj(
+  needle: TransFormOptions['needle'],
+): unknown {
+
+  if (! needle) {
+    throw new TypeError('param needle invalid')
+  }
+
+  const callerInfo = getCallerStack(2)
+  const vinfo = retrieveVarInfoFromCallerInfo(callerInfo)
+  if (! vinfo) {
+    throw new Error('Retrieve variable name failed')
+  }
+
+  const defaultOpts = {
+    needle,
+    leadingString: 'eslint-disable',
+    trailingString: 'eslint-enable',
+    appendingTypeAssert: true,
+  }
+  const file = createSourceFile(callerInfo.path)
+  const opts: TransFormOptions = {
+    ...defaultOpts,
+    sourceFile: file,
+  }
+
+  const postKey = `${vinfo.name}:${vinfo.line}:${vinfo.column}`
+  const retType = transformCallExpressionToLiteralType(opts)
+  const ret = retType.fromPosKey(postKey)
+  if (! ret) {
+    throw new Error(`Retrieve variable object failed, with posKey: "${postKey}"`)
+  }
+
+  return ret as unknown
+}
