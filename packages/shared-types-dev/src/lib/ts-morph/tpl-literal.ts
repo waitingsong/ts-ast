@@ -6,6 +6,7 @@ import {
   SourceFile,
   TypeAliasDeclaration,
   CallExpression,
+  Type,
 } from 'ts-morph'
 
 import { deepFind } from '../util'
@@ -38,6 +39,7 @@ export interface ProcessExpressionOptions {
   express: CallExpression<ts.CallExpression>
   needle: TransFormOptions['needle']
   resultType: string
+  type?: Type<ts.Type>
 }
 export type CallExpressionToLiteralTypeVarKeyMap = Map<string, LiteralObject>
 export type CallExpressionToLiteralTypePosKeyMap = Map<CallExpressionPosKey, LiteralObject>
@@ -107,16 +109,17 @@ export function transformCallExpressionToLiteralType(
 
   const expressions = findCallExpressionsByName(sourceFile, needle)
   expressions.forEach((express) => {
+    const info = retrieveVarInfoFromCallExpression(express)
+    const posKey = `${info.name}:${info.line}:${info.column}` as CallExpressionPosKey
+    if (posKeyMap.has(posKey)) {
+      throw new Error(`Duplicate varKey: "${posKey}"`)
+    }
     const opts: ProcessExpressionOptions = {
       file: sourceFile,
       express,
       needle,
       resultType,
-    }
-    const info = retrieveVarInfoFromCallExpression(express)
-    const posKey = `${info.name}:${info.line}:${info.column}` as CallExpressionPosKey
-    if (posKeyMap.has(posKey)) {
-      throw new Error(`Duplicate varKey: "${posKey}"`)
+      type: info.type,
     }
     const obj = genLiteralObjectFromExpression(opts)
     posKeyMap.set(posKey, obj)
@@ -145,19 +148,27 @@ export function genLiteralObjectFromExpression(
     express,
     needle,
     resultType,
+    type,
   } = options
 
   const ret = {}
-  const doName = retrieveFirstTypeArgTextFromCallExpression(express)
 
-  if (! doName) {
-    // throw new Error(`Parameter D of ${AstKey.genDbDict}<D>() missing`)
-    throw new Error(`Parameter D of ${needle}<D>() missing`)
+  let typeText = ''
+  if (type) {
+    typeText = type.getText()
+  }
+  else {
+    const doName = retrieveFirstTypeArgTextFromCallExpression(express)
+    if (! doName) {
+      // throw new Error(`Parameter D of ${AstKey.genDbDict}<D>() missing`)
+      throw new Error(`Parameter D of ${needle}<D>() missing`)
+    }
+    typeText = `${resultType}<${doName}>`
   }
 
   const aliasName = 'T' + Math.random().toString().slice(-5)
 
-  file.addStatements(`type ${aliasName} = ${resultType}<${doName}>`)
+  file.addStatements(`type ${aliasName} = ${typeText}`)
   // const ft = file.getFullText()
   const aliasDec = file.getTypeAlias(aliasName)
   if (aliasDec) {

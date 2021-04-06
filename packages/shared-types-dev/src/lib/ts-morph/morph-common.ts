@@ -7,6 +7,7 @@ import {
   SyntaxKind,
   TypeNode,
   ProjectOptions,
+  Type,
 } from 'ts-morph'
 
 import { CallerInfo } from '../callstack/index'
@@ -141,6 +142,7 @@ export interface VariableNameInfo {
   name: string
   line: number
   column: number
+  type: Type<ts.Type>
 }
 
 export function retrieveVarInfoFromCallExpression(
@@ -168,7 +170,11 @@ export function retrieveVarInfoFromVariableDeclaration(
     const name = sym.getName()
     const start = input.getStart()
     const { line, column } = input.getSourceFile().getLineAndColumnAtPos(start)
-    return { name, line, column }
+    const type = input.getType()
+
+    return {
+      name, line, column, type,
+    }
   }
   throw new TypeError('input is not VariableDeclaration node')
 }
