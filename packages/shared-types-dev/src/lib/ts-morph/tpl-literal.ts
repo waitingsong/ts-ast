@@ -152,7 +152,6 @@ export function genLiteralObjectFromExpression(
     typeReferenceText,
   } = options
 
-  const ret = {}
 
   // let typeText = ''
   // if (type) {
@@ -170,18 +169,16 @@ export function genLiteralObjectFromExpression(
   const aliasName = 'T' + Math.random().toString().slice(-5)
 
   file.addStatements(`type ${aliasName} = ${typeText}`)
-  // const ft = file.getFullText()
   const aliasDec = file.getTypeAlias(aliasName)
+  const ret = {}
   if (aliasDec) {
     genTypeAliasDeclaration(ret, file, aliasDec)
     aliasDec.remove()
   }
 
-  // const text = express.getText()
   const node = express.getParent()
   return node ? ret : {}
 }
-
 
 export function genTypeAliasDeclaration(
   resultObj: object,
