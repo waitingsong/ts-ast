@@ -39,19 +39,48 @@ export interface ProcessExpressionOptions {
   needle: TransFormOptions['needle']
   resultType: string
 }
-export interface TransformCallExpressionToLiteralTypeRet {
-  /** value is the last one */
-  varKeyMap: CallExpressionToLiteralTypeVarKeyMap
-  fullKeyMap: CallExpressionToLiteralTypeFullKeyMap
-}
 export type CallExpressionToLiteralTypeVarKeyMap = Map<string, LiteralObject>
-export type CallExpressionToLiteralTypeFullKeyMap = Map<CallExpressionFullKey, LiteralObject>
+export type CallExpressionToLiteralTypePosKeyMap = Map<CallExpressionPosKey, LiteralObject>
 /**
- * format "varname:startNumber:lineNumber:columnNumber"
+ * format "varname:lineNumber:columnNumber"
  */
-export type CallExpressionFullKey = `${string}:${LineNumber}:${ColumnNumber}`
+export type CallExpressionPosKey = `${string}:${LineNumber}:${ColumnNumber}`
 type LineNumber = number
 type ColumnNumber = number
+
+export class ComputedLiteralType {
+  constructor(
+    public retMap: CallExpressionToLiteralTypePosKeyMap,
+  ) { }
+
+  get size(): number {
+    return this.retMap.size
+  }
+
+  fromKey(inputKey: string): LiteralObject[] {
+    const ret: LiteralObject[] = []
+    this.retMap.forEach((value, posKey) => {
+      const vname = this.pluckKey(posKey)
+      if (vname && vname === inputKey) {
+        ret.push(value)
+      }
+    })
+    return ret
+  }
+
+  fromPosKey(inputPosKey: CallExpressionPosKey | string): LiteralObject | undefined {
+    const ret = this.retMap.get(inputPosKey as CallExpressionPosKey)
+    return ret
+  }
+
+  /**
+   * "dict:2:3" => "dict"
+   */
+  private pluckKey(posKey: CallExpressionPosKey | string): string {
+    const arr = posKey.split(':')
+    return arr[0] as string
+  }
+}
 
 /**
  * Tansform varialbe declaraion
@@ -59,7 +88,7 @@ type ColumnNumber = number
  */
 export function transformCallExpressionToLiteralType(
   options: TransFormOptions,
-): TransformCallExpressionToLiteralTypeRet {
+): ComputedLiteralType {
 
   const {
     sourceFile,
@@ -70,8 +99,7 @@ export function transformCallExpressionToLiteralType(
     trailingString,
   } = options
 
-  const varKeyMap = new Map<string, LiteralObject>()
-  const fullKeyMap = new Map<CallExpressionFullKey, LiteralObject>()
+  const posKeyMap = new Map<CallExpressionPosKey, LiteralObject>()
 
   const insertedNum = importModuleName
     ? hasImportNecessaryType(sourceFile, [resultType], importModuleName)
@@ -86,13 +114,12 @@ export function transformCallExpressionToLiteralType(
       resultType,
     }
     const info = retrieveVarInfoFromCallExpression(express)
-    const fullKey = `${info.name}:${info.line}:${info.column}` as CallExpressionFullKey
-    if (fullKeyMap.has(fullKey)) {
-      throw new Error(`Duplicate varKey: "${fullKey}"`)
+    const posKey = `${info.name}:${info.line}:${info.column}` as CallExpressionPosKey
+    if (posKeyMap.has(posKey)) {
+      throw new Error(`Duplicate varKey: "${posKey}"`)
     }
     const obj = genLiteralObjectFromExpression(opts)
-    fullKeyMap.set(fullKey, obj)
-    varKeyMap.set(info.name, obj) // override by last one !
+    posKeyMap.set(posKey, obj)
 
     const jsonCode = `/* ${leadingString} */ `
       + JSON.stringify(obj, null, 2)
@@ -100,16 +127,12 @@ export function transformCallExpressionToLiteralType(
     express.replaceWithText(jsonCode)
   })
 
-  if (insertedNum > 0) {
-    sourceFile.removeStatements([0, insertedNum])
+  const len = sourceFile.getStatements().length
+  if (insertedNum > 0 && len >= insertedNum) {
+    sourceFile.removeStatements([len - insertedNum, len])
   }
 
-  // const ft2 = sourceFile.getFullText()
-  // if (saveFile) {
-  //   sourceFile.saveSync()
-  // }
-
-  const ret = { varKeyMap, fullKeyMap }
+  const ret = new ComputedLiteralType(posKeyMap)
   return ret
 }
 

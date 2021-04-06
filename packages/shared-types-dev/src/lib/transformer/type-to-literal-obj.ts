@@ -5,11 +5,9 @@ import ts from 'typescript'
 import { createSourceFile } from '../ts-morph/morph-common'
 import {
   TransFormOptions,
-  TransformCallExpressionToLiteralTypeRet,
   transformCallExpressionToLiteralType,
-  CallExpressionFullKey,
-  CallExpressionToLiteralTypeVarKeyMap,
-  CallExpressionToLiteralTypeFullKeyMap,
+  CallExpressionPosKey,
+  ComputedLiteralType,
 } from '../ts-morph/tpl-literal'
 import {
   createObjectLiteralExpression,
@@ -37,7 +35,7 @@ export interface TransTypetoLiteralObjOpts {
 }
 
 interface VOpts extends VisitNodeOpts, TransTypetoLiteralObjOpts {
-  literalRet: TransformCallExpressionToLiteralTypeRet
+  literalRet?: ComputedLiteralType
 }
 
 export function transTypetoLiteralObj(
@@ -45,13 +43,9 @@ export function transTypetoLiteralObj(
   options: TransTypetoLiteralObjOpts,
 ): ts.TransformerFactory<ts.SourceFile> {
 
-  const literalRet = {
-    varKeyMap: new Map() as CallExpressionToLiteralTypeVarKeyMap,
-    fullKeyMap: new Map() as CallExpressionToLiteralTypeFullKeyMap,
-  }
   const visitNodeOpts: VOpts = {
     program,
-    literalRet,
+    // literalRet,
     ...options,
   }
   const opts: GenTransformerFactorOpts<VOpts> = {
@@ -67,7 +61,7 @@ function visitNode(node: ts.SourceFile, options: VOpts): ts.SourceFile
 function visitNode(node: ts.Node, options: VOpts): ts.Node | undefined
 function visitNode(node: ts.Node, options: VOpts): ts.Node | undefined {
   if (ts.isSourceFile(node)) {
-    if (! options.literalRet.fullKeyMap.size) {
+    if (! options.literalRet) {
       const path = node.fileName
       const file = createSourceFile(path, { tsConfigFilePath: options.tsConfigFilePath })
       const opts: TransFormOptions = {
@@ -108,9 +102,9 @@ function visitNode(node: ts.Node, options: VOpts): ts.Node | undefined {
       : symbol ? symbol.getName() : ''
 
     const { line, character } = pNode.getSourceFile().getLineAndCharacterOfPosition(start)
-    const fullKey = `${pNodeName}:${line + 1}:${character + 1}` as CallExpressionFullKey
+    const fullKey = `${pNodeName}:${line + 1}:${character + 1}` as CallExpressionPosKey
 
-    const literalObj = options.literalRet.fullKeyMap.get(fullKey)
+    const literalObj = options.literalRet?.fromPosKey(fullKey)
     if (! literalObj) { return node }
 
     const newNode = createObjectLiteralExpression(literalObj)

@@ -57,6 +57,8 @@ export function hasImportNecessaryType(
 
   let inserted = 0
 
+  let statementsNum = file.getStatements().length
+
   matchTypeNames.forEach((typeName) => {
     const name = typeName.trim()
     if (isTypeImported(file, name, moduleName)) {
@@ -64,7 +66,8 @@ export function hasImportNecessaryType(
     }
 
     const code = `import { ${name} } from '${moduleName}'`
-    file.insertStatements(0, code)
+    file.insertStatements(statementsNum, code)
+    statementsNum += 1
     inserted += 1
   })
 

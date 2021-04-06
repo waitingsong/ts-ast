@@ -89,9 +89,18 @@ describe(filename, () => {
       }
 
       const ret = transformCallExpressionToLiteralType(opts)
-      assert(ret.varKeyMap.size === ret.fullKeyMap.size)
-      const obj = ret.varKeyMap.get('dict')
+      assert(ret.size > 0)
+      const arr = ret.fromKey('dict')
+      assert(arr.length === 1)
+      assert.deepStrictEqual(arr[0], expectedDict)
+
+      let posKey = 'dict:5:14'
+      let obj = ret.fromPosKey(posKey)
       assert.deepStrictEqual(obj, expectedDict)
+
+      posKey = 'dict:5:33'
+      obj = ret.fromPosKey(posKey)
+      assert(! obj)
     })
 
     it('demo2', () => {
@@ -141,9 +150,10 @@ describe(filename, () => {
       }
 
       const ret = transformCallExpressionToLiteralType(opts)
-      assert(ret.varKeyMap.size === ret.fullKeyMap.size)
-      const obj = ret.varKeyMap.get('dict')
-      assert.deepStrictEqual(obj, expectedDict)
+      assert(ret.size > 0)
+      const arr = ret.fromKey('dict')
+      assert(arr.length === 1)
+      assert.deepStrictEqual(arr[0], expectedDict)
     })
 
     it('demo3', () => {
@@ -194,14 +204,23 @@ describe(filename, () => {
       }
 
       const ret = transformCallExpressionToLiteralType(opts)
-      assert(ret.varKeyMap.size === ret.fullKeyMap.size)
+      assert(ret.size === 2)
 
-      const obj1 = ret.varKeyMap.get('dict1')
+      const arr1 = ret.fromKey('dict1')
+      assert(arr1.length === 1)
+      const [obj1] = arr1
       assert.deepStrictEqual(obj1, expectedDict)
-      const obj2 = ret.varKeyMap.get('dict2')
-      assert.deepStrictEqual(obj2, expectedDict2)
-    })
 
+      const arr2 = ret.fromKey('dict2')
+      assert(arr2.length === 1)
+      const [obj2] = arr2
+      assert.deepStrictEqual(obj2, expectedDict2)
+
+      let posKey = 'dict1:5:14'
+      assert.deepStrictEqual(ret.fromPosKey(posKey), expectedDict)
+      posKey = 'dict2:31:14'
+      assert.deepStrictEqual(ret.fromPosKey(posKey), expectedDict2)
+    })
 
     it('demo4', () => {
       const path = path4
@@ -213,7 +232,16 @@ describe(filename, () => {
       }
 
       const ret = transformCallExpressionToLiteralType(opts)
-      assert(ret.varKeyMap.size + 1 === ret.fullKeyMap.size)
+      assert(ret.size === 2)
+      const arr = ret.fromKey('dict')
+      assert(arr.length === 2)
+
+      let posKey = 'dict:5:14'
+      const obj1 = ret.fromPosKey(posKey)
+      assert.deepStrictEqual(obj1, expectedDict)
+      posKey = 'dict:34:9'
+      const obj2 = ret.fromPosKey(posKey)
+      assert.deepStrictEqual(obj2, expectedDict2)
     })
   })
 
