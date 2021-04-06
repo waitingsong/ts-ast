@@ -117,6 +117,9 @@ export function processImportDeclaration(
 }
 
 
+/**
+ * Note: do NOT compare tsPath if both jsPath and tsPath are blank string and is ts.isImportDeclaration
+ */
 export function isKeysImportExpression(
   node: ts.Node,
   jsPath: string,
@@ -126,6 +129,11 @@ export function isKeysImportExpression(
   if (! ts.isImportDeclaration(node)) {
     return false
   }
+
+  if (jsPath === '' && tsPath === '') {
+    return true // !
+  }
+
   const module = (node.moduleSpecifier as ts.StringLiteral).text // not getText()
   try {
     if (module.startsWith('.')) {
@@ -151,11 +159,14 @@ export function isKeysImportExpression(
 }
 
 
+/**
+ * Note: do NOT compare tsPath if tsPath is blank string and is ts.isCallExpression
+ */
 export function isKeysCallExpression(
   node: ts.Node,
   typeChecker: ts.TypeChecker,
   needleName: string,
-  tsPath: string,
+  tsPath: string, // if blank string, return true
 ): node is ts.CallExpression {
 
   if (! ts.isCallExpression(node)) {
@@ -174,6 +185,10 @@ export function isKeysCallExpression(
     if (txt && txt !== needleName) {
       return false
     }
+  }
+
+  if (tsPath === '') {
+    return true // !
   }
 
   try {

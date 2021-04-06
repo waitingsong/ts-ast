@@ -36,7 +36,6 @@ describe(filename, () => {
     needle: 'genDbDict',
     leadingString: 'eslint-disable',
     trailingString: 'eslint-enable',
-    jsPath: '',
     appendingTypeAssert: true,
   }
 
@@ -60,10 +59,8 @@ describe(filename, () => {
         throw new TypeError('sourceFile undefined')
       }
 
-      const tsPath = join(__dirname, '../literal/dict.ts')
       const opts: TransTypetoLiteralObjOpts = {
         ...defaultOpts,
-        tsPath,
       }
       const tf = transTypetoLiteralObj(program, opts)
       const result: ts.TransformationResult<ts.SourceFile> = ts.transform<ts.SourceFile>(file, [tf])
@@ -93,10 +90,8 @@ describe(filename, () => {
         throw new TypeError('sourceFile undefined')
       }
 
-      const tsPath = join(__dirname, '../literal/dict.ts')
       const opts: TransTypetoLiteralObjOpts = {
         ...defaultOpts,
-        tsPath,
       }
       const tf = transTypetoLiteralObj(program, opts)
       const result: ts.TransformationResult<ts.SourceFile> = ts.transform<ts.SourceFile>(file, [tf])

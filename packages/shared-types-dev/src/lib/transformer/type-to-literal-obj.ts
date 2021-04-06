@@ -28,8 +28,6 @@ export interface TransTypetoLiteralObjOpts {
   leadingString: string
   trailingString: string
   tsConfigFilePath: string
-  jsPath: string
-  tsPath: string
   /** Appending ` as DbDict<D>` at end of the literal object result */
   appendingTypeAssert: boolean
 }
@@ -45,6 +43,8 @@ export function transTypetoLiteralObj(
 
   const visitNodeOpts: VOpts = {
     program,
+    jsPath: '',
+    tsPath: '',
     // literalRet,
     ...options,
   }
@@ -66,7 +66,6 @@ function visitNode(node: ts.Node, options: VOpts): ts.Node | undefined {
       const file = createSourceFile(path, { tsConfigFilePath: options.tsConfigFilePath })
       const opts: TransFormOptions = {
         sourceFile: file,
-        // importModuleName: options.importModuleName,
         needle: options.needle,
         leadingString: options.leadingString,
         trailingString: options.trailingString,
