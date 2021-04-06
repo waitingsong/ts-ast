@@ -135,7 +135,7 @@ export function retrieveVarnameFromVariableDeclaration(
 ): string {
 
   const info = retrieveVarInfoFromVariableDeclaration(input)
-  return info.name
+  return info ? info.name : ''
 }
 
 
@@ -150,11 +150,12 @@ export interface VariableNameInfo {
 
 export function retrieveVarInfoFromCallExpression(
   expression: CallExpression<ts.CallExpression>,
-): VariableNameInfo {
+): VariableNameInfo | undefined {
 
   const parentNode = expression.getParent()
   if (! parentNode) {
-    throw new TypeError('expression has no parent node')
+    // throw new TypeError('expression has no parent node')
+    return
   }
   const ret = retrieveVarInfoFromVariableDeclaration(parentNode)
   return ret
@@ -163,7 +164,7 @@ export function retrieveVarInfoFromCallExpression(
 
 export function retrieveVarInfoFromVariableDeclaration(
   input: Node<ts.Node>,
-): VariableNameInfo {
+): VariableNameInfo | undefined {
 
   const kind = input.getKind()
   const sym = input.getSymbol()
@@ -191,11 +192,13 @@ export function retrieveVarInfoFromVariableDeclaration(
     }
     catch (ex) { void 0 }
 
-    return {
+    const ret = {
       name, line, column, type, typeReferenceText,
     }
+    return ret
   }
-  throw new TypeError('input is not VariableDeclaration node')
+  return
+  // throw new TypeError('input is not VariableDeclaration node')
 }
 
 export interface RetrieveCallExpressionByPosOpts {

@@ -106,6 +106,9 @@ export function transformCallExpressionToLiteralType(
   const expressions = findCallExpressionsByName(sourceFile, needle)
   expressions.forEach((express) => {
     const info = retrieveVarInfoFromCallExpression(express)
+    if (! info) {
+      return
+    }
     if (! info.type.getText() && ! info.typeReferenceText) {
       throw new Error('typeof variable is invalid')
     }
