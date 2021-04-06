@@ -9,7 +9,7 @@ import ts from 'typescript'
 
 import { expectedDict } from '../literal/config'
 
-import { Db, DbDict, genDbDict } from './demo6'
+import { Db, DbDict, genDbDict, alter } from './demo6'
 
 // eslint-disable-next-line import/order
 import assert = require('power-assert')
@@ -20,7 +20,12 @@ const filename = basename(__filename)
 describe(filename, () => {
 
   describe('Should transTypetoLiteralObj works', () => {
-    it('demo1', async () => {
+    it('w/o needle', async () => {
+      const ret: DbDict<Db> = alter<Db>()
+      assert.deepStrictEqual(ret, expectedDict)
+    })
+
+    it('with needle', async () => {
       const ret: DbDict<Db> = genDbDict<Db>()
       assert.deepStrictEqual(ret, expectedDict)
     })

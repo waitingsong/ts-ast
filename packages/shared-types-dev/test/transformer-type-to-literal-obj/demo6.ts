@@ -8,6 +8,11 @@ export function genDbDict<D>(): DbDict<D> {
   return ret as DbDict<D>
 }
 
+export function alter<D>(): DbDict<D> {
+  const ret = computeCallExpressionToLiteralObj()
+  return ret as DbDict<D>
+}
+
 export {
   Db,
   DbDict,

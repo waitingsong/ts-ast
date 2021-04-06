@@ -3,12 +3,17 @@
 import ts from 'typescript'
 
 import { getCallerStack } from '../callstack/index'
-import { createSourceFile, retrieveVarInfoFromCallExpressionCallerInfo } from '../ts-morph/morph-common'
+import {
+  RetrieveCallExpressionByPosOpts,
+  createSourceFile,
+  retrieveCallExpressionByPos,
+  retrieveVarInfoFromCallExpressionCallerInfo,
+} from '../ts-morph/morph-common'
 import {
   TransFormOptions,
-  transformCallExpressionToLiteralType,
   CallExpressionPosKey,
   ComputedLiteralType,
+  transformCallExpressionToLiteralType,
 } from '../ts-morph/tpl-literal'
 import {
   createObjectLiteralExpression,
@@ -133,12 +138,8 @@ function visitNode(node: ts.Node, options: VOpts): ts.Node | undefined {
 
 
 export function computeCallExpressionToLiteralObj(
-  needle: TransFormOptions['needle'],
+  funcName?: TransFormOptions['needle'],
 ): unknown {
-
-  if (! needle) {
-    throw new TypeError('param needle invalid')
-  }
 
   const callerInfo = getCallerStack(2)
   const vinfo = retrieveVarInfoFromCallExpressionCallerInfo(callerInfo)
@@ -147,6 +148,25 @@ export function computeCallExpressionToLiteralObj(
   }
 
   const file = createSourceFile(callerInfo.path)
+
+  let needle = funcName
+  if (! needle) {
+    const opts2: RetrieveCallExpressionByPosOpts = {
+      sourceFile: file,
+      line: callerInfo.line,
+      column: callerInfo.column,
+    }
+    const express = retrieveCallExpressionByPos(opts2)
+    if (! express) {
+      throw new Error('Result of retrieveCallExpressionByPos() is undefined')
+    }
+    const [funcId] = express.getDescendantsOfKind(ts.SyntaxKind.Identifier)
+    if (! funcId) {
+      throw new Error('Retrieve function identifier failed. You should pass parameter needle')
+    }
+    needle = funcId.getText()
+  }
+
   const opts: TransFormOptions = {
     needle,
     leadingString: 'eslint-disable',
@@ -154,7 +174,6 @@ export function computeCallExpressionToLiteralObj(
     appendingTypeAssert: true,
     sourceFile: file,
   }
-
   const postKey = `${vinfo.name}:${vinfo.line}:${vinfo.column}`
   const retType = transformCallExpressionToLiteralType(opts)
   const ret = retType.fromPosKey(postKey)
