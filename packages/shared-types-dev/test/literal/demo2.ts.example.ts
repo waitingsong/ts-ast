@@ -1,6 +1,6 @@
 import { genDbDict } from './dict'
-import { Db } from './types'
+import { Db, DbDict } from './types'
 
 
-export const dict = genDbDict<Db>()
+export const dict: DbDict<Db> = genDbDict<Db>()
 

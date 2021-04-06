@@ -13,7 +13,6 @@ import { deepFind } from '../util'
 
 import {
   findCallExpressionsByName,
-  hasImportNecessaryType,
   retrieveFirstTypeArgTextFromCallExpression,
   retrieveVarInfoFromCallExpression,
 } from './morph-common'
@@ -29,7 +28,6 @@ export interface TransFormOptions {
   sourceFile: SourceFile
   needle: string
   resultType: string
-  importModuleName?: string
   leadingString: string
   trailingString: string
 }
@@ -96,16 +94,15 @@ export function transformCallExpressionToLiteralType(
     sourceFile,
     needle,
     resultType,
-    importModuleName,
     leadingString,
     trailingString,
   } = options
 
   const posKeyMap = new Map<CallExpressionPosKey, LiteralObject>()
 
-  const insertedNum = importModuleName
-    ? hasImportNecessaryType(sourceFile, [resultType], importModuleName)
-    : 0
+  // const insertedNum = importModuleName
+  //   ? hasImportNecessaryType(sourceFile, [resultType], importModuleName)
+  //   : 0
 
   const expressions = findCallExpressionsByName(sourceFile, needle)
   expressions.forEach((express) => {
@@ -130,10 +127,10 @@ export function transformCallExpressionToLiteralType(
     express.replaceWithText(jsonCode)
   })
 
-  const len = sourceFile.getStatements().length
-  if (insertedNum > 0 && len >= insertedNum) {
-    sourceFile.removeStatements([len - insertedNum, len])
-  }
+  // const len = sourceFile.getStatements().length
+  // if (insertedNum > 0 && len >= insertedNum) {
+  //   sourceFile.removeStatements([len - insertedNum, len])
+  // }
 
   const ret = new ComputedLiteralType(posKeyMap)
   return ret
@@ -220,8 +217,8 @@ export function genTypeAliasDeclaration(
     throw new TypeError(`type "${text2}" has no properties,
       pidName: "${pidName}",
       pidPath: "${pidPath.join('.')}".
-      May TransFormOptions['importModuleName'] empty
       `)
+    // May TransFormOptions['importModuleName'] empty
   }
 
   for (const prop of typeProps) {

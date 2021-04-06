@@ -39,7 +39,7 @@ describe(filename, () => {
     await run(`cp -f "${path1}.example.ts" ${path1}`).toPromise()
     await run(`cp -f "${path2}.example.ts" ${path2}`).toPromise()
     await run(`cp -f "${path3}.example.ts" ${path3}`).toPromise()
-    await run(`cp -f "${path4}.example.ts" "${path4}"`).toPromise()
+    await run(`cp -f "${path4}.example.ts" ${path4}`).toPromise()
   })
   after(async () => {
     await rimraf(path1)
@@ -55,22 +55,6 @@ describe(filename, () => {
       const opts: TransFormOptions = {
         ...defaultOpts,
         sourceFile: file,
-        importModuleName: './types',
-      }
-
-      transformCallExpressionToLiteralType(opts)
-      file.saveSync()
-
-      const dict = require(path).dict
-      assert.deepStrictEqual(dict, expectedDict)
-    })
-    it('demo1 w/o importModuleName', () => {
-      const path = path1
-      const file = createSourceFile(path)
-      const opts: TransFormOptions = {
-        ...defaultOpts,
-        sourceFile: file,
-        importModuleName: '',
       }
 
       transformCallExpressionToLiteralType(opts)
@@ -85,7 +69,6 @@ describe(filename, () => {
       const opts: TransFormOptions = {
         ...defaultOpts,
         sourceFile: file,
-        importModuleName: './types',
       }
 
       const ret = transformCallExpressionToLiteralType(opts)
@@ -109,7 +92,6 @@ describe(filename, () => {
       const opts: TransFormOptions = {
         ...defaultOpts,
         sourceFile: file,
-        importModuleName: './types',
       }
 
       transformCallExpressionToLiteralType(opts)
@@ -118,35 +100,12 @@ describe(filename, () => {
       const dict = require(path).dict
       assert.deepStrictEqual(dict, expectedDict)
     })
-    it('demo2 w/o importModuleName', () => {
-      const path = path2
-      const file = createSourceFile(path)
-      const opts: TransFormOptions = {
-        ...defaultOpts,
-        sourceFile: file,
-        importModuleName: '',
-      }
-
-      try {
-        transformCallExpressionToLiteralType(opts)
-      }
-      catch (ex) {
-        assert(ex instanceof TypeError)
-        const { message } = ex as TypeError
-        assert(message.includes('has no properties'))
-        assert(message.includes('pidName:'))
-        assert(message.includes('pidPath:'))
-        return
-      }
-      assert(false, 'Should throw error but not')
-    })
     it('demo2 result', () => {
       const path = path2
       const file = createSourceFile(path)
       const opts: TransFormOptions = {
         ...defaultOpts,
         sourceFile: file,
-        importModuleName: './types',
       }
 
       const ret = transformCallExpressionToLiteralType(opts)
@@ -162,7 +121,6 @@ describe(filename, () => {
       const opts: TransFormOptions = {
         ...defaultOpts,
         sourceFile: file,
-        importModuleName: './types',
       }
 
       transformCallExpressionToLiteralType(opts)
@@ -172,35 +130,12 @@ describe(filename, () => {
       assert.deepStrictEqual(dict1, expectedDict)
       assert.deepStrictEqual(dict2, expectedDict2)
     })
-    it('demo3 w/o importModuleName', () => {
-      const path = path3
-      const file = createSourceFile(path)
-      const opts: TransFormOptions = {
-        ...defaultOpts,
-        sourceFile: file,
-        importModuleName: '',
-      }
-
-      try {
-        transformCallExpressionToLiteralType(opts)
-      }
-      catch (ex) {
-        assert(ex instanceof TypeError)
-        const { message } = ex as TypeError
-        assert(message.includes('has no properties'))
-        assert(message.includes('pidName:'))
-        assert(message.includes('pidPath:'))
-        return
-      }
-      assert(false, 'Should throw error but not')
-    })
     it('demo3 result', () => {
       const path = path3
       const file = createSourceFile(path)
       const opts: TransFormOptions = {
         ...defaultOpts,
         sourceFile: file,
-        importModuleName: './types',
       }
 
       const ret = transformCallExpressionToLiteralType(opts)
@@ -228,7 +163,6 @@ describe(filename, () => {
       const opts: TransFormOptions = {
         ...defaultOpts,
         sourceFile: file,
-        importModuleName: '',
       }
 
       const ret = transformCallExpressionToLiteralType(opts)

@@ -26,7 +26,7 @@ import {
 export interface TransTypetoLiteralObjOpts {
   needle: string
   resultType: string
-  importModuleName?: string
+  // importModuleName?: string
   leadingString: string
   trailingString: string
   tsConfigFilePath: string
@@ -66,7 +66,7 @@ function visitNode(node: ts.Node, options: VOpts): ts.Node | undefined {
       const file = createSourceFile(path, { tsConfigFilePath: options.tsConfigFilePath })
       const opts: TransFormOptions = {
         sourceFile: file,
-        importModuleName: options.importModuleName,
+        // importModuleName: options.importModuleName,
         needle: options.needle,
         resultType: options.resultType,
         leadingString: options.leadingString,
