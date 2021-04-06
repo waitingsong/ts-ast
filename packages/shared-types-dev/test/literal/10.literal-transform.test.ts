@@ -37,18 +37,20 @@ describe(filename, () => {
   }
 
   beforeEach(async () => {
-    await run(`cp -f "${path1}.example.ts" ${path1}`).toPromise()
-    await run(`cp -f "${path2}.example.ts" ${path2}`).toPromise()
-    await run(`cp -f "${path3}.example.ts" ${path3}`).toPromise()
-    await run(`cp -f "${path4}.example.ts" ${path4}`).toPromise()
-    await run(`cp -f "${path5}.example.ts" ${path5}`).toPromise()
+    // await run(`cp -f "${path1}.example.ts" ${path1}`).toPromise()
+    // await run(`cp -f "${path2}.example.ts" ${path2}`).toPromise()
+    // await run(`cp -f "${path3}.example.ts" ${path3}`).toPromise()
+    // await run(`cp -f "${path4}.example.ts" ${path4}`).toPromise()
+    // await run(`cp -f "${path5}.example.ts" ${path5}`).toPromise()
+    await run(`git restore ${path1} ${path2} ${path3} ${path4} ${path5}`).toPromise()
   })
   after(async () => {
-    await rimraf(path1)
-    await rimraf(path2)
-    await rimraf(path3)
-    await rimraf(path4)
-    await rimraf(path5)
+    await run(`git restore ${path1} ${path2} ${path3} ${path4} ${path5}`).toPromise()
+    // await rimraf(path1)
+    // await rimraf(path2)
+    // await rimraf(path3)
+    // await rimraf(path4)
+    // await rimraf(path5)
   })
 
   describe('Should transformCallExpressionToLiteralType works', () => {
