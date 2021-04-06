@@ -146,15 +146,12 @@ export function computeCallExpressionToLiteralObj(
     throw new Error('Retrieve variable name failed')
   }
 
-  const defaultOpts = {
+  const file = createSourceFile(callerInfo.path)
+  const opts: TransFormOptions = {
     needle,
     leadingString: 'eslint-disable',
     trailingString: 'eslint-enable',
     appendingTypeAssert: true,
-  }
-  const file = createSourceFile(callerInfo.path)
-  const opts: TransFormOptions = {
-    ...defaultOpts,
     sourceFile: file,
   }
 
