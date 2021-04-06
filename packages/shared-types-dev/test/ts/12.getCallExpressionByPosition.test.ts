@@ -26,8 +26,8 @@ describe(filename, () => {
       const path = join(__dirname, 'config3.ts')
       const opts: CallerInfo = {
         path,
-        line: 4,
-        column: 22,
+        line: 5,
+        column: 23,
       }
       const name = retrieveVarnameFromCallerInfo(opts)
       assert(name === 'dbDict')
