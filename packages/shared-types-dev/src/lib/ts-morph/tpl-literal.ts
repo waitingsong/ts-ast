@@ -152,7 +152,6 @@ export function genLiteralObjectFromExpression(
     typeReferenceText,
   } = options
 
-
   // let typeText = ''
   // if (type) {
   //   typeText = type.getText()
@@ -166,13 +165,14 @@ export function genLiteralObjectFromExpression(
   //   typeText = `${resultType}<${doName}>`
   // }
   const typeText = typeReferenceText
+  // const typeText = type.getText()
   const aliasName = 'T' + Math.random().toString().slice(-5)
 
   file.addStatements(`type ${aliasName} = ${typeText}`)
   const aliasDec = file.getTypeAlias(aliasName)
   const ret = {}
   if (aliasDec) {
-    genTypeAliasDeclaration(ret, file, aliasDec)
+    genTypeAliasDeclaration(ret, file, aliasDec, aliasName)
     aliasDec.remove()
   }
 
@@ -180,19 +180,30 @@ export function genLiteralObjectFromExpression(
   return node ? ret : {}
 }
 
+function retrieveLiteralValueFromTypeAliasDeclaraion(
+  typeAliasDecla: TypeAliasDeclaration,
+): string | number | ts.PseudoBigInt | undefined {
+
+  const parentIdentifier: Identifier = typeAliasDecla.getNameNode()
+  const tt = parentIdentifier.getType()
+  const literalValue = tt.getLiteralValue()
+  return literalValue
+}
+
 export function genTypeAliasDeclaration(
   resultObj: object,
   file: SourceFile,
   typeAliasDecla: TypeAliasDeclaration,
+  aliasName: string,
   delimiter = '_oo_',
 ): void {
+
+  const literalValue = retrieveLiteralValueFromTypeAliasDeclaraion(typeAliasDecla)
 
   const parentIdentifier: Identifier = typeAliasDecla.getNameNode()
   const pidName = parentIdentifier.getText()
   const arr = pidName.split(delimiter)
   const pidPath = arr.length > 1 ? arr.slice(1) : []
-  const tt = parentIdentifier.getType()
-  const literalValue = tt.getLiteralValue()
 
   if (literalValue) {
     const tmpObj = pidPath.length ? deepFind(resultObj, pidPath.slice(0, -1)) : resultObj
@@ -211,6 +222,7 @@ export function genTypeAliasDeclaration(
     return
   }
 
+  const tt = parentIdentifier.getType()
   const typeProps = tt.getProperties()
 
   if (! typeProps.length) {
@@ -219,7 +231,6 @@ export function genTypeAliasDeclaration(
       pidName: "${pidName}",
       pidPath: "${pidPath.join('.')}".
       `)
-    // May TransFormOptions['importModuleName'] empty
   }
 
   for (const prop of typeProps) {
@@ -227,10 +238,16 @@ export function genTypeAliasDeclaration(
     if (! propKey) {
       continue
     }
+
     const typeKey = `${pidName}${delimiter}${propKey}`
-    const code = `type ${typeKey} = ${pidName}['${propKey}']`
-    file.addStatements(code)
+    // const code = `type ${typeKey} = ${pidName}['${propKey}']`
+    let code = `type ${typeKey} = ${aliasName}`
+    pidPath.forEach((dir) => {
+      code += `['${dir}']`
+    })
+    code += `['${propKey}']`
     // console.log({ typeKey, code })
+    file.addStatements(code)
     const decla = file.getTypeAlias(typeKey)
     if (! decla) {
       throw new TypeError(`Declaraion ${typeKey} not exists`)
@@ -245,7 +262,7 @@ export function genTypeAliasDeclaration(
       ...props,
       value: {},
     })
-    genTypeAliasDeclaration(resultObj, file, decla, delimiter)
+    genTypeAliasDeclaration(resultObj, file, decla, aliasName, delimiter)
   }
 
   if (arr.length > 1) {
