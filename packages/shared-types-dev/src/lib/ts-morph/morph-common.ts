@@ -18,7 +18,34 @@ export function createSourceFile(
   options?: ProjectOptions,
 ): SourceFile {
 
-  const project = new Project(options)
+  const defaultCompilerOptions = {
+    declaration: false,
+    emitDecoratorMetadata: true,
+    esModuleInterop: true,
+    experimentalDecorators: true,
+    // incremental: true,
+    module: ts.ModuleKind.ES2015, // 5
+    moduleResolution: ts.ModuleResolutionKind.NodeJs, // 2
+    newLine: 1,
+    noUnusedLocals: false,
+    noUnusedParameters: false,
+    pretty: true,
+    skipLibCheck: true,
+    strictPropertyInitialization: false,
+    sourceMap: false,
+    strict: true,
+    target: ts.ScriptTarget.ESNext,
+    lib: ['lib.esnext.full.d.ts'],
+  }
+
+  const opts = {
+    compilerOptions: {
+      ...defaultCompilerOptions,
+    },
+    ...options,
+  }
+
+  const project = new Project(opts)
   // const checker = project.getTypeChecker()
   const sourceFile = project.addSourceFileAtPath(sourcePath)
   return sourceFile
