@@ -24,7 +24,6 @@ const filename = basename(__filename)
 
 describe(filename, () => {
   const path1 = join(__dirname, 'demo1.ts')
-  const path2 = join(__dirname, 'demo2.ts')
   const path3 = join(__dirname, 'demo3.ts')
   const path4 = join(__dirname, 'demo4.ts')
   const path5 = join(__dirname, 'demo5.ts')
@@ -37,20 +36,10 @@ describe(filename, () => {
   }
 
   beforeEach(async () => {
-    // await run(`cp -f "${path1}.example.ts" ${path1}`).toPromise()
-    // await run(`cp -f "${path2}.example.ts" ${path2}`).toPromise()
-    // await run(`cp -f "${path3}.example.ts" ${path3}`).toPromise()
-    // await run(`cp -f "${path4}.example.ts" ${path4}`).toPromise()
-    // await run(`cp -f "${path5}.example.ts" ${path5}`).toPromise()
-    await run(`git restore ${path1} ${path2} ${path3} ${path4} ${path5}`).toPromise()
+    await run(`git restore ${path1} ${path3} ${path4} ${path5}`).toPromise()
   })
   after(async () => {
-    await run(`git restore ${path1} ${path2} ${path3} ${path4} ${path5}`).toPromise()
-    // await rimraf(path1)
-    // await rimraf(path2)
-    // await rimraf(path3)
-    // await rimraf(path4)
-    // await rimraf(path5)
+    await run(`git restore ${path1} ${path3} ${path4} ${path5}`).toPromise()
   })
 
   describe('Should transformCallExpressionToLiteralType works', () => {
@@ -89,35 +78,6 @@ describe(filename, () => {
       posKey = 'dict:5:33'
       obj = ret.fromPosKey(posKey)
       assert(! obj)
-    })
-
-    it('demo2', () => {
-      const path = path2
-      const file = createSourceFile(path)
-      const opts: TransFormOptions = {
-        ...defaultOpts,
-        sourceFile: file,
-      }
-
-      transformCallExpressionToLiteralType(opts)
-      file.saveSync()
-
-      const dict = require(path).dict
-      assert.deepStrictEqual(dict, expectedDict)
-    })
-    it('demo2 result', () => {
-      const path = path2
-      const file = createSourceFile(path)
-      const opts: TransFormOptions = {
-        ...defaultOpts,
-        sourceFile: file,
-      }
-
-      const ret = transformCallExpressionToLiteralType(opts)
-      assert(ret.size > 0)
-      const arr = ret.fromKey('dict')
-      assert(arr.length === 1)
-      assert.deepStrictEqual(arr[0], expectedDict)
     })
 
     it('demo3', () => {
