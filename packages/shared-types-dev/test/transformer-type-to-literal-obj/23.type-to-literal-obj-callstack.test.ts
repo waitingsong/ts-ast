@@ -19,7 +19,7 @@ const filename = basename(__filename)
 
 describe(filename, () => {
 
-  describe('Should transTypetoLiteralObj works', () => {
+  describe('Should computeCallExpressionToLiteralObj works', () => {
     it('w/o needle', async () => {
       const ret: DbDict<Db> = alter<Db>()
       assert.deepStrictEqual(ret, expectedDict)
