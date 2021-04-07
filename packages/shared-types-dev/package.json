@@ -16,12 +16,12 @@
   "module": "./dist/index.js",
   "types": "./src/index.ts",
   "bugs": {
-    "url": "https://github.com/waitingsong/shared/issues"
+    "url": "https://github.com/waitingsong/ts-ast/issues"
   },
-  "homepage": "https://github.com/waitingsong/shared#readme",
+  "homepage": "https://github.com/waitingsong/ts-ast#readme",
   "repository": {
     "type": "git",
-    "url": "git@github.com:waitingsong/shared.git"
+    "url": "git@github.com:waitingsong/ts-ast.git"
   },
   "license": "MIT",
   "dependencies": {
