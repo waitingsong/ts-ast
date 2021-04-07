@@ -18,12 +18,6 @@ import {
 } from './morph-common'
 
 
-const props = {
-  configurable: false,
-  enumerable: true,
-  writable: true,
-}
-
 export interface TransFormOptions {
   sourceFile: SourceFile
   needle: string
@@ -218,15 +212,21 @@ function _genTypeAliasDeclarationFaster(
   pidPath: string[],
 ): void {
 
+  const props = {
+    configurable: false,
+    enumerable: true,
+    writable: true,
+  }
+
   const curObj = pidPath.length ? deepFind(resultObj, pidPath) : resultObj
   if (typeof curObj !== 'object') {
     throw new TypeError(`Value of resultObje "${pidPath.join('.')} is not object"`)
   }
 
-  for (const prop of typeProps) {
+  typeProps.forEach((prop) => {
     const propKey = prop.getName()
     if (! propKey) {
-      continue
+      return
     }
 
     const tt = checker.getTypeOfSymbolAtLocation(prop, id)
@@ -236,7 +236,7 @@ function _genTypeAliasDeclarationFaster(
         ...props,
         value: literalValue,
       })
-      continue
+      return
     }
 
     const pps = tt.getProperties()
@@ -265,7 +265,8 @@ function _genTypeAliasDeclarationFaster(
       pidPath,
     )
     pidPath.pop()
-  }
+  })
+
 }
 
 function retrieveLiteralValueFromTypeAliasDeclaraion(
@@ -285,6 +286,12 @@ export function genTypeAliasDeclaration(
   aliasName: string,
   delimiter = '_oo_',
 ): void {
+
+  const props = {
+    configurable: false,
+    enumerable: true,
+    writable: true,
+  }
 
   const literalValue = retrieveLiteralValueFromTypeAliasDeclaraion(typeAliasDecla)
 
