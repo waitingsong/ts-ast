@@ -6,6 +6,8 @@ import {
   SourceFile,
   TypeAliasDeclaration,
   CallExpression,
+  Symbol,
+  TypeChecker,
 } from 'ts-morph'
 
 import { deepFind } from '../util'
@@ -170,14 +172,100 @@ export function genLiteralObjectFromExpression(
 
   file.addStatements(`type ${aliasName} = ${typeText}`)
   const aliasDec = file.getTypeAlias(aliasName)
-  const ret = {}
+  let ret: LiteralObject = {}
   if (aliasDec) {
-    genTypeAliasDeclaration(ret, file, aliasDec, aliasName)
+    // genTypeAliasDeclaration(ret, file, aliasDec, aliasName)
+    const identifier: Identifier = aliasDec.getNameNode()
+    const pp = file.getProject()
+    const checker = pp.getTypeChecker()
+    ret = genTypeAliasDeclarationFaster(checker, identifier)
     aliasDec.remove()
   }
 
   const node = express.getParent()
   return node ? ret : {}
+}
+
+export function genTypeAliasDeclarationFaster(
+  checker: TypeChecker,
+  id: Identifier,
+): LiteralObject {
+
+  const resultObj: LiteralObject = {}
+  const tt = id.getType()
+  const typeProps = tt.getProperties()
+  if (! typeProps.length) {
+    const text2 = tt.getText() // 'ScopedTableFields<"tb_user", "uid" | "name">'
+    throw new TypeError(`type "${text2}" has no properties`)
+  }
+
+  _genTypeAliasDeclarationFaster(
+    resultObj,
+    checker,
+    id,
+    typeProps,
+    [],
+  )
+
+  return resultObj
+}
+
+function _genTypeAliasDeclarationFaster(
+  resultObj: LiteralObject,
+  checker: TypeChecker,
+  id: Identifier,
+  typeProps: Symbol[],
+  pidPath: string[],
+): void {
+
+  const curObj = pidPath.length ? deepFind(resultObj, pidPath) : resultObj
+  if (typeof curObj !== 'object') {
+    throw new TypeError(`Value of resultObje "${pidPath.join('.')} is not object"`)
+  }
+
+  for (const prop of typeProps) {
+    const propKey = prop.getName()
+    if (! propKey) {
+      continue
+    }
+
+    const tt = checker.getTypeOfSymbolAtLocation(prop, id)
+    const literalValue = tt.getLiteralValue()
+    if (literalValue) {
+      Object.defineProperty(curObj, propKey, {
+        ...props,
+        value: literalValue,
+      })
+      continue
+    }
+
+    const pps = tt.getProperties()
+
+    if (! pps.length) {
+      const text2 = tt.getText() // 'ScopedTableFields<"tb_user", "uid" | "name">'
+      throw new TypeError(`type "${text2}" has no properties,
+        propKey: "${propKey}",
+        pidPath: "${pidPath.join('.')}".
+        try pass parameter tsConfigFilePath (path of tsconfig.json) during calling morph-common.createSourceFile()
+      `)
+    }
+
+    const targetObj = pidPath.length === 0 ? resultObj : curObj
+    Object.defineProperty(targetObj, propKey, {
+      ...props,
+      value: {},
+    })
+
+    pidPath.push(propKey)
+    _genTypeAliasDeclarationFaster(
+      resultObj,
+      checker,
+      id,
+      pps,
+      pidPath,
+    )
+    pidPath.pop()
+  }
 }
 
 function retrieveLiteralValueFromTypeAliasDeclaraion(
