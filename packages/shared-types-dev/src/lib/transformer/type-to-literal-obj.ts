@@ -34,8 +34,6 @@ export interface TransTypetoLiteralObjOpts {
   leadingString: string
   trailingString: string
   tsConfigFilePath: string
-  /** Appending ` as DbDict<D>` at end of the literal object result */
-  appendingTypeAssert: boolean
 }
 
 interface VOpts extends VisitNodeOpts, TransTypetoLiteralObjOpts {
@@ -75,7 +73,6 @@ function visitNode(node: ts.Node, options: VOpts): ts.Node | undefined {
         needle: options.needle,
         leadingString: options.leadingString,
         trailingString: options.trailingString,
-        appendingTypeAssert: options.appendingTypeAssert,
       }
       const retObj = transformCallExpressionToLiteralType(opts)
       options.literalRet = retObj
@@ -171,7 +168,6 @@ export function computeCallExpressionToLiteralObj(
     needle,
     leadingString: 'eslint-disable',
     trailingString: 'eslint-enable',
-    appendingTypeAssert: true,
     sourceFile: file,
   }
   const postKey = `${vinfo.name}:${vinfo.line}:${vinfo.column}`

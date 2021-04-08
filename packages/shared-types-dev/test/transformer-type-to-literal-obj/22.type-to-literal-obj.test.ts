@@ -36,7 +36,6 @@ describe(filename, () => {
     needle: 'genDbDict',
     leadingString: 'eslint-disable',
     trailingString: 'eslint-enable',
-    appendingTypeAssert: true,
   }
 
   before(async () => {
