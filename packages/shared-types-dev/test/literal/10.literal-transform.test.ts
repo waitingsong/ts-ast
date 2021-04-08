@@ -63,6 +63,7 @@ describe(filename, () => {
       const code = await readFileAsync(path, { encoding: 'utf-8' })
       assert(code)
       assert(! code.includes(' as DbDict<'))
+      assert(! code.includes(' as import('))
     })
     it('demo1 result', () => {
       const path = path1
@@ -212,6 +213,7 @@ describe(filename, () => {
       const code = await readFileAsync(path, { encoding: 'utf-8' })
       assert(code)
       assert(code.includes(' as DbDict<Db>'))
+      assert(! code.includes(' as import('))
     })
 
     it('demo7 appendingTypeAssert: false', async () => {
@@ -233,6 +235,7 @@ describe(filename, () => {
       const code = await readFileAsync(path, { encoding: 'utf-8' })
       assert(code)
       assert(! code.includes(' as DbDict<'))
+      assert(! code.includes(' as import('))
     })
   })
 
