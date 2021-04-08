@@ -4,7 +4,7 @@
 import {
   basename,
   join,
-  rimraf,
+  readFileAsync,
 } from '@waiting/shared-core'
 import { run } from 'rxrunscript'
 
@@ -27,6 +27,9 @@ describe(filename, () => {
   const path3 = join(__dirname, 'demo3.ts')
   const path4 = join(__dirname, 'demo4.ts')
   const path5 = join(__dirname, 'demo5.ts')
+  const path7 = join(__dirname, 'demo7.ts')
+  const paths = `"${path1}" "${path3}" "${path4}" "${path5}" "${path7}"`
+
   const tsConfigFilePath = join(__dirname, '../../tsconfig.json')
   const defaultOpts = {
     needle: 'genDbDict',
@@ -36,14 +39,14 @@ describe(filename, () => {
   }
 
   beforeEach(async () => {
-    await run(`git restore ${path1} ${path3} ${path4} ${path5}`).toPromise()
+    await run(`git restore ${paths}`).toPromise()
   })
   after(async () => {
-    await run(`git restore ${path1} ${path3} ${path4} ${path5}`).toPromise()
+    await run(`git restore ${paths}`).toPromise()
   })
 
   describe('Should transformCallExpressionToLiteralType works', () => {
-    it('demo1', () => {
+    it('demo1', async () => {
       const path = path1
       const file = createSourceFile(path, { tsConfigFilePath })
       const opts: TransFormOptions = {
@@ -52,10 +55,14 @@ describe(filename, () => {
       }
 
       transformCallExpressionToLiteralType(opts)
-      file.saveSync()
+      await file.save()
 
       const dict = require(path).dict
       assert.deepStrictEqual(dict, expectedDict)
+
+      const code = await readFileAsync(path, { encoding: 'utf-8' })
+      assert(code)
+      assert(! code.includes(' as DbDict<'))
     })
     it('demo1 result', () => {
       const path = path1
@@ -187,6 +194,46 @@ describe(filename, () => {
       assert.deepStrictEqual(ret.fromPosKey(posKey), expectedDict2)
     })
 
+    it('demo7', async () => {
+      const path = path7
+      const file = createSourceFile(path)
+      const opts: TransFormOptions = {
+        ...defaultOpts,
+        sourceFile: file,
+        needle: 'transPlaceHolder',
+      }
+
+      transformCallExpressionToLiteralType(opts)
+      await file.save()
+
+      const dict = require(path).dict
+      assert.deepStrictEqual(dict, expectedDict)
+
+      const code = await readFileAsync(path, { encoding: 'utf-8' })
+      assert(code)
+      assert(code.includes(' as DbDict<Db>'))
+    })
+
+    it('demo7 appendingTypeAssert: false', async () => {
+      const path = path7
+      const file = createSourceFile(path)
+      const opts: TransFormOptions = {
+        ...defaultOpts,
+        sourceFile: file,
+        needle: 'transPlaceHolder',
+        appendingTypeAssert: false,
+      }
+
+      transformCallExpressionToLiteralType(opts)
+      await file.save()
+
+      const dict = require(path).dict
+      assert.deepStrictEqual(dict, expectedDict)
+
+      const code = await readFileAsync(path, { encoding: 'utf-8' })
+      assert(code)
+      assert(! code.includes(' as DbDict<'))
+    })
   })
 
 })

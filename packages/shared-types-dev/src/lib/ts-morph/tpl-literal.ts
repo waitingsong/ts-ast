@@ -24,7 +24,7 @@ export interface TransFormOptions {
   leadingString: string
   trailingString: string
   /** Default: true */
-  appendingTypeAssert: boolean
+  appendingTypeAssert?: boolean
 }
 
 export interface ProcessExpressionOptions {
@@ -124,7 +124,7 @@ export function transformCallExpressionToLiteralType(
 
     const jsonCode = `/* ${leadingString} */ `
       + JSON.stringify(obj, null, 2)
-      + (appendingTypeAssert ? ` as ${typeText}` : '')
+      + (appendingTypeAssert && info.typeReferenceText ? ` as ${typeText}` : '')
       + ` /* ${trailingString} */`
     express.replaceWithText(jsonCode)
   })
