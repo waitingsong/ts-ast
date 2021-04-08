@@ -35,7 +35,6 @@ describe(filename, () => {
     needle: 'genDbDict',
     leadingString: 'eslint-disable',
     trailingString: 'eslint-enable',
-    appendingTypeAssert: true,
   }
 
   beforeEach(async () => {
@@ -213,28 +212,6 @@ describe(filename, () => {
       const code = await readFileAsync(path, { encoding: 'utf-8' })
       assert(code)
       assert(code.includes(' as DbDict<Db>'))
-      assert(! code.includes(' as import('))
-    })
-
-    it('demo7 appendingTypeAssert: false', async () => {
-      const path = path7
-      const file = createSourceFile(path)
-      const opts: TransFormOptions = {
-        ...defaultOpts,
-        sourceFile: file,
-        needle: 'transPlaceHolder',
-        appendingTypeAssert: false,
-      }
-
-      transformCallExpressionToLiteralType(opts)
-      await file.save()
-
-      const dict = require(path).dict
-      assert.deepStrictEqual(dict, expectedDict)
-
-      const code = await readFileAsync(path, { encoding: 'utf-8' })
-      assert(code)
-      assert(! code.includes(' as DbDict<'))
       assert(! code.includes(' as import('))
     })
   })

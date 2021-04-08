@@ -23,8 +23,6 @@ export interface TransFormOptions {
   needle: string
   leadingString: string
   trailingString: string
-  /** Default: true */
-  appendingTypeAssert?: boolean
 }
 
 export interface ProcessExpressionOptions {
@@ -90,7 +88,6 @@ export function transformCallExpressionToLiteralType(
     needle,
     leadingString,
     trailingString,
-    appendingTypeAssert,
   } = options
 
   const posKeyMap = new Map<CallExpressionPosKey, LiteralObject>()
@@ -124,7 +121,7 @@ export function transformCallExpressionToLiteralType(
 
     const jsonCode = `/* ${leadingString} */ `
       + JSON.stringify(obj, null, 2)
-      + (appendingTypeAssert && info.typeReferenceText ? ` as ${typeText}` : '')
+      + (info.typeReferenceText ? ` as ${typeText}` : '')
       + ` /* ${trailingString} */`
     express.replaceWithText(jsonCode)
   })
