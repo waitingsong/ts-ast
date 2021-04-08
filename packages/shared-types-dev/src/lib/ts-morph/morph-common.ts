@@ -200,8 +200,9 @@ export function retrieveVarInfoFromVariableDeclaration(
     // const name = input.getNameNode().getText() as string
     const name = sym.getName()
     const start = input.getStart()
+    // postions of variable, not of declaration
     const { line, column } = input.getSourceFile().getLineAndColumnAtPos(start)
-    const type = input.getType() // getText() => "import(..).DbDict<import(...).D>"
+    const type = input.getType() // getText() => "import(url).DbDict<import(url).Db>"
 
     let typeReferenceText = '' // "DbDict<D>"
     try {

@@ -1,7 +1,7 @@
 import { transPlaceHolder } from './dict'
-import { Db, Db2, DbDict } from './types'
+import { Db, Db2 } from './types'
 
 
-export const dict1: DbDict<Db> = transPlaceHolder<Db>()
-export const dict2: DbDict<Db2> = transPlaceHolder<Db2>()
+export const dict1 = transPlaceHolder<Db>()
+export const dict2 = transPlaceHolder<Db2>()
 
