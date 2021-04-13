@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 2.1.0 (2021-04-13)
+
+
+### Bug Fixes
+
+* **types-dev:** transformCallExpressionToLiteralType() ([15338ce](https://github.com/waitingsong/npm-mono-base/commit/15338ceb94b12213ee1b1d50f6993a55ef9ffd69))
+
+
+
+
+
 # 2.0.0 (2021-04-08)
 
 
