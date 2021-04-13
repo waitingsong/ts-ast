@@ -125,7 +125,7 @@ describe(filename, () => {
 
       let posKey = 'dict1:5:14'
       assert.deepStrictEqual(ret.fromPosKey(posKey), expectedDict)
-      posKey = 'dict2:31:14'
+      posKey = 'dict2:6:14'
       assert.deepStrictEqual(ret.fromPosKey(posKey), expectedDict2)
     })
 
@@ -145,7 +145,7 @@ describe(filename, () => {
       let posKey = 'dict:5:14'
       const obj1 = ret.fromPosKey(posKey)
       assert.deepStrictEqual(obj1, expectedDict)
-      posKey = 'dict:34:9'
+      posKey = 'dict:9:9'
       const obj2 = ret.fromPosKey(posKey)
       assert.deepStrictEqual(obj2, expectedDict2)
     })
@@ -190,7 +190,7 @@ describe(filename, () => {
 
       let posKey = 'dict1:5:14'
       assert.deepStrictEqual(ret.fromPosKey(posKey), expectedDict)
-      posKey = 'dict2:31:14'
+      posKey = 'dict2:6:14'
       assert.deepStrictEqual(ret.fromPosKey(posKey), expectedDict2)
     })
 

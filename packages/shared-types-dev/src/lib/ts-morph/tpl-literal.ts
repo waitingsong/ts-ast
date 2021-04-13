@@ -91,13 +91,15 @@ export function transformCallExpressionToLiteralType(
   } = options
 
   const posKeyMap = new Map<CallExpressionPosKey, LiteralObject>()
+  const indexMap = new Map<number, LiteralObject>()
+  const assertsTextMap = new Map<number, string>()
 
   // const insertedNum = importModuleName
   //   ? hasImportNecessaryType(sourceFile, [resultType], importModuleName)
   //   : 0
 
   const expressions = findCallExpressionsByName(sourceFile, needle)
-  expressions.forEach((express) => {
+  expressions.forEach((express, idx) => {
     const info = retrieveVarInfoFromCallExpression(express)
     if (! info) {
       return
@@ -118,10 +120,20 @@ export function transformCallExpressionToLiteralType(
     }
     const obj = genLiteralObjectFromExpression(opts)
     posKeyMap.set(posKey, obj)
-
+    indexMap.set(idx, obj)
+    const assertsTxt = info.typeReferenceText ? ` as ${typeText}` : ''
+    assertsTextMap.set(idx, assertsTxt)
+  })
+  // replace after node walk
+  indexMap.forEach((obj, idx) => {
+    const express = expressions[idx]
+    if (! express) {
+      return
+    }
+    const assertsTxt = assertsTextMap.get(idx)
     const jsonCode = `/* ${leadingString} */ `
       + JSON.stringify(obj, null, 2)
-      + (info.typeReferenceText ? ` as ${typeText}` : '')
+      + (assertsTxt ? assertsTxt : '')
       + ` /* ${trailingString} */`
     express.replaceWithText(jsonCode)
   })
