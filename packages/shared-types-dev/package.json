@@ -25,15 +25,15 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@types/source-map-support": "*",
     "@waiting/shared-core": "8",
     "@waiting/shared-types": "8",
     "rxjs": "6",
+    "source-map-support": "*",
     "ts-morph": "10"
   },
   "devDependencies": {
-    "@types/source-map-support": "*",
-    "cross-env": "7",
-    "source-map-support": "*"
+    "cross-env": "7"
   },
   "engines": {
     "node": ">=14.14.0"
