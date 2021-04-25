@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 2.3.0 (2021-04-25)
+
+
+### Features
+
+* **types-dev:** process options within createSourceFile() ([7c5c3c3](https://github.com/waitingsong/ts-ast/commit/7c5c3c38f2c9468759d83b6be67f146f1562c07a))
+
+
+
+
+
 # 2.2.0 (2021-04-14)
 
 **Note:** Version bump only for package ts-ast
