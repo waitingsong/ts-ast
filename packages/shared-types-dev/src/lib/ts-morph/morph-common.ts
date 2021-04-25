@@ -38,12 +38,13 @@ export function createSourceFile(
     lib: ['lib.esnext.full.d.ts'],
   }
 
-  const opts = {
-    compilerOptions: {
-      ...defaultCompilerOptions,
-    },
-    ...options,
-  }
+  const opts = options
+    ? { ...options }
+    : {
+      compilerOptions: {
+        ...defaultCompilerOptions,
+      },
+    }
 
   const project = new Project(opts)
   // const checker = project.getTypeChecker()
