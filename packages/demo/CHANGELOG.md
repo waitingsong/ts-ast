@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 2.4.0 (2021-04-29)
+
+**Note:** Version bump only for package demo
+
+
+
+
+
 # 2.3.0 (2021-04-25)
 
 
