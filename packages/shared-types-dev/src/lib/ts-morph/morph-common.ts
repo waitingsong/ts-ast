@@ -1,5 +1,4 @@
 import {
-  ts,
   SourceFile,
   Project,
   Node,
@@ -9,6 +8,8 @@ import {
   ProjectOptions,
   Type,
 } from 'ts-morph'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import ts from 'typescript'
 
 import { CallerInfo } from '../callstack/index'
 
