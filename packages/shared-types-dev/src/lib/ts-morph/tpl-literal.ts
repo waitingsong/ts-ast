@@ -351,7 +351,7 @@ export function genTypeAliasDeclaration(
     })
     code += `['${propKey}']`
     // console.log({ typeKey, code })
-    const start = new Date()
+    // const start = new Date()
     file.addStatements(code)
     const decla = file.getTypeAlias(typeKey)
     if (! decla) {
@@ -368,8 +368,8 @@ export function genTypeAliasDeclaration(
       value: {},
     })
     genTypeAliasDeclaration(resultObj, file, decla, aliasName, delimiter)
-    const dd = new Date().getTime() - start.getTime()
-    console.log({ typeKey, code, dd })
+    // const dd = new Date().getTime() - start.getTime()
+    // console.log({ typeKey, code, dd })
   }
 
   if (arr.length > 1) {
