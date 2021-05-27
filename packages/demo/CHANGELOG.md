@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 2.6.0 (2021-05-27)
+
+
+### Bug Fixes
+
+* **shared-types-dev:** types ([ea9c245](https://github.com/waitingsong/npm-mono-base/commit/ea9c2456b9d803d021bf64562f1ef24ef5347821))
+
+
+
+
+
 # 2.5.0 (2021-05-10)
 
 **Note:** Version bump only for package demo
