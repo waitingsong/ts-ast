@@ -30,7 +30,8 @@
     "@waiting/shared-types": "10",
     "rxjs": "7",
     "source-map-support": "*",
-    "ts-morph": "10"
+    "ts-morph": "10",
+    "ts-node": "9"
   },
   "devDependencies": {
     "cross-env": "7"
