@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 // eslint-disable-next-line import/no-extraneous-dependencies
+import { SyntaxKind } from 'ts-morph'
 import ts from 'typescript'
 
 import { getCallerStack } from '../callstack/index'
@@ -157,7 +158,7 @@ export function computeCallExpressionToLiteralObj(
     if (! express) {
       throw new Error('Result of retrieveCallExpressionByPos() is undefined')
     }
-    const [funcId] = express.getDescendantsOfKind(ts.SyntaxKind.Identifier)
+    const [funcId] = express.getDescendantsOfKind(SyntaxKind.Identifier)
     if (! funcId) {
       throw new Error('Retrieve function identifier failed. You should pass parameter needle')
     }
