@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
+import { SyntaxKind } from 'ts-morph'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ts from 'typescript'
-import { SyntaxKind } from 'ts-morph'
 
 import { getCallerStack } from '../callstack/index'
 import {
