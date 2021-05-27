@@ -242,7 +242,11 @@ export function retrieveCallExpressionByPos(
 ): CallExpression | undefined {
 
   const file = options.sourceFile
-  const expressions = file.getDescendantsOfKind(ts.SyntaxKind.CallExpression)
+  let expressions = file.getDescendantsOfKind(ts.SyntaxKind.CallExpression)
+  if (expressions.length === 0) {
+    // ts.SyntaxKind.CallExpression may 203 or 204....
+    expressions = file.getDescendantsOfKind(203)
+  }
   const ret = expressions.find((node) => {
     const start = node.getStart()
     const { line, column } = file.getLineAndColumnAtPos(start)
