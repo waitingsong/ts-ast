@@ -7,9 +7,10 @@ import {
   TypeNode,
   ProjectOptions,
   Type,
+  ts,
 } from 'ts-morph'
 // eslint-disable-next-line import/no-extraneous-dependencies
-import ts from 'typescript'
+// import ts from 'typescript'
 
 import { CallerInfo } from '../callstack/index'
 
@@ -35,7 +36,7 @@ export function createSourceFile(
     strictPropertyInitialization: false,
     sourceMap: false,
     strict: true,
-    target: ts.ScriptTarget.ESNext,
+    target: 99,
     lib: ['lib.esnext.full.d.ts'],
   }
 
@@ -242,7 +243,11 @@ export function retrieveCallExpressionByPos(
 ): CallExpression | undefined {
 
   const file = options.sourceFile
-  const expressions = file.getDescendantsOfKind(ts.SyntaxKind.CallExpression)
+  let expressions = file.getDescendantsOfKind(SyntaxKind.CallExpression)
+  if (expressions.length === 0) {
+    // ts.SyntaxKind.CallExpression may 203 or 204....
+    expressions = file.getDescendantsOfKind(203)
+  }
   const ret = expressions.find((node) => {
     const start = node.getStart()
     const { line, column } = file.getLineAndColumnAtPos(start)
