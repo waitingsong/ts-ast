@@ -26,8 +26,8 @@
   "license": "MIT",
   "dependencies": {
     "@types/source-map-support": "*",
-    "@waiting/shared-core": "10",
-    "@waiting/shared-types": "10",
+    "@waiting/shared-core": "11",
+    "@waiting/shared-types": "11",
     "rxjs": "7",
     "source-map-support": "*",
     "ts-morph": "10"
