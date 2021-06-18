@@ -12,9 +12,9 @@
   "bin": {},
   "browser": "",
   "es2015": "",
-  "main": "./dist/index.cjs.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "bugs": {
     "url": "https://github.com/waitingsong/ts-ast/issues"
   },
@@ -26,8 +26,8 @@
   "license": "MIT",
   "dependencies": {
     "@types/source-map-support": "*",
-    "@waiting/shared-core": "11",
-    "@waiting/shared-types": "11",
+    "@waiting/shared-core": "^14.0.0",
+    "@waiting/shared-types": "^14.0.0",
     "rxjs": "7",
     "source-map-support": "*",
     "ts-morph": "10"
@@ -36,7 +36,7 @@
     "cross-env": "7"
   },
   "engines": {
-    "node": ">=14.14.0"
+    "node": ">=14.15.0"
   },
   "files": [
     "src/**/*.ts",
