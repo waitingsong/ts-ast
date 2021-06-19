@@ -246,6 +246,7 @@ export function retrieveCallExpressionByPos(
   let expressions = file.getDescendantsOfKind(SyntaxKind.CallExpression)
   if (expressions.length === 0) {
     // ts.SyntaxKind.CallExpression may 203 or 204....
+    // @ts-expect-error
     expressions = file.getDescendantsOfKind(203)
   }
   const ret = expressions.find((node) => {
