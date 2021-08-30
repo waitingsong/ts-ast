@@ -27,7 +27,7 @@
   "dependencies": {
     "@types/source-map-support": "^0.5.3",
     "@waiting/shared-core": "^14.4.0",
-    "@waiting/shared-types": "^14.4.0",
+    "@waiting/shared-types": "^14.4.1",
     "rxjs": "^7.3.0",
     "source-map-support": "^0.5.19",
     "ts-morph": "^12.0.0"
@@ -39,6 +39,8 @@
     "node": ">=14.15.0"
   },
   "files": [
+    "tsconfig.json",
+    "rollup.config.js",
     "src/**/*.ts",
     "bin/*.js",
     "dist"
