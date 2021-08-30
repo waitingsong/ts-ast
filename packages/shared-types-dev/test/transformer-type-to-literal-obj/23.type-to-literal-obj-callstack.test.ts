@@ -35,7 +35,7 @@ describe(filename, () => {
         const ret: DbDict<Db> = fake<Db>()
         void ret
       }
-      catch (ex) {
+      catch (ex: any) {
         assert((ex.message as string).includes('ret:35:15'))
         return
       }
