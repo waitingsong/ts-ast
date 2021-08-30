@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.1.0](https://github.com/waitingsong/ts-ast/compare/v4.0.0...v4.1.0) (2021-08-30)
+
+
+### Features
+
+* **types-dev:** bump deps ts-morph ([5b0e084](https://github.com/waitingsong/ts-ast/commit/5b0e0847ded5c3094af0052dfffd95538e30873e))
+
+
+
+
+
 # 4.0.0 (2021-06-29)
 
 **Note:** Version bump only for package @waiting/shared-types-dev

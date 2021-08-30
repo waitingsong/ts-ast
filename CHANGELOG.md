@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.1.0](/compare/v4.0.0...v4.1.0) (2021-08-30)
+
+
+### Features
+
+* **types-dev:** bump deps ts-morph 5b0e084
+
+
+
+
+
 # 4.0.0 (2021-06-29)
 
 **Note:** Version bump only for package ts-ast
