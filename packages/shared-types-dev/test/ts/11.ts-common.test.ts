@@ -47,7 +47,7 @@ describe(filename, () => {
           assert(childProp.name)
           assert(childProp.name.kind === ts.SyntaxKind.Identifier)
 
-          // @ts-expect-error
+          // @ts-ignore
           const text2 = childProp.name && childProp.name.text ? childProp.name.text : ''
           if (text === 'tb_user') {
             assert(text2 === 'uid' || text2 === 'name' || text2 === 'ctime')
