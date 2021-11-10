@@ -19,6 +19,7 @@ export function fake<D>(): DbDict<D> {
   return ret as DbDict<D>
 }
 
+// Do NOT export types inner this file!
 // export {
 //   Db,
 //   DbDict,
