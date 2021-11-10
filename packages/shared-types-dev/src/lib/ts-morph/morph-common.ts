@@ -21,10 +21,11 @@ export function createSourceFile(
 ): SourceFile {
 
   const defaultCompilerOptions = {
-    declaration: false,
+    declaration: true,
     emitDecoratorMetadata: true,
     esModuleInterop: true,
     experimentalDecorators: true,
+    inlineSourceMap: true,
     // incremental: true,
     module: ts.ModuleKind.ES2015, // 5
     moduleResolution: ts.ModuleResolutionKind.NodeJs, // 2
@@ -34,19 +35,30 @@ export function createSourceFile(
     pretty: true,
     skipLibCheck: true,
     strictPropertyInitialization: false,
-    sourceMap: false,
+    sourceMap: true,
     strict: true,
     target: 99,
     lib: ['lib.esnext.full.d.ts'],
   }
 
   const opts = options
-    ? { ...options }
+    ? {
+      compilerOptions: {
+        ...defaultCompilerOptions,
+      },
+      ...options,
+    }
     : {
       compilerOptions: {
         ...defaultCompilerOptions,
       },
     }
+
+  console.warn({
+    opts,
+    options,
+    sourcePath,
+   })
 
   const project = new Project(opts)
   // const checker = project.getTypeChecker()
