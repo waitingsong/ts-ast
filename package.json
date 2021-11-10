@@ -60,7 +60,7 @@
     "postpurge": "npm run refresh",
     "repo:init": "bash .githooks/init-repo.sh",
     "refresh": "npm run bootstrap && npm run build",
-    "test": "cross-env NODE_ENV=--enable-source-maps lerna run test",
+    "test": "lerna run test",
     "ptest": "sh .scripts/test.sh"
   },
   "nyc": {
