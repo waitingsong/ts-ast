@@ -1,5 +1,7 @@
+// import { findSourceMap, SourceMap } from 'module'
+
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { install } from 'source-map-support'
+// import { install } from 'source-map-support'
 
 import { CallerInfo } from './types'
 
@@ -10,11 +12,10 @@ import { CallerInfo } from './types'
  */
 export function getCallerStack(
   callerDistance = 0,
-  processSourceMap = false,
 ): CallerInfo {
 
   const depth = callerDistance + 1
-  const stack = getStack(processSourceMap)
+  const stack = getStack()
 
   const arr = stack.split('\n')
   // const line = arr.pop() // one StackFram, but may all stacks sometime
@@ -63,16 +64,17 @@ export function getCallerStack(
  * Get stack string
  * @see https://stackoverflow.com/a/13227808
  */
-export function getStack(processSourceMap = false): string {
+export function getStack(): string {
   // Save original Error.prepareStackTrace
   let origPrepareStackTrace = Error.prepareStackTrace
 
   /* istanbul ignore else */
   if (! origPrepareStackTrace) {
     // MUST installing inner getStack()
-    if (processSourceMap) {
-      install()
-    }
+    // if (processSourceMap) {
+    //   install()
+    // }
+
     /* istanbul ignore else */
     if (! Error.prepareStackTrace) {
       throw new Error('Error.prepareStackTrace not defined')
