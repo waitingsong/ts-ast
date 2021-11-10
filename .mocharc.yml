@@ -3,7 +3,6 @@ bail: true
 full-trace: true
 enable-source-maps: true
 require:
-  - source-map-support/register
   - espower-typescript/guess
   - test/root.hooks.ts
 spec: 
