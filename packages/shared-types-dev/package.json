@@ -27,7 +27,7 @@
   "dependencies": {
     "@waiting/shared-core": "^14.4.1",
     "@waiting/shared-types": "^14.4.1",
-    "rxjs": "^7.3.0",
+    "rxjs": "^7.4.0",
     "ts-morph": "^12.2.0"
   },
   "devDependencies": {
