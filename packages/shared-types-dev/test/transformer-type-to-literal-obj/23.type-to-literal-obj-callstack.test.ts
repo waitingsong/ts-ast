@@ -27,17 +27,17 @@ describe(filename, () => {
       assert.deepStrictEqual(ret, expectedDict)
     })
 
-    // it('fake', async () => {
-    //   try {
-    //     const ret: DbDict<Db> = fake<Db>()
-    //     void ret
-    //   }
-    //   catch (ex: any) {
-    //     assert((ex.message as string).includes('ret:38:15'), ex.message)
-    //     return
-    //   }
-    //   assert(false, 'Should throw error, but not')
-    // })
+    it('fake', async () => {
+      try {
+        const ret: DbDict<Db> = fake<Db>()
+        void ret
+      }
+      catch (ex: any) {
+        assert((ex as Error).message.includes('ret:32:15'), (ex as Error).message)
+        return
+      }
+      assert(false, 'Should throw error, but not')
+    })
   })
 
 })
