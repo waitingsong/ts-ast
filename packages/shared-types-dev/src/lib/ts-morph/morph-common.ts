@@ -27,7 +27,7 @@ export function createSourceFile(
     experimentalDecorators: true,
     // inlineSourceMap: false,
     // incremental: true,
-    module: ts.ModuleKind.ES2015, // 5
+    module: ts.ModuleKind.CommonJS, // 1
     moduleResolution: ts.ModuleResolutionKind.NodeJs, // 2
     newLine: 1,
     noUnusedLocals: false,
@@ -43,9 +43,9 @@ export function createSourceFile(
 
   const opts = options
     ? {
-      compilerOptions: {
-        ...defaultCompilerOptions,
-      },
+      // compilerOptions: {
+      //   ...defaultCompilerOptions,
+      // },
       ...options,
     }
     : {
