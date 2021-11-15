@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.1](https://github.com/waitingsong/ts-ast/compare/v5.0.0...v5.0.1) (2021-11-15)
+
+
+### Bug Fixes
+
+* **shared-types-dev:** process opts within createSourceFile() ([0024057](https://github.com/waitingsong/ts-ast/commit/002405785dd09b0756f4aa2c42124fa0d93352ca))
+
+
+
+
+
 # [5.0.0](https://github.com/waitingsong/ts-ast/compare/v4.1.0...v5.0.0) (2021-11-10)
 
 **Note:** Version bump only for package @waiting/shared-types-dev
