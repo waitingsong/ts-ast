@@ -18,9 +18,9 @@
     "strictPropertyInitialization": false,
     "sourceMap": false,
     "strict": true,
-    "target": "ES2019",
+    "target": "ES2021",
     "tsBuildInfoFile": ".vscode/.tsbuildinfo",
-    "types" : ["node", "mocha"]
+    "types" : ["mocha", "node"]
   },
   "include": [
     "src/**/*.ts"
