@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { rm, writeFile } from 'fs/promises'
+
 import {
   basename,
   join,
-  rimraf,
-  writeFileAsync,
 } from '@waiting/shared-core'
 import ts from 'typescript'
 
@@ -39,10 +39,10 @@ describe(filename, () => {
   }
 
   before(async () => {
-    await rimraf(testRetFile)
+    await rm(testRetFile, { force: true, recursive: true })
   })
   afterEach(async () => {
-    await rimraf(testRetFile)
+    await rm(testRetFile, { force: true, recursive: true })
   })
 
   describe('Should transTypetoLiteralObj works', () => {
@@ -70,7 +70,7 @@ describe(filename, () => {
       }
       const printer = ts.createPrinter()
       const codeRet = printer.printFile(fileRet)
-      await writeFileAsync(testRetFile, codeRet)
+      await writeFile(testRetFile, codeRet)
 
       const dict = require(testRetFile).dict
       // console.info({ codeRet, dict })

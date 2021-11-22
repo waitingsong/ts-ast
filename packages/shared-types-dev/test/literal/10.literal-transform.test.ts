@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { readFile } from 'fs/promises'
+
 import {
   basename,
   join,
-  readFileAsync,
 } from '@waiting/shared-core'
+import { firstValueFrom } from 'rxjs'
 import { run } from 'rxrunscript'
 
 import {
@@ -38,10 +40,10 @@ describe(filename, () => {
   }
 
   beforeEach(async () => {
-    await run(`git restore ${paths}`).toPromise()
+    await firstValueFrom(run(`git restore ${paths}`))
   })
   after(async () => {
-    await run(`git restore ${paths}`).toPromise()
+    await firstValueFrom(run(`git restore ${paths}`))
   })
 
   describe('Should transformCallExpressionToLiteralType works', () => {
@@ -59,7 +61,7 @@ describe(filename, () => {
       const dict = require(path).dict
       assert.deepStrictEqual(dict, expectedDict)
 
-      const code = await readFileAsync(path, { encoding: 'utf-8' })
+      const code = await readFile(path, { encoding: 'utf-8' })
       assert(code)
       assert(! code.includes(' as DbDict<'))
       assert(! code.includes(' as import('))
@@ -209,7 +211,7 @@ describe(filename, () => {
       const dict = require(path).dict
       assert.deepStrictEqual(dict, expectedDict)
 
-      const code = await readFileAsync(path, { encoding: 'utf-8' })
+      const code = await readFile(path, { encoding: 'utf-8' })
       assert(code)
       assert(code.includes(' as DbDict<Db>'))
       assert(! code.includes(' as import('))
