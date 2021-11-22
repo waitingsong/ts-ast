@@ -28,7 +28,7 @@
     "@waiting/shared-core": "^15.0.0",
     "@waiting/shared-types": "^15.0.0",
     "rxjs": "^7.4.0",
-    "ts-morph": "^12.2.0"
+    "ts-morph": "^13.0.0"
   },
   "devDependencies": {
     "cross-env": "7"
