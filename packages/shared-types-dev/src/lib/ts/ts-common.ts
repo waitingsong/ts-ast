@@ -93,7 +93,8 @@ export function processImportDeclaration(
   const arr: ts.ImportSpecifier[] = []
   st.forEach((name) => {
     const sp = ts.factory.createImportSpecifier(
-      void 0,
+      true,
+      ts.factory.createIdentifier(name),
       ts.factory.createIdentifier(name),
     )
     arr.push(sp)
