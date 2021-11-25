@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.0.0](https://github.com/waitingsong/ts-ast/compare/v7.0.0...v8.0.0) (2021-11-25)
+
+**Note:** Version bump only for package @waiting/shared-types-dev
+
+
+
+
+
 # [7.0.0](https://github.com/waitingsong/ts-ast/compare/v6.0.0...v7.0.0) (2021-11-25)
 
 
