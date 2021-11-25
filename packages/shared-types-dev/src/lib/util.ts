@@ -16,6 +16,7 @@ export function deepFind(obj: object, paths: string[]): unknown {
     }
     ret = ret[path] as unknown
   }
+
   return ret
 }
 
