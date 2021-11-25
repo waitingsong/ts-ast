@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0](https://github.com/waitingsong/ts-ast/compare/v6.0.0...v7.0.0) (2021-11-25)
+
+
+### Features
+
+* **shared-types-dev:** increase retrieveVarInfoFromCallExpressionCallerInfo() ([8eff3d1](https://github.com/waitingsong/ts-ast/commit/8eff3d1a14923e55b9499d7247c662415ebefa5f))
+
+
+
+
+
 # [6.0.0](https://github.com/waitingsong/ts-ast/compare/v5.0.1...v6.0.0) (2021-11-22)
 
 **Note:** Version bump only for package @waiting/shared-types-dev
