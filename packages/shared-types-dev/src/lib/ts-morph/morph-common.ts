@@ -252,6 +252,7 @@ export interface RetrieveCallExpressionByPosOpts {
 
 export function retrieveCallExpressionByPos(
   options: RetrieveCallExpressionByPosOpts,
+  needle?: string | undefined,
 ): CallExpression | undefined {
 
   const file = options.sourceFile
@@ -262,13 +263,28 @@ export function retrieveCallExpressionByPos(
     // @ts-ignore
     expressions = file.getDescendantsOfKind(203)
   }
+
+  // genDbDict<DbModel>()
+  const regex: RegExp | null = needle
+    ? new RegExp(`^${needle}<\\S+>()`, 'u')
+    : null
+
   const ret = expressions.find((node) => {
     const start = node.getStart()
     const { line, column } = file.getLineAndColumnAtPos(start)
+    const txt = node.print()
+
+    if (! txt) { return }
 
     if (options.line === line && options.column === column) {
-      return true
+      const flag = needle && regex ? regex.test(txt) : true
+      return flag
     }
+    else if (options.line === line && regex) { // @TODO 精确匹配
+      const flag = regex.test(txt)
+      return flag
+    }
+    // void else
   })
   return ret
 }
@@ -309,6 +325,7 @@ export function retrieveVarnameFromCallExpressionCallerInfo(
  */
 export function retrieveVarInfoFromCallExpressionCallerInfo(
   options: CallerInfo,
+  needle?: string | undefined,
 ): VariableNameInfo | undefined {
 
   const file = createSourceFile(options.path)
@@ -319,7 +336,7 @@ export function retrieveVarInfoFromCallExpressionCallerInfo(
     column: options.column,
   }
 
-  const express = retrieveCallExpressionByPos(opts)
+  const express = retrieveCallExpressionByPos(opts, needle)
   if (! express) {
     return
   }

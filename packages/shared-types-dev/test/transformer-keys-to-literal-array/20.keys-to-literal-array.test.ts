@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import {
-  basename,
-  join,
-} from '@waiting/shared-core'
+import { relative } from 'path'
+
+import { join } from '@waiting/shared-core'
 import ts from 'typescript'
 
 import { transTypeKeystoLiteralArray } from '../../src/index'
@@ -13,7 +12,7 @@ import { transTypeKeystoLiteralArray } from '../../src/index'
 import assert = require('power-assert')
 
 
-const filename = basename(__filename)
+const filename = relative(process.cwd(), __filename).replace(/\\/ug, '/')
 
 describe(filename, () => {
   const compilerOpts = {
@@ -24,7 +23,7 @@ describe(filename, () => {
     module: ts.ModuleKind.CommonJS,
   }
 
-  describe('Should transTypeKeystoLiteralArray works', () => {
+  describe('Should transTypeKeystoLiteralArray work', () => {
     it('interface', () => {
       const demo = 'demo1.ts'
       const path = join(__dirname, demo)

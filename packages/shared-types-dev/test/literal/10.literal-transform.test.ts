@@ -2,11 +2,9 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { readFile } from 'fs/promises'
+import { relative } from 'path'
 
-import {
-  basename,
-  join,
-} from '@waiting/shared-core'
+import { join } from '@waiting/shared-core'
 import { firstValueFrom } from 'rxjs'
 import { run } from 'rxrunscript'
 
@@ -22,7 +20,7 @@ import { expectedDict, expectedDict2 } from './config'
 import assert = require('power-assert')
 
 
-const filename = basename(__filename)
+const filename = relative(process.cwd(), __filename).replace(/\\/ug, '/')
 
 describe(filename, () => {
   const path1 = join(__dirname, 'demo1.ts')
@@ -46,7 +44,7 @@ describe(filename, () => {
     await firstValueFrom(run(`git restore ${paths}`))
   })
 
-  describe('Should transformCallExpressionToLiteralType works', () => {
+  describe('Should transformCallExpressionToLiteralType work', () => {
     it('demo1', async () => {
       const path = path1
       const file = createSourceFile(path, { tsConfigFilePath })

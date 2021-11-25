@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import {
-  basename,
-  join,
-} from '@waiting/shared-core'
+import { relative } from 'path'
+
 import ts from 'typescript'
 
 import { createObjectLiteralExpression } from '../../src/index'
@@ -15,11 +13,11 @@ import { literalObj1, literalObj2 } from './config'
 import assert = require('power-assert')
 
 
-const filename = basename(__filename)
+const filename = relative(process.cwd(), __filename).replace(/\\/ug, '/')
 
 describe(filename, () => {
 
-  describe('Should createObjectLiteralExpression works', () => {
+  describe('Should createObjectLiteralExpression work', () => {
     it('normal 1', () => {
       const expression = createObjectLiteralExpression(literalObj1)
 

@@ -1,7 +1,4 @@
-import {
-  basename,
-  join,
-} from '@waiting/shared-core'
+import { relative } from 'path'
 
 import { expectedDict } from '../literal/config'
 import { Db, DbDict } from '../literal/types'
@@ -12,11 +9,11 @@ import { genDbDict, alter, fake } from './demo6'
 import assert = require('power-assert')
 
 
-const filename = basename(__filename)
+const filename = relative(process.cwd(), __filename).replace(/\\/ug, '/')
 
 describe(filename, () => {
 
-  describe('Should computeCallExpressionToLiteralObj works', () => {
+  describe('Should computeCallExpressionToLiteralObj work', () => {
     it('w/o needle', async () => {
       const ret: DbDict<Db> = alter<Db>()
       assert.deepStrictEqual(ret, expectedDict)
@@ -30,10 +27,10 @@ describe(filename, () => {
     it('fake', async () => {
       try {
         const ret: DbDict<Db> = fake<Db>()
-        void ret
+        console.warn({ ret })
       }
-      catch (ex: any) {
-        assert((ex as Error).message.includes('ret:32:15'), (ex as Error).message)
+      catch (ex) {
+        assert((ex as Error).message.includes('Retrieve variable name failed'), (ex as Error).message)
         return
       }
       assert(false, 'Should throw error, but not')

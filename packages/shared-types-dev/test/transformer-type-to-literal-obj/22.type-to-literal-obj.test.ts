@@ -2,11 +2,9 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { rm, writeFile } from 'fs/promises'
+import { relative } from 'path'
 
-import {
-  basename,
-  join,
-} from '@waiting/shared-core'
+import { join } from '@waiting/shared-core'
 import ts from 'typescript'
 
 import {
@@ -19,7 +17,7 @@ import { expectedDict } from '../literal/config'
 import assert = require('power-assert')
 
 
-const filename = basename(__filename)
+const filename = relative(process.cwd(), __filename).replace(/\\/ug, '/')
 
 describe(filename, () => {
   const testRetFile = join(__dirname, '../literal/.temp.ts')
@@ -45,7 +43,7 @@ describe(filename, () => {
     await rm(testRetFile, { force: true, recursive: true })
   })
 
-  describe('Should transTypetoLiteralObj works', () => {
+  describe('Should transTypetoLiteralObj work', () => {
     it('demo1', async () => {
       const demo = '../literal/demo1.ts.example.ts'
       const path = join(__dirname, demo)

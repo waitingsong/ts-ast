@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import {
-  basename,
-  join,
-} from '@waiting/shared-core'
+import { relative } from 'path'
+
+import { join } from '@waiting/shared-core'
 
 import { getCallerStack } from '../../src/index'
 
@@ -17,14 +16,14 @@ import {
 import assert = require('power-assert')
 
 
-const callerInfo = getCallerStack() // line:20, column: 20
+const callerInfo = getCallerStack() // line:19, column: 20
 
-const filename = basename(__filename)
+const filename = relative(process.cwd(), __filename).replace(/\\/ug, '/')
 const path1 = join(__dirname, 'call-config.ts')
 
 describe(filename, () => {
 
-  describe('Should demo1 works', () => {
+  describe('Should demo1 work', () => {
     it('test1()', () => {
       const info = test1()
       assert(info.path === path1)
@@ -72,7 +71,7 @@ describe(filename, () => {
     it('self', () => {
       const info = callerInfo
       assert(info.path === __filename)
-      assert(info.line === 20)
+      assert(info.line === 19)
       assert(info.column === 20)
     })
   })

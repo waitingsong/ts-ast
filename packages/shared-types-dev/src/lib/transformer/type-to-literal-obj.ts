@@ -136,11 +136,11 @@ function visitNode(node: ts.Node, options: VOpts): ts.Node | undefined {
 
 
 export function computeCallExpressionToLiteralObj(
-  funcName?: TransFormOptions['needle'],
+  funcName?: TransFormOptions['needle'] | undefined,
 ): unknown {
 
   const callerInfo = getCallerStack(2)
-  const vinfo = retrieveVarInfoFromCallExpressionCallerInfo(callerInfo)
+  const vinfo = retrieveVarInfoFromCallExpressionCallerInfo(callerInfo, funcName)
   if (! vinfo) {
     throw new Error('Retrieve variable name failed')
   }

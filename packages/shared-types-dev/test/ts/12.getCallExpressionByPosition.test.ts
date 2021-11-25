@@ -1,27 +1,25 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import {
-  basename,
-  join,
-} from '@waiting/shared-core'
+import { relative } from 'path'
+
+import { join } from '@waiting/shared-core'
 
 import {
   retrieveVarnameFromCallExpressionCallerInfo,
   CallerInfo,
 } from '../../src/index'
 
-import { literalObj1, literalObj2 } from './config'
 
 // eslint-disable-next-line import/order
 import assert = require('power-assert')
 
 
-const filename = basename(__filename)
+const filename = relative(process.cwd(), __filename).replace(/\\/ug, '/')
 
 describe(filename, () => {
 
-  describe('Should retrieveVarnameFromCallExpressionCallerInfo() works', () => {
+  describe('Should retrieveVarnameFromCallExpressionCallerInfo() work', () => {
     it('normal 1', () => {
       const path = join(__dirname, 'config3.ts')
       const opts: CallerInfo = {
