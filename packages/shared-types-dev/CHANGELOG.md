@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.0.1](https://github.com/waitingsong/ts-ast/compare/v9.0.0...v9.0.1) (2022-02-10)
+
+
+### Bug Fixes
+
+* **shared-types-dev:** tsconfig.json ([58d1e45](https://github.com/waitingsong/ts-ast/commit/58d1e452c98c0c9a527ee74591c49288085df524))
+
+
+
+
+
 # [9.0.0](https://github.com/waitingsong/ts-ast/compare/v8.0.0...v9.0.0) (2021-11-25)
 
 **Note:** Version bump only for package @waiting/shared-types-dev
