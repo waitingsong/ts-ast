@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import assert from 'assert/strict'
 import { relative } from 'path'
 
 import { join } from '@waiting/shared-core'
@@ -9,10 +9,6 @@ import {
   retrieveVarnameFromCallExpressionCallerInfo,
   CallerInfo,
 } from '../../src/index'
-
-
-// eslint-disable-next-line import/order
-import assert = require('power-assert')
 
 
 const filename = relative(process.cwd(), __filename).replace(/\\/ug, '/')

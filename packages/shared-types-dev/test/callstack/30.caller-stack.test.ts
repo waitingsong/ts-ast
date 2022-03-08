@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import assert from 'assert/strict'
 import { relative } from 'path'
 
 import { join } from '@waiting/shared-core'
@@ -11,9 +9,6 @@ import {
   test1, test2, test3, test4, test5,
   fake1, fake2,
 } from './call-config'
-
-// eslint-disable-next-line import/order
-import assert = require('power-assert')
 
 
 const callerInfo = getCallerStack() // line:19, column: 20

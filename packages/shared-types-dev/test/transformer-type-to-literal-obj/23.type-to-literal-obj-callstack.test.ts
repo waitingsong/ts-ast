@@ -1,12 +1,10 @@
+import assert from 'assert/strict'
 import { relative } from 'path'
 
 import { expectedDict } from '../literal/config'
 import { Db, DbDict } from '../literal/types'
 
 import { genDbDict, alter, fake } from './demo6'
-
-// eslint-disable-next-line import/order
-import assert = require('power-assert')
 
 
 const filename = relative(process.cwd(), __filename).replace(/\\/ug, '/')

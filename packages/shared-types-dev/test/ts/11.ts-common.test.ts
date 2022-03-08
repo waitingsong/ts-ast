@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import assert from 'assert/strict'
 import { relative } from 'path'
 
 import ts from 'typescript'
@@ -8,9 +6,6 @@ import ts from 'typescript'
 import { createObjectLiteralExpression } from '../../src/index'
 
 import { literalObj1, literalObj2 } from './config'
-
-// eslint-disable-next-line import/order
-import assert = require('power-assert')
 
 
 const filename = relative(process.cwd(), __filename).replace(/\\/ug, '/')
