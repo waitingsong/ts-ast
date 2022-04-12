@@ -6,7 +6,12 @@
   "devDependencies": {
     "@commitlint/cli": "16",
     "@commitlint/config-conventional": "16",
-    "@midwayjs/cli": "^1.3.0",
+    "@midwayjs/cli": "^1.3.1",
+    "@midwayjs/core": "^3.1.6",
+    "@midwayjs/decorator": "^3.1.6",
+    "@midwayjs/koa": "^3.1.6",
+    "@midwayjs/mock": "^3.1.6",
+    "@midwayjs/web": "^3.1.6",
     "@rollup/plugin-commonjs": "21",
     "@rollup/plugin-node-resolve": "13",
     "@types/mocha": "9",
@@ -18,8 +23,9 @@
     "coveralls": "3",
     "debug": "^4.3.0",
     "eslint": "8",
-    "kmore-cli": "^25.0.0",
+    "kmore-cli": "^25.1.0",
     "lerna-relinker": "^1.4.0",
+    "madge": "^5.0.1",
     "mocha": "9",
     "mocha-lcov-reporter": "1",
     "rewire": "6",
@@ -31,7 +37,7 @@
     "tsconfig-paths": "3",
     "typescript": "^4.6.0",
     "yargs": "17",
-    "zx": "5"
+    "zx": "6"
   },
   "engines": {
     "node": ">=16.13.0"
@@ -50,6 +56,7 @@
     "cov": "sh .scripts/cov.sh",
     "doc": "node .githooks/doc.js",
     "lint": "sh .scripts/lint.sh",
+    "lint:cycle": "lerna exec -- madge --circular --extensions ts src",
     "lint:nofix": "sh .scripts/lint-no-fix.sh",
     "lint:s": "sh .scripts/lint-no-fix-s.sh",
     "postbuild": "rm -rf packages/*/dist/.mwcc-cache",

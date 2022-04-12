@@ -1,16 +1,23 @@
-import { MiddlewareConfig } from '../interface'
+import { Config, MiddlewareConfig } from '../index'
 import {
   initialConfig,
   initialMiddlewareConfig,
+  initMiddlewareOptions,
 } from '../lib/config'
-import { Config } from '../lib/types'
 
 
 export const demoConfig: Config = {
   ...initialConfig,
 }
 
-export const demoMiddlewareConfig: MiddlewareConfig = {
+export const demoMiddlewareConfig: Readonly<Omit<MiddlewareConfig, 'match'>> = {
   ...initialMiddlewareConfig,
+  ignore: [
+    '/',
+    '/ping',
+  ],
+  options: {
+    ...initMiddlewareOptions,
+  },
 }
 
