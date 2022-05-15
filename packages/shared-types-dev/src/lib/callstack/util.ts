@@ -115,7 +115,7 @@ export function getStack(): string {
   }
   // void else in debug hooked by source-map-support already
 
-  Error.prepareStackTrace = function(_err: Error, structuredStackTrace: NodeJS.CallSite[]): string {
+  Error.prepareStackTrace = function(err: Error, structuredStackTrace: NodeJS.CallSite[]): string {
     const target = structuredStackTrace.slice(1)
     // @ts-expect-error
     const ret = origPrepareStackTrace(err, target) as string
