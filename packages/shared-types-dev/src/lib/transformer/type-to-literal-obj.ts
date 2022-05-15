@@ -142,7 +142,7 @@ export function computeCallExpressionToLiteralObj(
   const callerInfo = getCallerStack(2)
   const vinfo = retrieveVarInfoFromCallExpressionCallerInfo(callerInfo, funcName)
   if (! vinfo) {
-    throw new Error('Retrieve variable name failed')
+    throw new Error(`Retrieve variable name failed: ${callerInfo.toString()}`)
   }
 
   const file = createSourceFile(callerInfo.path)
@@ -151,8 +151,7 @@ export function computeCallExpressionToLiteralObj(
   if (! needle) {
     const opts2: RetrieveCallExpressionByPosOpts = {
       sourceFile: file,
-      line: callerInfo.line,
-      column: callerInfo.column,
+      ...callerInfo,
     }
     const express = retrieveCallExpressionByPos(opts2)
     if (! express) {

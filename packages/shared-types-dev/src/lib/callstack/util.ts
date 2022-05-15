@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 // import { install } from 'source-map-support'
 
+import assert from 'node:assert/strict'
 import { CallerInfo } from './types'
 
 
@@ -16,6 +17,35 @@ export function getCallerStack(
 
   const depth = callerDistance + 1
   const stack = getStack()
+
+  const stacks = getStackCallerSites()
+  const site = stacks[depth]
+  assert(site, 'stack empty')
+
+  // @ts-expect-error
+  const enclosingLineNumber: number | undefined = site.getEnclosingLineNumber
+    // @ts-expect-error
+    ? site.getEnclosingLineNumber()
+    : void 0
+
+  // @ts-expect-error
+  const enclosingColNumber: number | undefined = site.getEnclosingColumnNumber
+    // @ts-expect-error
+    ? site.getEnclosingColumnNumber()
+    : void 0
+
+  const funcName = site.getFunctionName() || stacks[depth - 1]?.getFunctionName() || null
+  const methodName = site.getMethodName() || stacks[depth - 1]?.getMethodName() || null
+
+  const info = {
+    fileName: site.getFileName(),
+    lineNumber: site.getLineNumber(),
+    columnNumber: site.getColumnNumber(),
+    funcName,
+    methodName,
+    enclosingLineNumber,
+    enclosingColNumber,
+  }
 
   const arr = stack.split('\n')
   // const line = arr.pop() // one StackFram, but may all stacks sometime
@@ -55,6 +85,7 @@ export function getCallerStack(
     path: m1.trim(),
     line: +m2,
     column: +m3,
+    ...info,
   }
 
   return caller
@@ -83,8 +114,8 @@ export function getStack(): string {
   }
   // void else in debug hooked by source-map-support already
 
-  Error.prepareStackTrace = function(err: Error, stacks: NodeJS.CallSite[]): string {
-    const target = stacks.slice(1)
+  Error.prepareStackTrace = function(_err: Error, structuredStackTrace: NodeJS.CallSite[]): string {
+    const target = structuredStackTrace.slice(1)
     // @ts-expect-error
     const ret = origPrepareStackTrace(err, target) as string
     return ret
@@ -107,3 +138,39 @@ export function getStack(): string {
   return stack
 }
 
+
+export function getStackCallerSites(): NodeJS.CallSite[] {
+  // Save original Error.prepareStackTrace
+  let origPrepareStackTrace = Error.prepareStackTrace
+
+  /* c8 ignore else */
+  if (! origPrepareStackTrace) {
+    /* c8 ignore else */
+    if (! Error.prepareStackTrace) {
+      throw new Error('Error.prepareStackTrace not defined')
+    }
+    origPrepareStackTrace = Error.prepareStackTrace
+  }
+  // void else in debug hooked by source-map-support already
+
+  Error.prepareStackTrace = function(_: Error, structuredStackTrace: NodeJS.CallSite[]): NodeJS.CallSite[] {
+    const target = structuredStackTrace.slice(1)
+    return target
+  }
+
+  const limit = Error.stackTraceLimit
+  // Error.stackTraceLimit = depth + 2
+
+  const err = new Error()
+  const stacks  = err.stack as NodeJS.CallSite[] | undefined
+
+  // Restore original `Error.prepareStackTrace`
+  Error.prepareStackTrace = origPrepareStackTrace
+  Error.stackTraceLimit = limit
+
+  if (! stacks) {
+    throw new Error('stacks EMPTY!')
+  }
+
+  return stacks
+}

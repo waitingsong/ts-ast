@@ -244,7 +244,7 @@ export function retrieveVarInfoFromVariableDeclaration(
   // throw new TypeError('input is not VariableDeclaration node')
 }
 
-export interface RetrieveCallExpressionByPosOpts {
+export interface RetrieveCallExpressionByPosOpts extends CallerInfo {
   sourceFile: SourceFile
   line: number
   column: number
@@ -264,9 +264,15 @@ export function retrieveCallExpressionByPos(
     expressions = file.getDescendantsOfKind(203)
   }
 
+  const key = needle
+    ? needle
+    : options.funcName  ? options.funcName :
+      options.methodName ? options.methodName : ''
+
+
   // genDbDict<DbModel>()
-  const regex: RegExp | null = needle
-    ? new RegExp(`^${needle}<\\S+>()`, 'u')
+  const regex: RegExp | null = key
+    ? new RegExp(`^${key}<\\S+>()`, 'u')
     : null
 
   const ret = expressions.find((node) => {
@@ -276,13 +282,20 @@ export function retrieveCallExpressionByPos(
 
     if (! txt) { return }
 
-    if (options.line === line && options.column === column) {
-      const flag = needle && regex ? regex.test(txt) : true
-      return flag
-    }
-    else if (options.line === line && regex) { // @TODO 精确匹配
-      const flag = regex.test(txt)
-      return flag
+    if (options.line === line) {
+      if (options.column === column) {
+        const flag = needle && regex ? regex.test(txt) : true
+        return flag
+      }
+      else if (options.enclosingColNumber === column) {
+        const flag = needle && regex ? regex.test(txt) : true
+        return flag
+      }
+      else if (regex) { // @TODO 精确匹配
+        const flag = regex.test(txt)
+        return flag
+      }
+
     }
     // void else
   })
@@ -301,8 +314,7 @@ export function retrieveVarnameFromCallExpressionCallerInfo(
 
   const opts: RetrieveCallExpressionByPosOpts = {
     sourceFile: file,
-    line: options.line,
-    column: options.column,
+    ...options,
   }
 
   const express = retrieveCallExpressionByPos(opts)
@@ -332,8 +344,7 @@ export function retrieveVarInfoFromCallExpressionCallerInfo(
 
   const opts: RetrieveCallExpressionByPosOpts = {
     sourceFile: file,
-    line: options.line,
-    column: options.column,
+    ...options,
   }
 
   const express = retrieveCallExpressionByPos(opts, needle)
