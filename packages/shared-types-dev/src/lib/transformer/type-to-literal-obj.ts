@@ -142,7 +142,7 @@ export function computeCallExpressionToLiteralObj(
   const callerInfo = getCallerStack(2)
   const vinfo = retrieveVarInfoFromCallExpressionCallerInfo(callerInfo, funcName)
   if (! vinfo) {
-    throw new Error(`Retrieve variable name failed: ${callerInfo.toString()}`)
+    throw new Error(`Retrieve variable name failed: ${JSON.stringify(callerInfo)}`)
   }
 
   const file = createSourceFile(callerInfo.path)

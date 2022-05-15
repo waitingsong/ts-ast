@@ -65,7 +65,11 @@ describe(filename, () => {
       const codeRet = printer.printFile(fileRet)
       await writeFile(testRetFile, codeRet)
 
-      const dict = (require(testRetFile) as {dict: typeof expectedDict}).dict
+      // const mod = require(testRetFile) as unknown
+      const mod = await import(testRetFile) as unknown
+      assert(mod)
+      // @ts-expect-error
+      const dict = mod.dict as typeof expectedDict
       // console.info({ codeRet, dict })
       assert.deepStrictEqual(dict, expectedDict)
     })

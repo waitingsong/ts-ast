@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 // import { findSourceMap, SourceMap } from 'module'
 
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -26,13 +27,13 @@ export function getCallerStack(
   // @ts-expect-error
   const enclosingLineNumber: number | undefined = site.getEnclosingLineNumber
     // @ts-expect-error
-    ? site.getEnclosingLineNumber() as number
+    ? site.getEnclosingLineNumber() as unknown as number
     : void 0
 
   // @ts-expect-error
   const enclosingColNumber: number | undefined = site.getEnclosingColumnNumber
     // @ts-expect-error
-    ? site.getEnclosingColumnNumber() as number
+    ? site.getEnclosingColumnNumber() as unknown as number
     : void 0
 
   const funcName = site.getFunctionName() ?? stacks[depth - 1]?.getFunctionName() ?? null
