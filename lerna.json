@@ -1,9 +1,12 @@
 {
-  "version": "9.0.1",
+  "version": "10.0.0",
   "packages": [
     "packages/*"
   ],
-  "ignore": ["demo", "@mw-components/mw-demo"],
+  "ignore": [
+    "demo",
+    "@mw-components/mw-demo"
+  ],
   "command": {
     "publish": {
       "ignoreChanges": [

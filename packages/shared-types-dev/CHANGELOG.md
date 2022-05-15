@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [10.0.0](https://github.com/waitingsong/ts-ast/compare/v9.0.1...v10.0.0) (2022-05-15)
+
+
+### Bug Fixes
+
+* **shared-types-dev:** getStack() var ([086c6ab](https://github.com/waitingsong/ts-ast/commit/086c6ab86c247a6061068c7db537367facbb76b5))
+
+
+### Features
+
+* **shared-types-dev:** fix search compatibility ([3139ae5](https://github.com/waitingsong/ts-ast/commit/3139ae5ac2a05ea806b8b835d347c51b7931589f))
+
+
+
+
+
 ## [9.0.1](https://github.com/waitingsong/ts-ast/compare/v9.0.0...v9.0.1) (2022-02-10)
 
 
