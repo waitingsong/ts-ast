@@ -4,6 +4,7 @@
 // import { install } from 'source-map-support'
 
 import assert from 'node:assert/strict'
+
 import { CallerInfo } from './types'
 
 
@@ -25,17 +26,17 @@ export function getCallerStack(
   // @ts-expect-error
   const enclosingLineNumber: number | undefined = site.getEnclosingLineNumber
     // @ts-expect-error
-    ? site.getEnclosingLineNumber()
+    ? site.getEnclosingLineNumber() as number
     : void 0
 
   // @ts-expect-error
   const enclosingColNumber: number | undefined = site.getEnclosingColumnNumber
     // @ts-expect-error
-    ? site.getEnclosingColumnNumber()
+    ? site.getEnclosingColumnNumber() as number
     : void 0
 
-  const funcName = site.getFunctionName() || stacks[depth - 1]?.getFunctionName() || null
-  const methodName = site.getMethodName() || stacks[depth - 1]?.getMethodName() || null
+  const funcName = site.getFunctionName() ?? stacks[depth - 1]?.getFunctionName() ?? null
+  const methodName = site.getMethodName() ?? stacks[depth - 1]?.getMethodName() ?? null
 
   const info = {
     fileName: site.getFileName(),
@@ -162,7 +163,7 @@ export function getStackCallerSites(): NodeJS.CallSite[] {
   // Error.stackTraceLimit = depth + 2
 
   const err = new Error()
-  const stacks  = err.stack as NodeJS.CallSite[] | undefined
+  const stacks = err.stack as NodeJS.CallSite[] | undefined
 
   // Restore original `Error.prepareStackTrace`
   Error.prepareStackTrace = origPrepareStackTrace

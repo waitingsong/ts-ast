@@ -266,8 +266,8 @@ export function retrieveCallExpressionByPos(
 
   const key = needle
     ? needle
-    : options.funcName  ? options.funcName :
-      options.methodName ? options.methodName : ''
+    : options.funcName ? options.funcName
+      : options.methodName ? options.methodName : ''
 
 
   // genDbDict<DbModel>()

@@ -65,7 +65,7 @@ describe(filename, () => {
       const codeRet = printer.printFile(fileRet)
       await writeFile(testRetFile, codeRet)
 
-      const dict = require(testRetFile).dict
+      const dict = (require(testRetFile) as {dict: typeof expectedDict}).dict
       // console.info({ codeRet, dict })
       assert.deepStrictEqual(dict, expectedDict)
     })

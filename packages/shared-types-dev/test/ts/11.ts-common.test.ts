@@ -29,7 +29,7 @@ describe(filename, () => {
       expression.properties.forEach((prop) => {
         assert(prop.kind === ts.SyntaxKind.PropertyAssignment)
         // @ts-expect-error
-        const text = prop.name && prop.name.text ? prop.name.text : ''
+        const text = (prop.name?.text ? prop.name?.text : '') as string
         assert(text === 'tb_user' || text === 'tb_user_ext')
 
         // @ts-expect-error
