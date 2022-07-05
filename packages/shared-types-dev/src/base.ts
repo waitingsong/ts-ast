@@ -1,4 +1,4 @@
-import { join } from '@waiting/shared-core'
+import { join } from 'node:path'
 
 
 export const baseDir = join(__dirname, '..')

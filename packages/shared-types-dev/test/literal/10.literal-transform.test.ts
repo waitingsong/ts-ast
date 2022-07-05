@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import assert from 'assert/strict'
 import { readFile } from 'fs/promises'
+import { join } from 'node:path'
 import { relative } from 'path'
 
-import { join } from '@waiting/shared-core'
 import { firstValueFrom } from 'rxjs'
 import { run } from 'rxrunscript'
 
