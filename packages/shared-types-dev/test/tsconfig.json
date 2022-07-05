@@ -2,11 +2,12 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "declaration": false,
-    "inlineSourceMap": false,
+    "declarationMap": false,
     "module": "commonjs",
     "noEmit": true,
     "noImplicitAny": false,
     "noImplicitThis": false,
+    "noPropertyAccessFromIndexSignature": false,
     "noUnusedLocals": false,
     "sourceMap": false,
     "target": "ESNEXT"
