@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import assert from 'assert/strict'
-import { relative } from 'path'
-
-import { join } from '@waiting/shared-core'
+import assert from 'node:assert/strict'
+import { join, relative } from 'node:path'
 
 import {
   retrieveVarnameFromCallExpressionCallerInfo,

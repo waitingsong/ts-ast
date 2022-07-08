@@ -1,8 +1,7 @@
 import assert from 'assert/strict'
 import { rm, writeFile } from 'fs/promises'
-import { relative } from 'path'
+import { join, relative } from 'node:path'
 
-import { join } from '@waiting/shared-core'
 import ts from 'typescript'
 
 import {

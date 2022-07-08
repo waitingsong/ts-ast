@@ -1,7 +1,6 @@
-import {
-  pathResolve,
-  dirname,
-} from '@waiting/shared-core'
+import { dirname } from 'node:path'
+
+import { pathResolve } from '@waiting/shared-core'
 import { LiteralObject } from '@waiting/shared-types'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ts from 'typescript'

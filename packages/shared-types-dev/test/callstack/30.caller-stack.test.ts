@@ -1,7 +1,5 @@
-import assert from 'assert/strict'
-import { relative } from 'path'
-
-import { join } from '@waiting/shared-core'
+import assert from 'node:assert/strict'
+import { join, relative } from 'node:path'
 
 import { getCallerStack } from '../../src/index'
 
@@ -66,7 +64,7 @@ describe(filename, () => {
     it('self', () => {
       const info = callerInfo
       assert(info.path === __filename)
-      assert(info.line === 14)
+      assert(info.line === 12)
       assert(info.column === 34)
     })
   })
