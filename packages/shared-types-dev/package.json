@@ -36,7 +36,7 @@
   },
   "files": [
     "tsconfig.json",
-    "rollup.config.js",
+    "Dockerfile",
     "src/**/*.ts",
     "bin/*.js",
     "dist"
