@@ -1,33 +1,35 @@
 /* eslint-disable max-len */
+import assert from 'node:assert'
+
 import { SyntaxKind } from 'ts-morph'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ts from 'typescript'
 
-import { getCallerStack } from '../callstack/index'
+import { getCallerStack } from '../callstack/index.js'
 import {
   RetrieveCallExpressionByPosOpts,
   createSourceFile,
   retrieveCallExpressionByPos,
   retrieveVarInfoFromCallExpressionCallerInfo,
-} from '../ts-morph/morph-common'
+} from '../ts-morph/morph-common.js'
 import {
   TransFormOptions,
   CallExpressionPosKey,
   ComputedLiteralType,
   transformCallExpressionToLiteralType,
-} from '../ts-morph/tpl-literal'
+} from '../ts-morph/tpl-literal.js'
 import {
   createObjectLiteralExpression,
   isKeysCallExpression,
   isKeysImportExpression,
   processImportDeclaration,
-} from '../ts/ts-common'
+} from '../ts/ts-common.js'
 
 import {
   genTransformerFactor,
   GenTransformerFactorOpts,
   VisitNodeOpts,
-} from './common'
+} from './common.js'
 
 
 export interface TransTypetoLiteralObjOpts {
@@ -140,12 +142,13 @@ export function computeCallExpressionToLiteralObj(
 ): unknown {
 
   const callerInfo = getCallerStack(2)
-  const vinfo = retrieveVarInfoFromCallExpressionCallerInfo(callerInfo, funcName)
+  const file = createSourceFile(callerInfo.path)
+  assert(file)
+
+  const vinfo = retrieveVarInfoFromCallExpressionCallerInfo(callerInfo, funcName, file)
   if (! vinfo) {
     throw new Error(`Retrieve variable name failed: ${JSON.stringify(callerInfo)}`)
   }
-
-  const file = createSourceFile(callerInfo.path)
 
   let needle = funcName
   if (! needle) {

@@ -1,16 +1,14 @@
 import assert from 'assert/strict'
-import { relative } from 'path'
 
+import { fileShortPath } from '@waiting/shared-core'
 import ts from 'typescript'
 
-import { createObjectLiteralExpression } from '../../src/index'
+import { createObjectLiteralExpression } from '../../src/index.js'
 
-import { literalObj1, literalObj2 } from './config'
+import { literalObj1, literalObj2 } from './config.js'
 
 
-const filename = relative(process.cwd(), __filename).replace(/\\/ug, '/')
-
-describe(filename, () => {
+describe(fileShortPath(import.meta.url), () => {
 
   describe('Should createObjectLiteralExpression work', () => {
     it('normal 1', () => {

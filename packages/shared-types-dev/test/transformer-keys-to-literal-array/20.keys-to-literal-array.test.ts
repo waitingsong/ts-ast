@@ -1,20 +1,24 @@
-import assert from 'assert/strict'
-import { join, relative } from 'node:path'
+import assert from 'node:assert/strict'
+import { join } from 'node:path'
 
+import { fileShortPath, genCurrentDirname } from '@waiting/shared-core'
 import ts from 'typescript'
 
-import { transTypeKeystoLiteralArray } from '../../src/index'
+import { transTypeKeystoLiteralArray } from '../../src/index.js'
 
 
-const filename = relative(process.cwd(), __filename).replace(/\\/ug, '/')
+const __dirname = genCurrentDirname(import.meta.url)
 
-describe(filename, () => {
+describe(fileShortPath(import.meta.url), () => {
+
   const compilerOpts = {
     noEmitOnError: true,
     noImplicitAny: true,
     target: ts.ScriptTarget.ESNext,
     inlineSourceMap: false,
-    module: ts.ModuleKind.CommonJS,
+    noEmit: false,
+    // module: ts.ModuleKind.CommonJS,
+    module: ts.ModuleKind.ESNext,
   }
 
   describe('Should transTypeKeystoLiteralArray work', () => {
@@ -33,15 +37,12 @@ describe(filename, () => {
       const result: ts.TransformationResult<ts.SourceFile> = ts.transform<ts.SourceFile>(file, [tf])
 
       const [fileRet] = result.transformed
-      if (fileRet) {
-        const printer = ts.createPrinter()
-        const codeRet = printer.printFile(fileRet)
-        const expectStr = 'export const fooKeys = ["foo", "barz"]'
-        // console.info({ codeRet })
-        assert(codeRet.includes(expectStr))
-        return
-      }
-      assert(false)
+      assert(fileRet)
+      const printer = ts.createPrinter()
+      const codeRet = printer.printFile(fileRet)
+      const expectStr = 'export const fooKeys = ["foo", "barz"]'
+      // console.info({ codeRet, expectStr })
+      assert(codeRet.includes(expectStr))
     })
 
     it('class', () => {

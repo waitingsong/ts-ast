@@ -1,4 +1,7 @@
-import { SnakeToCamel, SnakeToPascal } from '@waiting/shared-types'
+import {
+  SnakeToCamel,
+  SnakeToPascal,
+} from '@waiting/shared-types'
 
 
 export class Db {
@@ -49,3 +52,4 @@ export type DbTablesAliasCols<D> = {
 export type TableAliasCols<T, TbName extends string> = {
   [K in keyof T as `${SnakeToCamel<TbName>}${SnakeToPascal<K & string>}`]: `${TbName}.${K & string}`
 }
+

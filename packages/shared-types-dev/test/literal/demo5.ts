@@ -1,5 +1,5 @@
-import { transPlaceHolder } from './dict'
-import { Db, Db2 } from './types'
+import { transPlaceHolder } from './dict.js'
+import { Db, Db2 } from './types.js'
 
 
 export const dict1 = transPlaceHolder<Db>()

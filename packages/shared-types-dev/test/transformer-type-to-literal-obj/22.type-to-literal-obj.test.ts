@@ -1,19 +1,21 @@
-import assert from 'assert/strict'
-import { rm, writeFile } from 'fs/promises'
-import { join, relative } from 'node:path'
+import assert from 'node:assert/strict'
+import { rm, writeFile } from 'node:fs/promises'
+import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
+import { fileShortPath } from '@waiting/shared-core'
 import ts from 'typescript'
 
 import {
   transTypetoLiteralObj,
   TransTypetoLiteralObjOpts,
-} from '../../src/index'
-import { expectedDict } from '../literal/config'
+} from '../../src/index.js'
+import { expectedDict } from '../literal/config.js'
 
 
-const filename = relative(process.cwd(), __filename).replace(/\\/ug, '/')
+const __dirname = join(fileURLToPath(import.meta.url), '..')
 
-describe(filename, () => {
+describe(fileShortPath(import.meta.url), () => {
   const testRetFile = join(__dirname, '../literal/.temp.ts')
   const compilerOpts = {
     noEmitOnError: true,
@@ -65,7 +67,8 @@ describe(filename, () => {
       await writeFile(testRetFile, codeRet)
 
       // const mod = require(testRetFile) as unknown
-      const mod = await import(testRetFile) as unknown
+      const pathFix = `file://${testRetFile}`
+      const mod = await import(pathFix) as unknown
       assert(mod)
       // @ts-expect-error
       const dict = mod.dict as typeof expectedDict

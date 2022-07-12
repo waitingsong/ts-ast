@@ -1,15 +1,14 @@
 import assert from 'assert/strict'
-import { relative } from 'path'
 
-import { expectedDict } from '../literal/config'
-import { Db, DbDict } from '../literal/types'
+import { fileShortPath } from '@waiting/shared-core'
 
-import { genDbDict, alter, fake } from './demo6'
+import { expectedDict } from '../literal/config.js'
+import { Db, DbDict } from '../literal/types.js'
+
+import { genDbDict, alter, fake } from './demo6.js'
 
 
-const filename = relative(process.cwd(), __filename).replace(/\\/ug, '/')
-
-describe(filename, () => {
+describe(fileShortPath(import.meta.url), () => {
 
   describe('Should computeCallExpressionToLiteralObj work', () => {
     it('w/o needle', async () => {

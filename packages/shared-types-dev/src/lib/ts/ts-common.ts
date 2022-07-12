@@ -1,3 +1,4 @@
+import { createRequire } from 'node:module'
 import { dirname } from 'node:path'
 
 import { pathResolve } from '@waiting/shared-core'
@@ -182,8 +183,8 @@ export function isKeysCallExpression(
   }
   else {
     const txt = declaration.name ? declaration.name.getText() : ''
-    if (txt && txt !== needleName) {
-      return false
+    if (txt) {
+      return txt === needleName
     }
   }
 
@@ -191,15 +192,19 @@ export function isKeysCallExpression(
     return true // !
   }
 
+  const filename = declaration.getSourceFile().fileName
   try {
+    const requireFix = typeof require === 'function'
+      ? require
+      : createRequire(import.meta.url)
     // require.resolve is required to resolve symlink.
     // https://github.com/kimamula/ts-transformer-keys/issues/4#issuecomment-643734716
-    const filename = declaration.getSourceFile().fileName
-    const path = require.resolve(filename).toLocaleLowerCase()
+    const path = requireFix.resolve(filename).toLocaleLowerCase()
     // console.log({ path, tsPath })
     return path === tsPath.toLocaleLowerCase() && !! path
   }
   catch (ex) {
+    console.info({ ex })
     // declaration.getSourceFile().fileName may not be in Node.js require stack and require.resolve may result in an error.
     // https://github.com/kimamula/ts-transformer-keys/issues/47
     return false

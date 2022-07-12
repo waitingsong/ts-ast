@@ -1,5 +1,5 @@
-import { computeCallExpressionToLiteralObj } from '../../src'
-import { DbDict } from '../literal/types'
+import { computeCallExpressionToLiteralObj } from '../../src/index.js'
+import { DbDict } from '../literal/types.js'
 
 
 export function genDbDict<D>(): DbDict<D> {

@@ -4,19 +4,19 @@ import { join } from 'node:path'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ts from 'typescript'
 
-import { baseDir } from '../../base'
+import { baseDir } from '../../base.js'
 import {
   isKeysCallExpression,
   isKeysImportExpression,
   processImportDeclaration,
-} from '../ts/ts-common'
+} from '../ts/ts-common.js'
 
-import { genTransformerFactor, GenTransformerFactorOpts, VisitNodeOpts } from './common'
+import { genTransformerFactor, GenTransformerFactorOpts, VisitNodeOpts } from './common.js'
 
 
 const _fileName = 'src/lib/transformer/keys-to-literal-array'
 const placeholderName = 'transTypeKeystoLiteralArrayPlaceholder'
-const indexJs = join(baseDir, 'dist/index.cjs.js')
+const indexJs = join(baseDir, 'dist/index.cjs')
 const indexTs = join(baseDir, `${_fileName}.ts`)
 
 
@@ -54,7 +54,14 @@ function visitNode(node: ts.SourceFile, options: VisitNodeOpts): ts.SourceFile
 function visitNode(node: ts.Node, options: VisitNodeOpts): ts.Node | undefined
 function visitNode(node: ts.Node, options: VisitNodeOpts): ts.Node | undefined {
   const typeChecker = options.program.getTypeChecker()
-  /* istanbul ignore else */
+  // try {
+  //   const text = node.getText()
+  //   console.info(`visitNode: ${text}`)
+  // }
+  // catch {
+  //   void 0
+  // }
+
   if (ts.isSourceFile(node)) {
     return node
   }
@@ -70,7 +77,6 @@ function visitNode(node: ts.Node, options: VisitNodeOpts): ts.Node | undefined {
   }
 
   const [firstTypeArg] = node.typeArguments
-  /* istanbul ignore else */
   if (! firstTypeArg) {
     throw new TypeError('typeArguents empty')
   }
