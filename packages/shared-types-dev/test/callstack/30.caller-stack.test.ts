@@ -2,21 +2,20 @@ import assert from 'node:assert/strict'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
-import { fileShortPath, genCurrentFilename } from '@waiting/shared-core'
+import { fileShortPath, genCurrentDirname, genCurrentFilename } from '@waiting/shared-core'
 
 import { getCallerStack } from '../../src/index.js'
 
 import { test1, test2, test3, test4, test5, fake1, fake2 } from './call-config.js'
 
 
+const __dirname = genCurrentDirname(import.meta.url)
 const __filename = genCurrentFilename(import.meta.url)
 // dummy line
-// dummy line
 const callerInfo = getCallerStack() // line:15!!!, column: 34/20
-const tmpFile = join(__filename, '../call-config.ts').replace(/\\/ug, '/')
+const tmpFile = join(__dirname, 'call-config.ts').replace(/\\/ug, '/')
 const pathUrl = pathToFileURL(tmpFile)
 const path1 = pathUrl.href
-console.log({ tmpFile, path1 })
 
 describe(fileShortPath(import.meta.url), () => {
 
