@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [11.0.0](https://github.com/waitingsong/ts-ast/compare/v10.0.3...v11.0.0) (2022-07-12)
+
+
+### Features
+
+* **shared-types-dev:** ESM support ([e40aaa6](https://github.com/waitingsong/ts-ast/commit/e40aaa61639440fcf1ca72f9ee42e792f844804e))
+
+
+
+
+
 ## [10.0.3](https://github.com/waitingsong/ts-ast/compare/v10.0.2...v10.0.3) (2022-07-08)
 
 **Note:** Version bump only for package @waiting/shared-types-dev

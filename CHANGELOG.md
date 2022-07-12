@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [11.0.0](/compare/v10.0.3...v11.0.0) (2022-07-12)
+
+
+### Bug Fixes
+
+* **boilerplate:** define enum without const 37ffd10
+* **boilerplate:** devDeps version 2e29b42
+
+
+### Features
+
+* **shared-types-dev:** ESM support e40aaa6
+
+
+
+
+
 ## [10.0.3](/compare/v10.0.2...v10.0.3) (2022-07-08)
 
 
