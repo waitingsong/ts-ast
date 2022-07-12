@@ -1,3 +1,6 @@
+import assert from 'node:assert'
+
+import { genAbsolutePath } from '@waiting/shared-core'
 import {
   SourceFile,
   Project,
@@ -9,16 +12,16 @@ import {
   Type,
   ts,
 } from 'ts-morph'
-// eslint-disable-next-line import/no-extraneous-dependencies
-// import ts from 'typescript'
 
-import { CallerInfo } from '../callstack/index'
+import { CallerInfo } from '../callstack/index.js'
 
 
 export function createSourceFile(
   sourcePath: string,
   options?: ProjectOptions,
 ): SourceFile {
+
+  assert(sourcePath, 'sourcePath is required')
 
   const defaultCompilerOptions = {
     declaration: false,
@@ -27,8 +30,10 @@ export function createSourceFile(
     experimentalDecorators: true,
     // inlineSourceMap: false,
     // incremental: true,
-    module: ts.ModuleKind.CommonJS, // 1
-    moduleResolution: ts.ModuleResolutionKind.NodeJs, // 2
+    // module: ts.ModuleKind.CommonJS, // 1
+    module: ts.ModuleKind.NodeNext,
+    // moduleResolution: ts.ModuleResolutionKind.NodeJs, // 2
+    moduleResolution: ts.ModuleResolutionKind.NodeNext,
     newLine: 1,
     noUnusedLocals: false,
     noUnusedParameters: false,
@@ -62,7 +67,8 @@ export function createSourceFile(
 
   const project = new Project(opts)
   // const checker = project.getTypeChecker()
-  const sourceFile = project.addSourceFileAtPath(sourcePath)
+  const pathFix = genAbsolutePath(sourcePath)
+  const sourceFile = project.addSourceFileAtPath(pathFix)
   return sourceFile
 }
 
@@ -338,9 +344,10 @@ export function retrieveVarnameFromCallExpressionCallerInfo(
 export function retrieveVarInfoFromCallExpressionCallerInfo(
   options: CallerInfo,
   needle?: string | undefined,
+  sourceFile?: SourceFile | undefined,
 ): VariableNameInfo | undefined {
 
-  const file = createSourceFile(options.path)
+  const file = sourceFile ?? createSourceFile(options.path)
 
   const opts: RetrieveCallExpressionByPosOpts = {
     sourceFile: file,

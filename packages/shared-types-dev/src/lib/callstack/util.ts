@@ -6,7 +6,7 @@
 
 import assert from 'node:assert/strict'
 
-import { CallerInfo } from './types'
+import { CallerInfo } from './types.js'
 
 
 /**

@@ -1,17 +1,18 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import assert from 'node:assert/strict'
-import { join, relative } from 'node:path'
+import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+import { fileShortPath, genCurrentDirname } from '@waiting/shared-core'
 
 import {
   retrieveVarnameFromCallExpressionCallerInfo,
   CallerInfo,
-} from '../../src/index'
+} from '../../src/index.js'
 
 
-const filename = relative(process.cwd(), __filename).replace(/\\/ug, '/')
+const __dirname = genCurrentDirname(import.meta.url)
 
-describe(filename, () => {
+describe(fileShortPath(import.meta.url), () => {
 
   describe('Should retrieveVarnameFromCallExpressionCallerInfo() work', () => {
     it('normal 1', () => {

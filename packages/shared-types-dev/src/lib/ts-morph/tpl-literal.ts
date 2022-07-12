@@ -10,12 +10,12 @@ import {
   TypeChecker,
 } from 'ts-morph'
 
-import { deepFind } from '../util'
+import { deepFind } from '../util.js'
 
 import {
   findCallExpressionsByName,
   retrieveVarInfoFromCallExpression,
-} from './morph-common'
+} from './morph-common.js'
 
 
 export interface TransFormOptions {
@@ -198,6 +198,7 @@ export function genTypeAliasDeclarationFaster(
   const tt = id.getType()
   const typeProps = tt.getProperties()
   if (! typeProps.length) {
+    // import("...test/literal/types").DbDict<import("...../test/literal/types").Db>
     const text2 = tt.getText() // 'ScopedTableFields<"tb_user", "uid" | "name">'
     throw new TypeError(`type "${text2}" has no properties`)
   }
@@ -239,6 +240,8 @@ function _genTypeAliasDeclarationFaster(
     }
 
     const tt = checker.getTypeOfSymbolAtLocation(prop, id)
+    // const ttTextDebug = tt.getText() // 'ScopedTableFields<"tb_user", "uid" | "name">'
+    // console.info(`ttTextDebug: ${ttTextDebug}`)
     const literalValue = tt.getLiteralValue()
     if (literalValue) {
       Object.defineProperty(curObj, propKey, {
@@ -252,11 +255,14 @@ function _genTypeAliasDeclarationFaster(
 
     if (! pps.length) {
       const text2 = tt.getText() // 'ScopedTableFields<"tb_user", "uid" | "name">'
-      throw new TypeError(`type "${text2}" has no properties,
+      const msg = `type "${text2}" has no properties,
         propKey: "${propKey}",
         pidPath: "${pidPath.join('.')}".
         try pass parameter tsConfigFilePath (path of tsconfig.json) during calling morph-common.createSourceFile()
-      `)
+      `
+      throw new TypeError(msg)
+      // console.warn(msg)
+      // return
     }
 
     const targetObj = pidPath.length === 0 ? resultObj : curObj

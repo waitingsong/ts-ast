@@ -2,10 +2,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import assert from 'assert/strict'
-import { readFile } from 'fs/promises'
-import { join, relative } from 'node:path'
+import assert from 'node:assert/strict'
+import { readFile } from 'node:fs/promises'
+import { join } from 'node:path'
 
+import { fileShortPath, genCurrentDirname, isWin32 } from '@waiting/shared-core'
 import { firstValueFrom } from 'rxjs'
 import { run } from 'rxrunscript'
 
@@ -13,20 +14,27 @@ import {
   createSourceFile,
   transformCallExpressionToLiteralType,
   TransFormOptions,
-} from '../../src/index'
+} from '../../src/index.js'
 
-import { expectedDict, expectedDict2 } from './config'
+import { expectedDict, expectedDict2 } from './config.js'
 
 
-const filename = relative(process.cwd(), __filename).replace(/\\/ug, '/')
+const __dirname = genCurrentDirname(import.meta.url)
 
-describe(filename, () => {
-  const path1 = join(__dirname, 'demo1.ts')
-  const path3 = join(__dirname, 'demo3.ts')
-  const path4 = join(__dirname, 'demo4.ts')
-  const path5 = join(__dirname, 'demo5.ts')
-  const path7 = join(__dirname, 'demo7.ts')
-  const paths = `"${path1}" "${path3}" "${path4}" "${path5}" "${path7}"`
+describe(fileShortPath(import.meta.url), () => {
+  const path01 = join(__dirname, 'demo1.ts')
+  const path03 = join(__dirname, 'demo3.ts')
+  const path04 = join(__dirname, 'demo4.ts')
+  const path05 = join(__dirname, 'demo5.ts')
+  const path07 = join(__dirname, 'demo7.ts')
+
+  const path1 = `${path01}`.replace(/\\/ug, '/')
+  const path3 = `${path03}`
+  const path4 = `${path04}`
+  const path5 = `${path05}`
+  const path7 = `${path07}`
+
+  const paths = `"${path01}" "${path03}" "${path04}" "${path05}" "${path07}"`
 
   const tsConfigFilePath = join(__dirname, '../../tsconfig.json')
   const defaultOpts = {
@@ -54,7 +62,8 @@ describe(filename, () => {
       transformCallExpressionToLiteralType(opts)
       await file.save()
 
-      const dict = require(path).dict
+      const pathFix = isWin32 ? `file:///${path}` : path
+      const dict = (await import(pathFix)).dict
       assert.deepStrictEqual(dict, expectedDict)
 
       const code = await readFile(path, { encoding: 'utf-8' })
@@ -85,7 +94,7 @@ describe(filename, () => {
       assert(! obj)
     })
 
-    it('demo3', () => {
+    it('demo3', async () => {
       const path = path3
       const file = createSourceFile(path)
       const opts: TransFormOptions = {
@@ -96,7 +105,8 @@ describe(filename, () => {
       transformCallExpressionToLiteralType(opts)
       file.saveSync()
 
-      const { dict1, dict2 } = require(path)
+      const pathFix = isWin32 ? `file:///${path}` : path
+      const { dict1, dict2 } = await import(pathFix)
       assert.deepStrictEqual(dict1, expectedDict)
       assert.deepStrictEqual(dict2, expectedDict2)
     })
@@ -148,7 +158,7 @@ describe(filename, () => {
       assert.deepStrictEqual(obj2, expectedDict2)
     })
 
-    it('demo5', () => {
+    it('demo5', async () => {
       const path = path5
       const file = createSourceFile(path)
       const opts: TransFormOptions = {
@@ -160,7 +170,8 @@ describe(filename, () => {
       transformCallExpressionToLiteralType(opts)
       file.saveSync()
 
-      const { dict1, dict2 } = require(path)
+      const pathFix = isWin32 ? `file:///${path}` : path
+      const { dict1, dict2 } = await import(pathFix)
       assert.deepStrictEqual(dict1, expectedDict)
       assert.deepStrictEqual(dict2, expectedDict2)
     })
@@ -204,7 +215,8 @@ describe(filename, () => {
       transformCallExpressionToLiteralType(opts)
       await file.save()
 
-      const dict = require(path).dict
+      const pathFix = isWin32 ? `file:///${path}` : path
+      const dict = (await import(pathFix)).dict
       assert.deepStrictEqual(dict, expectedDict)
 
       const code = await readFile(path, { encoding: 'utf-8' })
