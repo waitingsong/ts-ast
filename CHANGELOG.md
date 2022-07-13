@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [11.1.0](/compare/v11.0.0...v11.1.0) (2022-07-13)
+
+
+### Features
+
+* **shared-types-dev:** change default compile options of createSourceFile() 7366447
+
+
+
+
+
 # [11.0.0](/compare/v10.0.3...v11.0.0) (2022-07-12)
 
 

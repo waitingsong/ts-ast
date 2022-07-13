@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [11.1.0](https://github.com/waitingsong/ts-ast/compare/v11.0.0...v11.1.0) (2022-07-13)
+
+
+### Features
+
+* **shared-types-dev:** change default compile options of createSourceFile() ([7366447](https://github.com/waitingsong/ts-ast/commit/7366447e01f7bb8179a4e02c999ca8fc77158b85))
+
+
+
+
+
 # [11.0.0](https://github.com/waitingsong/ts-ast/compare/v10.0.3...v11.0.0) (2022-07-12)
 
 
