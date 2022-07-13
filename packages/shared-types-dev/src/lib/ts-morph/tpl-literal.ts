@@ -121,7 +121,7 @@ export function transformCallExpressionToLiteralType(
     const obj = genLiteralObjectFromExpression(opts)
     posKeyMap.set(posKey, obj)
     indexMap.set(idx, obj)
-    const assertsTxt = info.typeReferenceText ? ` as ${typeText}` : ''
+    const assertsTxt = info.typeReferenceText ? ` as ${typeText}` : ' as const'
     assertsTextMap.set(idx, assertsTxt)
   })
   // replace after node walk
