@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [11.2.0](https://github.com/waitingsong/ts-ast/compare/v11.1.0...v11.2.0) (2022-07-13)
+
+
+### Features
+
+* **shared-types-dev:** append default assert 'as const' within transformCallExpressionToLiteralType() ([ced92e2](https://github.com/waitingsong/ts-ast/commit/ced92e22664bd3357084ba0226b41ae63d10e4bb))
+
+
+
+
+
 # [11.1.0](https://github.com/waitingsong/ts-ast/compare/v11.0.0...v11.1.0) (2022-07-13)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [11.2.0](/compare/v11.1.0...v11.2.0) (2022-07-13)
+
+
+### Features
+
+* **shared-types-dev:** append default assert 'as const' within transformCallExpressionToLiteralType() ced92e2
+
+
+
+
+
 # [11.1.0](/compare/v11.0.0...v11.1.0) (2022-07-13)
 
 
