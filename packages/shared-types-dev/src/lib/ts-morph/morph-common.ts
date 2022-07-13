@@ -31,7 +31,8 @@ export function createSourceFile(
     // inlineSourceMap: false,
     // incremental: true,
     // module: ts.ModuleKind.CommonJS, // 1
-    module: ts.ModuleKind.NodeNext,
+    // module: ts.ModuleKind.NodeNext, // 199
+    module: ts.ModuleKind.ESNext, // 99
     // moduleResolution: ts.ModuleResolutionKind.NodeJs, // 2
     moduleResolution: ts.ModuleResolutionKind.NodeNext,
     newLine: 1,
