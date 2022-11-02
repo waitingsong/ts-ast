@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [11.3.0](https://github.com/waitingsong/ts-ast/compare/v11.2.1...v11.3.0) (2022-11-02)
+
+
+### Features
+
+* **shared-types-dev:** bump deps version ([4f1e883](https://github.com/waitingsong/ts-ast/commit/4f1e883f6575d65fc4c2d865d59a790aaf5387ad))
+
+
+
+
+
 ## [11.2.1](https://github.com/waitingsong/ts-ast/compare/v11.2.0...v11.2.1) (2022-07-13)
 
 **Note:** Version bump only for package @waiting/shared-types-dev
