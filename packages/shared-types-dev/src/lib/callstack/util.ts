@@ -3,10 +3,24 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 // import { install } from 'source-map-support'
-
 import assert from 'node:assert/strict'
 
 import { CallerInfo } from './types.js'
+
+
+const initInfo: CallerInfo = {
+  path: '',
+  line: 0,
+  column: 0,
+  fileName: '',
+  funcName: '',
+  methodName: '',
+  className: '',
+  lineNumber: 0,
+  columnNumber: 0,
+  enclosingLineNumber: 0,
+  enclosingColNumber: 0,
+}
 
 
 /**
@@ -15,11 +29,10 @@ import { CallerInfo } from './types.js'
  */
 export function getCallerStack(
   callerDistance = 0,
+  retrievePosition = true,
 ): CallerInfo {
 
   const depth = callerDistance + 1
-  const stack = getStack()
-
   const stacks = getStackCallerSites()
   const site = stacks[depth]
   assert(site, 'stack empty')
@@ -28,66 +41,70 @@ export function getCallerStack(
   const enclosingLineNumber: number | undefined = site.getEnclosingLineNumber
     // @ts-expect-error
     ? site.getEnclosingLineNumber() as unknown as number
-    : void 0
+    : 0
 
   // @ts-expect-error
   const enclosingColNumber: number | undefined = site.getEnclosingColumnNumber
     // @ts-expect-error
     ? site.getEnclosingColumnNumber() as unknown as number
-    : void 0
+    : 0
 
-  const funcName = site.getFunctionName() ?? stacks[depth - 1]?.getFunctionName() ?? null
-  const methodName = site.getMethodName() ?? stacks[depth - 1]?.getMethodName() ?? null
+  const funcName = site.getFunctionName() ?? stacks[depth - 1]?.getFunctionName() ?? ''
+  const methodName = site.getMethodName() ?? stacks[depth - 1]?.getMethodName() ?? ''
 
-  const info = {
-    fileName: site.getFileName(),
-    lineNumber: site.getLineNumber(),
-    columnNumber: site.getColumnNumber(),
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string
+  const line = site.toString()
+
+  const className = methodName
+    ? line.match(new RegExp(`\\b\\S+(?=\\.${methodName})`, 'u'))?.[0] ?? ''
+    : ''
+
+  const fileLine = retrievePath(line)
+  const matched = /^(.+):(\d+):(\d+)$/u.exec(fileLine)
+  if (! matched || matched.length !== 4) {
+    console.warn({ line, fileLine, matched })
+    throw new Error('Retrieve args forme caller line failed. ')
+  }
+  const [, p1] = matched
+
+  const info: CallerInfo = {
+    ...initInfo,
+    path: p1?.trim() ?? '',
+    className,
+    fileName: site.getFileName() ?? '',
+    lineNumber: site.getLineNumber() ?? 0,
+    columnNumber: site.getColumnNumber() ?? 0,
     funcName,
     methodName,
     enclosingLineNumber,
     enclosingColNumber,
   }
+  if (! retrievePosition) {
+    return info
+  }
 
+  const stack = getStack()
   const arr = stack.split('\n')
   // const line = arr.pop() // one StackFram, but may all stacks sometime
-  const [line] = arr.slice(depth + 1, depth + 2)
-  if (! line) {
+  const [line2] = arr.slice(depth + 1, depth + 2)
+
+  if (! line2) {
     throw new Error('Retrieve stack of caller failed, line empty.')
   }
-  let path = ''
-  if (line.includes('(')) {
-    // "    at Object.<anonymous> (...\\30.caller-stack.test.ts:20:20)"
-    // "    at Object.test1 (...\\call-config.ts:6:22)"
-    path = line.slice(line.indexOf('(') + 1, -1)
-  }
-  else if (line.includes('at')) {
-    // "    at ...\\call-config.ts:24:12"
-    path = line.slice(line.indexOf('at') + 3, -1)
-  }
-  else {
-    throw new Error('Retrieve stack of caller failed. ' + line)
+  const path = retrievePath(line2)
+  const matched2 = /^(.+):(\d+):(\d+)$/u.exec(path)
+  if (! matched2 || matched2.length !== 4) {
+    throw new Error('Retrieve stack of caller failed. ' + (matched2 ? matched2.toString() : ''))
   }
 
-  if (! path) {
-    throw new Error('Retrieve stack of caller failed')
-  }
-
-  const matched = /^(.+):(\d+):(\d+)$/u.exec(path)
-  if (! matched || matched.length !== 4) {
-    throw new Error('Retrieve stack of caller failed. ' + (matched ? JSON.stringify(matched) : ''))
-  }
-
-  const [, m1, m2, m3] = matched
-  if (! m1 || ! m2 || ! m3) {
-    throw new Error('Retrieved stack of caller empty. ' + JSON.stringify(matched))
+  const [, , m2, m3] = matched2
+  if (! m2 || ! m3) {
+    throw new Error('Retrieved stack of caller empty. ' + matched2.toString())
   }
   const caller: CallerInfo = {
-    // path: m1.replace(/\\/gu, '/'),
-    path: m1.trim(),
+    ...info,
     line: +m2,
     column: +m3,
-    ...info,
   }
 
   return caller
@@ -175,4 +192,29 @@ export function getStackCallerSites(): NodeJS.CallSite[] {
   }
 
   return stacks
+}
+
+function retrievePath(line: string): string {
+  let path = ''
+  if (line.includes('(')) {
+    // "    at Object.<anonymous> (...\\30.caller-stack.test.ts:20:20)"
+    // "    at Object.test1 (...\\call-config.ts:6:22)"
+    path = line.slice(line.indexOf('(') + 1, -1)
+  }
+  else if (line.includes('at')) {
+    // "    at ...\\call-config.ts:24:12"
+    path = line.slice(line.indexOf('at') + 3, -1)
+  }
+  else if (line.startsWith('file://')) {
+    path = line
+  }
+  else {
+    throw new Error('Retrieve stack of caller failed. ' + line)
+  }
+
+  if (! path) {
+    throw new Error('Retrieve stack of caller failed')
+  }
+
+  return path
 }

@@ -3,15 +3,15 @@ export interface CallerInfo {
   path: string
   line: number
   column: number
-
   // from StackFram
-  fileName?: string | null
-  lineNumber?: number | null
-  columnNumber?: number | null
-  funcName?: string | null
-  methodName?: string | null
-  enclosingLineNumber?: number | undefined
-  enclosingColNumber?: number | undefined
+  fileName?: string
+  funcName?: string
+  methodName?: string
+  className?: string
+  lineNumber?: number
+  columnNumber?: number
+  enclosingLineNumber?: number
+  enclosingColNumber?: number
 }
 
 // export interface StackFrame {
