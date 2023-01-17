@@ -11,7 +11,7 @@ import { test1, test2, test3, test4, test5, fake1, fake2 } from './call-config.j
 const __dirname = genCurrentDirname(import.meta.url)
 const __filename = genCurrentFilename(import.meta.url)
 // dummy line
-const callerInfo = getCallerStack() // line:15!!!, column: 34/20
+const callerInfo = getCallerStack(0, true) // line:14!!!, column: 2/20
 const tmpFile = join(__dirname, 'call-config.ts').replace(/\\/ug, '/')
 const pathUrl = pathToFileURL(tmpFile)
 const path1 = pathUrl.href
@@ -71,7 +71,7 @@ describe(fileShortPath(import.meta.url), () => {
       const expected = pathToFileURL(__filename).href
       console.log({ infoSelf: info, expected })
       assert(info.path === expected, expected)
-      assert(info.line === 15)
+      assert(info.line === 14)
       assert(info.column === 2)
       assert(info.columnNumber === 20)
     })
