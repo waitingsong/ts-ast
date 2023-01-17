@@ -1,11 +1,17 @@
 /* eslint-disable max-len */
 import assert from 'node:assert'
 
+import { getCallerStack } from '@waiting/shared-core'
 import { SyntaxKind } from 'ts-morph'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ts from 'typescript'
 
-import { getCallerStack } from '../callstack/index.js'
+import {
+  createObjectLiteralExpression,
+  isKeysCallExpression,
+  isKeysImportExpression,
+  processImportDeclaration,
+} from '../ts/ts-common.js'
 import {
   RetrieveCallExpressionByPosOpts,
   createSourceFile,
@@ -18,12 +24,6 @@ import {
   ComputedLiteralType,
   transformCallExpressionToLiteralType,
 } from '../ts-morph/tpl-literal.js'
-import {
-  createObjectLiteralExpression,
-  isKeysCallExpression,
-  isKeysImportExpression,
-  processImportDeclaration,
-} from '../ts/ts-common.js'
 
 import {
   genTransformerFactor,
@@ -92,7 +92,7 @@ function visitNode(node: ts.Node, options: VOpts): ts.Node | undefined {
   if (! isKeysCallExpression(node, typeChecker, options.needle, options.tsPath)) {
     return node
   }
-  if (! node.typeArguments || ! node.typeArguments.length) {
+  if (! node.typeArguments?.length) {
     return ts.factory.createArrayLiteralExpression([])
   }
 
@@ -141,7 +141,7 @@ export function computeCallExpressionToLiteralObj(
   funcName?: TransFormOptions['needle'] | undefined,
 ): unknown {
 
-  const callerInfo = getCallerStack(2)
+  const callerInfo = getCallerStack(2, true)
   const file = createSourceFile(callerInfo.path)
   assert(file)
 

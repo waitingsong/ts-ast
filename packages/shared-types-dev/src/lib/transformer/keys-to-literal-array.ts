@@ -72,7 +72,7 @@ function visitNode(node: ts.Node, options: VisitNodeOpts): ts.Node | undefined {
   else if (! isKeysCallExpression(node, typeChecker, options.needle, options.tsPath)) {
     return node
   }
-  else if (! node.typeArguments || ! node.typeArguments.length) {
+  else if (! node.typeArguments?.length) {
     return ts.factory.createArrayLiteralExpression([])
   }
 

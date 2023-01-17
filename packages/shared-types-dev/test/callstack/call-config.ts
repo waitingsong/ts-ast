@@ -1,4 +1,4 @@
-import { CallerInfo, getCallerStack } from '../../src/index.js'
+import { CallerInfo, getCallerStack } from '@waiting/shared-core'
 // Should not change code existing or insert, append it!
 
 

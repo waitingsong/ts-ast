@@ -2,9 +2,8 @@ import assert from 'node:assert/strict'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
-import { fileShortPath, genCurrentDirname, genCurrentFilename } from '@waiting/shared-core'
+import { fileShortPath, genCurrentDirname, genCurrentFilename, getCallerStack } from '@waiting/shared-core'
 
-import { getCallerStack } from '../../src/index.js'
 
 import { test1, test2, test3, test4, test5, fake1, fake2 } from './call-config.js'
 
