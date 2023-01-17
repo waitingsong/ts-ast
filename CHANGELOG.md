@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [12.0.0](/compare/v11.3.0...v12.0.0) (2023-01-17)
+
+
+### Bug Fixes
+
+* **boilerplate:** define enum without const 37ffd10
+* **boilerplate:** devDeps version 2e29b42
+
+
+### Features
+
+* **shared-types-dev:** getCallerStack() accept 2nd param 400e5c2
+
+
+
+
+
 # [11.3.0](/compare/v11.2.1...v11.3.0) (2022-11-02)
 
 
