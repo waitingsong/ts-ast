@@ -31,10 +31,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@waiting/shared-core": "^20.6.3",
-    "@waiting/shared-types": "^20.5.0",
-    "rxjs": "^7.5.0",
-    "ts-morph": "^16.0.0"
+    "@waiting/shared-core": "^20.11.2",
+    "@waiting/shared-types": "^20.11.0",
+    "rxjs": "^7.6.0",
+    "ts-morph": "^17.0.1"
   },
   "devDependencies": {
     "cross-env": "7"
