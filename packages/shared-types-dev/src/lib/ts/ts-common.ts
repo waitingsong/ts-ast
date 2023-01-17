@@ -110,7 +110,6 @@ export function processImportDeclaration(
   )
   const importDecl: ts.ImportDeclaration = ts.factory.createImportDeclaration(
     void 0,
-    void 0,
     importClause,
     ts.factory.createStringLiteral(module),
   )
