@@ -68,9 +68,16 @@ export function createSourceFile(
 
   const project = new Project(opts)
   // const checker = project.getTypeChecker()
-  const pathFix = genAbsolutePath(sourcePath)
-  const sourceFile = project.addSourceFileAtPath(pathFix)
-  return sourceFile
+  try {
+    const pathFix = genAbsolutePath(sourcePath)
+    const sourceFile = project.addSourceFileAtPath(pathFix)
+    return sourceFile
+  }
+  catch (ex) {
+    throw new Error(`createSourceFile() failed with sourcePath: "${sourcePath}"`, {
+      cause: ex,
+    })
+  }
 }
 
 
