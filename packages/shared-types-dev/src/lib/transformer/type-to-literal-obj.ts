@@ -2,7 +2,7 @@
 import assert from 'node:assert'
 
 import { getCallerStack } from '@waiting/shared-core'
-import { SyntaxKind } from 'ts-morph'
+import { SourceFile, SyntaxKind } from 'ts-morph'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ts from 'typescript'
 
@@ -142,8 +142,18 @@ export function computeCallExpressionToLiteralObj(
 ): unknown {
 
   const callerInfo = getCallerStack(2, true)
-  const file = createSourceFile(callerInfo.path)
-  assert(file)
+  let file: SourceFile
+  try {
+    file = createSourceFile(callerInfo.path)
+  }
+  catch (ex) {
+    console.error('computeCallExpressionToLiteralObj() failed: ', {
+      funcName,
+      callerInfo,
+    })
+    throw ex
+  }
+  assert(file, 'createSourceFile() failed')
 
   const vinfo = retrieveVarInfoFromCallExpressionCallerInfo(callerInfo, funcName, file)
   if (! vinfo) {
