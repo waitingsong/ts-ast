@@ -1,9 +1,12 @@
 {
-  "version": "0.0.0",
+  "version": "13.0.0",
   "packages": [
     "packages/*"
   ],
-  "ignore": [],
+  "ignore": [
+    "demo",
+    "@mw-components/mw-demo"
+  ],
   "command": {
     "publish": {
       "ignoreChanges": [
