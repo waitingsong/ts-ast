@@ -1,12 +1,5 @@
 {
   "version": "14.0.0",
-  "packages": [
-    "packages/*"
-  ],
-  "ignore": [
-    "demo",
-    "@mw-components/mw-demo"
-  ],
   "command": {
     "publish": {
       "ignoreChanges": [
