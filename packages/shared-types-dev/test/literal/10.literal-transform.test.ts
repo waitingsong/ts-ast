@@ -7,14 +7,14 @@ import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 
 import { fileShortPath, genCurrentDirname, isWin32 } from '@waiting/shared-core'
-import { firstValueFrom } from 'rxjs'
-import { run } from 'rxrunscript'
+import { $ } from 'zx'
 
 import {
   createSourceFile,
   transformCallExpressionToLiteralType,
   TransFormOptions,
 } from '../../src/index.js'
+import { testBaseDir } from '../root.config.js'
 
 import { expectedDict, expectedDict2 } from './config.js'
 
@@ -22,19 +22,26 @@ import { expectedDict, expectedDict2 } from './config.js'
 const __dirname = genCurrentDirname(import.meta.url)
 
 describe(fileShortPath(import.meta.url), () => {
-  const path01 = join(__dirname, 'demo1.ts')
-  const path03 = join(__dirname, 'demo3.ts')
-  const path04 = join(__dirname, 'demo4.ts')
-  const path05 = join(__dirname, 'demo5.ts')
-  const path07 = join(__dirname, 'demo7.ts')
+  const path01 = 'test/literal/demo1.ts'
+  const path03 = 'test/literal/demo3.ts'
+  const path04 = 'test/literal/demo4.ts'
+  const path05 = 'test/literal/demo5.ts'
+  const path07 = 'test/literal/demo7.ts'
 
-  const path1 = `${path01}`.replace(/\\/ug, '/')
-  const path3 = `${path03}`
-  const path4 = `${path04}`
-  const path5 = `${path05}`
-  const path7 = `${path07}`
+  const path1 = join(testBaseDir, '..', path01).replace(/\\/ug, '/')
+  const path3 = join(testBaseDir, '..', path03)
+  const path4 = join(testBaseDir, '..', path04)
+  const path5 = join(testBaseDir, '..', path05)
+  const path7 = join(testBaseDir, '..', path07)
 
-  const paths = `"${path01}" "${path03}" "${path04}" "${path05}" "${path07}"`
+  // const paths = `"${path01}" "${path03}" "${path04}" "${path05}" "${path07}"`
+  const paths: string[] = [
+    path01,
+    path03,
+    path04,
+    path05,
+    path07,
+  ]
 
   const tsConfigFilePath = join(__dirname, '../../tsconfig.json')
   const defaultOpts = {
@@ -44,10 +51,10 @@ describe(fileShortPath(import.meta.url), () => {
   }
 
   beforeEach(async () => {
-    await firstValueFrom(run(`git restore ${paths}`))
+    await $`git restore ${paths}`
   })
   after(async () => {
-    await firstValueFrom(run(`git restore ${paths}`))
+    await $`git restore ${paths}`
   })
 
   describe('Should transformCallExpressionToLiteralType work', () => {
