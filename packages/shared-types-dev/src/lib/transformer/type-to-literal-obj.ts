@@ -19,11 +19,13 @@ import {
   retrieveVarInfoFromCallExpressionCallerInfo,
 } from '../ts-morph/morph-common.js'
 import {
-  TransFormOptions,
-  CallExpressionPosKey,
   ComputedLiteralType,
   transformCallExpressionToLiteralType,
 } from '../ts-morph/tpl-literal.js'
+import {
+  TransFormOptions,
+  CallExpressionPosKey,
+} from '../ts-morph/tpl-literal.types.js'
 
 import {
   genTransformerFactor,

@@ -30,20 +30,23 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@waiting/shared-core": "^21.0.0",
-    "@waiting/shared-types": "^21.0.0",
-    "rxjs": "^7.8.0",
+    "@waiting/shared-core": "^21.3.0",
+    "@waiting/shared-types": "^21.3.0",
     "ts-morph": "^19.0.0"
   },
   "devDependencies": {
-    "cross-env": "7"
+    "cross-env": "7",
+    "rxrunscript": "^11.0.1",
+    "rxjs": "^7.8.0"
   },
   "engines": {
-    "node": ">=16.13.0 <=19.9.0"
+    "node": ">=16.13.0"
   },
   "files": [
-    "tsconfig.json",
+    "README.*.md",
     "Dockerfile",
+    "tsconfig.json",
+    "tsconfig.base.json",
     "src/**/*.ts",
     "bin/*.js",
     "dist"
@@ -52,17 +55,20 @@
     "access": "public"
   },
   "scripts": {
-    "build": "npm run tsc && npm run rp",
+    "build": "npm run tsc && tsc-alias && npm run rp",
     "clean": "npm run clean:lock & npm run clean:cache & rm -rf dist/*",
-    "clean:cache": "rm -rf .eslintcache .vscode/.tsbuildinfo .vscode/.tsbuildinfo.*",
+    "clean:cache": "rm -rf .eslintcache .tsbuildinfo",
     "clean:lock": "rm package-lock.json -f",
-    "cov": "cross-env TS_NODE_PROJECT=test/tsconfig.json c8 mocha --loader=ts-node/esm --parallel=false",
+    "cov": "cross-env TS_NODE_PROJECT=test/tsconfig.json c8 mocha --parallel=false",
     "lint": "eslint --fix --cache {src,test}/**/*.ts",
     "lint:nofix": "eslint --cache {src,test}/**/*.ts",
     "purge": "npm run clean && rm node_modules -rf",
     "rp": "rollup -c rollup.config.js --context this",
-    "test": "cross-env TS_NODE_PROJECT=test/tsconfig.json mocha --loader=ts-node/esm",
-    "test:local": "cross-env TS_NODE_PROJECT=test/tsconfig.json ../../node_modules/.bin/mocha --loader=ts-node/esm --parallel=false",
+    "prepack": "rm -f dist/tsconfig.tsbuildinfo",
+    "pretest": "npm run build",
+    "pretest:local": "npm run build",
+    "test": "cross-env TS_NODE_PROJECT=test/tsconfig.json mocha",
+    "test:local": "cross-env TS_NODE_PROJECT=test/tsconfig.json ../../node_modules/.bin/mocha",
     "tsc": "tsc -b "
   }
 }

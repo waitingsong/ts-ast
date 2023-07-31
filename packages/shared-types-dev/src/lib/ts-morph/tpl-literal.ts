@@ -5,7 +5,6 @@ import {
   Identifier,
   SourceFile,
   TypeAliasDeclaration,
-  CallExpression,
   Symbol,
   TypeChecker,
 } from 'ts-morph'
@@ -16,30 +15,8 @@ import {
   findCallExpressionsByName,
   retrieveVarInfoFromCallExpression,
 } from './morph-common.js'
+import { CallExpressionPosKey, CallExpressionToLiteralTypePosKeyMap, ProcessExpressionOptions, TransFormOptions } from './tpl-literal.types.js'
 
-
-export interface TransFormOptions {
-  sourceFile: SourceFile
-  needle: string
-  leadingString: string
-  trailingString: string
-}
-
-export interface ProcessExpressionOptions {
-  file: SourceFile
-  express: CallExpression<ts.CallExpression>
-  needle: TransFormOptions['needle']
-  // type: Type<ts.Type>
-  typeReferenceText: string
-}
-export type CallExpressionToLiteralTypeVarKeyMap = Map<string, LiteralObject>
-export type CallExpressionToLiteralTypePosKeyMap = Map<CallExpressionPosKey, LiteralObject>
-/**
- * format "varname:lineNumber:columnNumber"
- */
-export type CallExpressionPosKey = `${string}:${LineNumber}:${ColumnNumber}`
-type LineNumber = number
-type ColumnNumber = number
 
 export class ComputedLiteralType {
   constructor(
