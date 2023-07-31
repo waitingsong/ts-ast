@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [14.1.0](https://github.com/waitingsong/ts-ast/compare/v14.0.0...v14.1.0) (2023-07-31)
+
+
+### Features
+
+* **shared-types-dev:** support nodejs v20+ ([b9555d8](https://github.com/waitingsong/ts-ast/commit/b9555d8fbef879015c5359d48b1899bcfe2d915d))
+
+
+
+
+
 # [14.0.0](https://github.com/waitingsong/ts-ast/compare/v13.0.1...v14.0.0) (2023-06-16)
 
 **Note:** Version bump only for package ts-ast
