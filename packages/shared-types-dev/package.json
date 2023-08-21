@@ -1,7 +1,7 @@
 {
   "name": "@waiting/shared-types-dev",
   "author": "waiting",
-  "version": "14.1.0",
+  "version": "14.1.1",
   "description": "shared typescript types devel",
   "private": false,
   "keywords": [
@@ -33,8 +33,6 @@
     "@waiting/shared-core": "^21.5.0",
     "@waiting/shared-types": "^21.5.0",
     "ts-morph": "^19.0.0"
-  },
-  "devDependencies": {
   },
   "engines": {
     "node": ">=16.13.0"
