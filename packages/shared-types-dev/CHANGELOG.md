@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [14.2.0](https://github.com/waitingsong/ts-ast/compare/v14.1.1...v14.2.0) (2023-09-05)
+
+
+### Features
+
+* **shared-types-dev:** throw error when got "any" type ([0608946](https://github.com/waitingsong/ts-ast/commit/0608946c5166667031f17eba9c56eec5cd0497b7))
+
+
+
+
+
 ## [14.1.1](https://github.com/waitingsong/ts-ast/compare/v14.1.0...v14.1.1) (2023-08-21)
 
 **Note:** Version bump only for package @waiting/shared-types-dev
