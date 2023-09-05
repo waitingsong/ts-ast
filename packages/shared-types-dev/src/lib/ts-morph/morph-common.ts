@@ -178,6 +178,7 @@ export function retrieveVarnameFromCallExpression(
   expression: CallExpression<ts.CallExpression>,
 ): string {
 
+  // console.log('expression: ', expression.getText())
   const parentNode = expression.getParent()
   if (! parentNode) {
     throw new TypeError('expression has no parent node')
@@ -227,7 +228,7 @@ export function retrieveVarInfoFromVariableDeclaration(
   if (kind === SyntaxKind.VariableDeclaration && sym) {
     // eslint-disable-next-line
     // const name = input.getNameNode().getText() as string
-    const name = sym.getName()
+    const name = sym.getName() // variable name: dbDict
     const start = input.getStart()
     // postions of variable, not of declaration
     const { line, column } = input.getSourceFile().getLineAndColumnAtPos(start)
@@ -237,6 +238,8 @@ export function retrieveVarInfoFromVariableDeclaration(
     try {
       // @ts-expect-error
       if (typeof input.getTypeNode === 'function') {
+        // input.getText() => 'dbDict = genDbDict<Db>()'
+
         // @ts-expect-error
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         const typeReference = input.getTypeNode() as ts.TypeReferenceNode
