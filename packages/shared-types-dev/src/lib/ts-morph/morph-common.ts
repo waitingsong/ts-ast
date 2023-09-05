@@ -232,17 +232,23 @@ export function retrieveVarInfoFromVariableDeclaration(
     const start = input.getStart()
     // postions of variable, not of declaration
     const { line, column } = input.getSourceFile().getLineAndColumnAtPos(start)
-    const type = input.getType() // getText() => "import(url).DbDict<import(url).Db>"
+    const type = input.getType()
+    // "import(url).DbDict<import(url).Db>"
+    // import(".../packages/kmore-types/dist/index").DbDict<import(".../packages/kmore/test/test.model").Db>'
+    const txt = type.getText()
+    if (txt === 'any') {
+      throw new TypeError('type.getText() === "any"')
+    }
 
     let typeReferenceText = '' // "DbDict<D>"
     try {
       // @ts-expect-error
-      if (typeof input.getTypeNode === 'function') {
+      if (typeof input.getTypeNodeOrThrow === 'function') {
         // input.getText() => 'dbDict = genDbDict<Db>()'
 
         // @ts-expect-error
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-        const typeReference = input.getTypeNode() as ts.TypeReferenceNode
+        const typeReference = input.getTypeNodeOrThrow() as ts.TypeReferenceNode
         typeReferenceText = typeReference.getText()
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         // if (typeReference.getKind() !== SyntaxKind.TypeReference) {
