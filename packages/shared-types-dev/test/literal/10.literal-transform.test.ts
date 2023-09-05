@@ -14,7 +14,7 @@ import {
   transformCallExpressionToLiteralType,
   TransFormOptions,
 } from '../../src/index.js'
-import { testBaseDir } from '../root.config.js'
+import { testConfig } from '../root.config.js'
 
 import { expectedDict, expectedDict2 } from './config.js'
 
@@ -22,17 +22,19 @@ import { expectedDict, expectedDict2 } from './config.js'
 const __dirname = genCurrentDirname(import.meta.url)
 
 describe(fileShortPath(import.meta.url), () => {
+  const { testDir } = testConfig
+
   const path01 = 'test/literal/demo1.ts'
   const path03 = 'test/literal/demo3.ts'
   const path04 = 'test/literal/demo4.ts'
   const path05 = 'test/literal/demo5.ts'
   const path07 = 'test/literal/demo7.ts'
 
-  const path1 = join(testBaseDir, '..', path01).replace(/\\/ug, '/')
-  const path3 = join(testBaseDir, '..', path03)
-  const path4 = join(testBaseDir, '..', path04)
-  const path5 = join(testBaseDir, '..', path05)
-  const path7 = join(testBaseDir, '..', path07)
+  const path1 = join(testDir, '..', path01).replace(/\\/ug, '/')
+  const path3 = join(testDir, '..', path03)
+  const path4 = join(testDir, '..', path04)
+  const path5 = join(testDir, '..', path05)
+  const path7 = join(testDir, '..', path07)
 
   // const paths = `"${path01}" "${path03}" "${path04}" "${path05}" "${path07}"`
   const paths: string[] = [
