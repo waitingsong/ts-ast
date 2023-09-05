@@ -39,7 +39,7 @@ export class ComputedLiteralType {
     return ret
   }
 
-  fromPosKey(inputPosKey: CallExpressionPosKey | string): LiteralObject | undefined {
+  fromPosKey(inputPosKey: CallExpressionPosKey): LiteralObject | undefined {
     const ret = this.retMap.get(inputPosKey as CallExpressionPosKey)
     return ret
   }
@@ -47,7 +47,7 @@ export class ComputedLiteralType {
   /**
    * "dict:2:3" => "dict"
    */
-  private pluckKey(posKey: CallExpressionPosKey | string): string {
+  private pluckKey(posKey: CallExpressionPosKey): string {
     const arr = posKey.split(':')
     return arr[0] as string
   }

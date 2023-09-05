@@ -185,7 +185,7 @@ export function computeCallExpressionToLiteralObj(
     trailingString: 'eslint-enable',
     sourceFile: file,
   }
-  const postKey = `${vinfo.name}:${vinfo.line}:${vinfo.column}`
+  const postKey: CallExpressionPosKey = `${vinfo.name}:${vinfo.line}:${vinfo.column}`
   const retType = transformCallExpressionToLiteralType(opts)
   const ret = retType.fromPosKey(postKey)
   if (! ret) {

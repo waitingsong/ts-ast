@@ -14,6 +14,7 @@ import {
   transformCallExpressionToLiteralType,
   TransFormOptions,
 } from '../../src/index.js'
+import { CallExpressionPosKey } from '../../src/lib/ts-morph/tpl-literal.types.js'
 import { testConfig } from '../root.config.js'
 
 import { expectedDict, expectedDict2 } from './config.js'
@@ -94,7 +95,7 @@ describe(fileShortPath(import.meta.url), () => {
       assert(arr.length === 1)
       assert.deepStrictEqual(arr[0], expectedDict)
 
-      let posKey = 'dict:5:14'
+      let posKey: CallExpressionPosKey = 'dict:5:14'
       let obj = ret.fromPosKey(posKey)
       assert.deepStrictEqual(obj, expectedDict)
 
@@ -140,7 +141,7 @@ describe(fileShortPath(import.meta.url), () => {
       const [obj2] = arr2
       assert.deepStrictEqual(obj2, expectedDict2)
 
-      let posKey = 'dict1:5:14'
+      let posKey: CallExpressionPosKey = 'dict1:5:14'
       assert.deepStrictEqual(ret.fromPosKey(posKey), expectedDict)
       posKey = 'dict2:6:14'
       assert.deepStrictEqual(ret.fromPosKey(posKey), expectedDict2)
@@ -159,7 +160,7 @@ describe(fileShortPath(import.meta.url), () => {
       const arr = ret.fromKey('dict')
       assert(arr.length === 2)
 
-      let posKey = 'dict:5:14'
+      let posKey: CallExpressionPosKey = 'dict:5:14'
       const obj1 = ret.fromPosKey(posKey)
       assert.deepStrictEqual(obj1, expectedDict)
       posKey = 'dict:9:9'
@@ -206,7 +207,7 @@ describe(fileShortPath(import.meta.url), () => {
       const [obj2] = arr2
       assert.deepStrictEqual(obj2, expectedDict2)
 
-      let posKey = 'dict1:5:14'
+      let posKey: CallExpressionPosKey = 'dict1:5:14'
       assert.deepStrictEqual(ret.fromPosKey(posKey), expectedDict)
       posKey = 'dict2:6:14'
       assert.deepStrictEqual(ret.fromPosKey(posKey), expectedDict2)
