@@ -155,7 +155,7 @@ export function computeCallExpressionToLiteralObj(
     })
     throw ex
   }
-  assert(file, 'createSourceFile() failed')
+  assert(file, 'createSourceFile() failed, with callerInfo: ' + JSON.stringify(callerInfo))
 
   const vinfo = retrieveVarInfoFromCallExpressionCallerInfo(callerInfo, funcName, file)
   if (! vinfo) {
