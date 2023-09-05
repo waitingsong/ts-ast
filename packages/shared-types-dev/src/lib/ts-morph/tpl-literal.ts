@@ -134,6 +134,12 @@ export function genLiteralObjectFromExpression(
     typeReferenceText,
   } = options
 
+  if (typeReferenceText === 'any') {
+    const path = file.getFilePath()
+    const msg = `Some variable type is "any" in file "${path}"`
+    throw new TypeError(msg)
+  }
+
   // let typeText = ''
   // if (type) {
   //   typeText = type.getText()
