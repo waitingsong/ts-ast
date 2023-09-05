@@ -13,6 +13,7 @@ import { deepFind } from '../util.js'
 
 import {
   findCallExpressionsByName,
+  retrieveFirstTypeArgTextFromCallExpression,
   retrieveVarInfoFromCallExpression,
 } from './morph-common.js'
 import { CallExpressionPosKey, CallExpressionToLiteralTypePosKeyMap, ProcessExpressionOptions, TransFormOptions } from './tpl-literal.types.js'
@@ -135,10 +136,12 @@ export function genLiteralObjectFromExpression(
   } = options
 
   if (typeReferenceText === 'any') {
+    const gt = retrieveFirstTypeArgTextFromCallExpression(express)
     const path = file.getFilePath()
-    const msg = `Some variable type is "any" in file "${path}"`
+    const msg = `Generic type "${gt}" is resolved "any" in file "${path}"`
     throw new TypeError(msg)
   }
+
 
   // let typeText = ''
   // if (type) {
