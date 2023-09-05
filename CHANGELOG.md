@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [14.3.0](https://github.com/waitingsong/ts-ast/compare/v14.2.1...v14.3.0) (2023-09-05)
+
+
+### Bug Fixes
+
+* **boilerplate:** package.json db:gen ([e1b4a74](https://github.com/waitingsong/ts-ast/commit/e1b4a744f58ce710add2edc9f5878f96b69d1009))
+* **shared-types-dev:** lint type ([a707511](https://github.com/waitingsong/ts-ast/commit/a707511d0ef6ae6ad24f6c76adbcd28b20ae3551))
+
+
+### Features
+
+* **shared-types-dev:** throw error if type is "any" ([c4759f7](https://github.com/waitingsong/ts-ast/commit/c4759f78a1b6707e674aff66a5a2695164d814e9))
+
+
+
+
+
 ## [14.2.1](https://github.com/waitingsong/ts-ast/compare/v14.2.0...v14.2.1) (2023-09-05)
 
 **Note:** Version bump only for package ts-ast
