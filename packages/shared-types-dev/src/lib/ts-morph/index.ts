@@ -1,5 +1,6 @@
 
 export type {
+  CallExpressionPosKey,
   ProcessExpressionOptions,
   TransFormOptions,
 } from './tpl-literal.types.js'
