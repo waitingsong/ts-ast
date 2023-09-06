@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [14.3.1](https://github.com/waitingsong/ts-ast/compare/v14.3.0...v14.3.1) (2023-09-06)
+
+**Note:** Version bump only for package @waiting/shared-types-dev
+
+
+
+
+
 # [14.3.0](https://github.com/waitingsong/ts-ast/compare/v14.2.1...v14.3.0) (2023-09-05)
 
 
