@@ -13,6 +13,7 @@ import { deepFind } from '../util.js'
 
 import {
   findCallExpressionsByName,
+  retrieveFirstTypeArgTextFromCallExpression,
   retrieveVarInfoFromCallExpression,
 } from './morph-common.js'
 import {
@@ -86,10 +87,10 @@ export function transformCallExpressionToLiteralType(
     if (! info) {
       return
     }
-    if (! info.type.getText() && ! info.typeReferenceText) {
+    const typeText = info.typeReferenceText ? info.typeReferenceText : info.type.getText()
+    if (! typeText) {
       throw new Error('typeof variable is invalid')
     }
-    const typeText = info.typeReferenceText ? info.typeReferenceText : info.type.getText()
     const posKey = `${info.name}:${info.line}:${info.column}` as CallExpressionPosKey
     if (posKeyMap.has(posKey)) {
       throw new Error(`Duplicate varKey: "${posKey}"`)
@@ -140,7 +141,12 @@ export function genLiteralObjectFromExpression(
   } = options
 
   if (typeReferenceText === 'any') {
-    return {}
+    const gt = retrieveFirstTypeArgTextFromCallExpression(express)
+    const path = file.getFilePath()
+    const msg = `Generic type "${gt}" is resolved "any" in file "${path}"
+    You can append variable type definition like: "const dict: DbDict<foo> = ...." to fix it
+    `
+    throw new TypeError(msg)
   }
 
   // let typeText = ''
