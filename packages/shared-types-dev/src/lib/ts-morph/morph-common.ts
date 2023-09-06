@@ -236,27 +236,26 @@ export function retrieveVarInfoFromVariableDeclaration(
     // "import(url).DbDict<import(url).Db>"
     // import(".../packages/kmore-types/dist/index").DbDict<import(".../packages/kmore/test/test.model").Db>'
     const txt = type.getText()
-    if (txt === 'any') {
-      throw new TypeError('type.getText() === "any"')
-    }
-
     let typeReferenceText = '' // "DbDict<D>"
-    try {
-      // @ts-expect-error
-      if (typeof input.getTypeNodeOrThrow === 'function') {
-        // input.getText() => 'dbDict = genDbDict<Db>()'
 
+    if (txt !== 'any') {
+      try {
         // @ts-expect-error
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-        const typeReference = input.getTypeNodeOrThrow() as ts.TypeReferenceNode
-        typeReferenceText = typeReference.getText()
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        // if (typeReference.getKind() !== SyntaxKind.TypeReference) {
-        //   throw new TypeError(`Variable type must be TypeReference, like "const dict: DbDict<Db> = ..."`)
-        // }
+        if (typeof input.getTypeNodeOrThrow === 'function') {
+          // input.getText() => 'dbDict = genDbDict<Db>()'
+
+          // @ts-expect-error
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+          const typeReference = input.getTypeNodeOrThrow() as ts.TypeReferenceNode
+          typeReferenceText = typeReference.getText()
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          // if (typeReference.getKind() !== SyntaxKind.TypeReference) {
+          //   throw new TypeError(`Variable type must be TypeReference, like "const dict: DbDict<Db> = ..."`)
+          // }
+        }
       }
+      catch (ex) { void 0 }
     }
-    catch (ex) { void 0 }
 
     const ret = {
       name, line, column, type, typeReferenceText,
