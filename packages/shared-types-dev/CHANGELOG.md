@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [14.3.2](https://github.com/waitingsong/ts-ast/compare/v14.3.1...v14.3.2) (2023-09-06)
+
+
+### Bug Fixes
+
+* **shared-types-dev:** remove type "any" assertion ([c3043e4](https://github.com/waitingsong/ts-ast/commit/c3043e467529e0181bce6f4be84f428e935bcd37))
+
+
+
+
+
 ## [14.3.1](https://github.com/waitingsong/ts-ast/compare/v14.3.0...v14.3.1) (2023-09-06)
 
 **Note:** Version bump only for package @waiting/shared-types-dev
