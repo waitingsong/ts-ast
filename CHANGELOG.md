@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [15.0.0](https://github.com/waitingsong/ts-ast/compare/v14.3.3...v15.0.0) (2023-09-18)
+
+
+### Bug Fixes
+
+* **boilerplate:** package.json db:gen ([e1b4a74](https://github.com/waitingsong/ts-ast/commit/e1b4a744f58ce710add2edc9f5878f96b69d1009))
+
+
+
+
+
 ## [14.3.3](https://github.com/waitingsong/ts-ast/compare/v14.3.2...v14.3.3) (2023-09-06)
 
 **Note:** Version bump only for package ts-ast
