@@ -35,8 +35,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@waiting/shared-core": "^21.5.0",
-    "@waiting/shared-types": "^21.5.0",
+    "@waiting/shared-core": "^22.0.0",
+    "@waiting/shared-types": "^22.0.0",
     "ts-morph": "^19.0.0"
   },
   "engines": {
@@ -70,7 +70,6 @@
     "lint": "eslint --fix --cache {src,test}/**/*.ts",
     "lint:nofix": "eslint --cache {src,test}/**/*.ts",
     "pretest": "npm run build",
-    "rp": "rollup -c rollup.config.js --context this",
     "test": "cross-env NODE_ENV=test TS_NODE_PROJECT=test/tsconfig.json mocha --jobs=4",
     "tsc": "tsc -b"
   }
