@@ -34,7 +34,7 @@
   "dependencies": {
     "@waiting/shared-core": "^22.0.0",
     "@waiting/shared-types": "^22.0.0",
-    "ts-morph": "^20.0.0"
+    "ts-morph": "^21.0.1"
   },
   "engines": {
     "node": ">=16.13.0"
