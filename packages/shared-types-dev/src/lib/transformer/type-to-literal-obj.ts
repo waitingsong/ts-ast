@@ -111,6 +111,7 @@ function visitNode(node: ts.Node, options: VOpts): ts.Node | undefined {
     const { line, character } = pNode.getSourceFile().getLineAndCharacterOfPosition(start)
     const fullKey = `${pNodeName}:${line + 1}:${character + 1}`
 
+    // @ts-expect-error types
     const literalObj = options.literalRet ? options.literalRet.fromPosKey(fullKey) : void 0
     if (! literalObj) { return node }
 

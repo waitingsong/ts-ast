@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
+import assert from 'assert'
+
 import { LiteralObject } from '@waiting/shared-types'
 import {
   ts,
@@ -53,13 +55,15 @@ export class ComputedLiteralType {
    */
   private pluckKey(posKey: CallExpressionPosKey): string {
     const arr = posKey.split(':')
-    return arr[0]!
+    const ret = arr[0]
+    assert(typeof ret === 'string')
+    return ret
   }
 
 }
 
 /**
- * Tansform varialbe declaraion
+ * Transform variable declaration
  * @returns Map<varname, computer object>
  */
 export function transformCallExpressionToLiteralType(options: TransFormOptions): ComputedLiteralType {
@@ -90,6 +94,7 @@ export function transformCallExpressionToLiteralType(options: TransFormOptions):
       throw new Error('typeof variable is invalid')
     }
     const posKey = `${info.name}:${info.line}:${info.column}`
+    // @ts-expect-error types
     if (posKeyMap.has(posKey)) {
       throw new Error(`Duplicate varKey: "${posKey}"`)
     }
@@ -100,6 +105,7 @@ export function transformCallExpressionToLiteralType(options: TransFormOptions):
       typeReferenceText: typeText,
     }
     const obj = genLiteralObjectFromExpression(opts)
+    // @ts-expect-error types
     posKeyMap.set(posKey, obj)
     indexMap.set(idx, obj)
     const assertsTxt = info.typeReferenceText ? ` as ${typeText}` : ' as const'
@@ -218,7 +224,7 @@ function _genTypeAliasDeclarationFaster(
 
   const curObj = pidPath.length ? deepFind(resultObj, pidPath) : resultObj
   if (typeof curObj !== 'object') {
-    throw new TypeError(`Value of resultObje "${pidPath.join('.')} is not object"`)
+    throw new TypeError(`Value of resultObject "${pidPath.join('.')} is not object"`)
   }
 
   typeProps.forEach((prop) => {
@@ -272,7 +278,7 @@ function _genTypeAliasDeclarationFaster(
 
 }
 
-function retrieveLiteralValueFromTypeAliasDeclaraion(typeAliasDecla: TypeAliasDeclaration): string | number | ts.PseudoBigInt | undefined {
+function retrieveLiteralValueFromTypeAliasDeclaration(typeAliasDecla: TypeAliasDeclaration): string | number | ts.PseudoBigInt | undefined {
 
   const parentIdentifier: Identifier = typeAliasDecla.getNameNode()
   const tt = parentIdentifier.getType()
@@ -294,7 +300,7 @@ export function genTypeAliasDeclaration(
     writable: true,
   }
 
-  const literalValue = retrieveLiteralValueFromTypeAliasDeclaraion(typeAliasDecla)
+  const literalValue = retrieveLiteralValueFromTypeAliasDeclaration(typeAliasDecla)
 
   const parentIdentifier: Identifier = typeAliasDecla.getNameNode()
   const pidName = parentIdentifier.getText()
@@ -304,7 +310,7 @@ export function genTypeAliasDeclaration(
   if (literalValue) {
     const tmpObj = pidPath.length ? deepFind(resultObj, pidPath.slice(0, -1)) : resultObj
     if (typeof tmpObj !== 'object') {
-      throw new TypeError(`Value of resultObje "${pidPath.join('.')} is not object"`)
+      throw new TypeError(`Value of resultObject "${pidPath.join('.')} is not object"`)
     }
     const propKey = pidPath.length > 1 ? pidPath.slice(-1)[0] : ''
     if (! propKey) {
@@ -347,13 +353,13 @@ export function genTypeAliasDeclaration(
     file.addStatements(code)
     const decla = file.getTypeAlias(typeKey)
     if (! decla) {
-      throw new TypeError(`Declaraion ${typeKey} not exists`)
+      throw new TypeError(`Declaration ${typeKey} not exists`)
     }
     // const id = decla.getNameNode()
     // const text = id.getText()
     const tmpObj = pidPath.length ? deepFind(resultObj, pidPath) : resultObj
     if (typeof tmpObj !== 'object') {
-      throw new TypeError(`Value of resultObje "${pidPath.join('.')} is not object"`)
+      throw new TypeError(`Value of resultObject "${pidPath.join('.')} is not object"`)
     }
     Object.defineProperty(tmpObj, propKey, {
       ...props,

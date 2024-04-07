@@ -31,15 +31,15 @@ describe(fileShortPath(import.meta.url), () => {
         assert(text === 'tb_user' || text === 'tb_user_ext')
 
         // @ts-expect-error
-        const chilrenProps = prop.initializer.properties as ts.PropertyAssignment[]
-        assert(chilrenProps && chilrenProps.length === 3)
-        chilrenProps.forEach((childProp) => {
+        const childrenProps = prop.initializer.properties as ts.PropertyAssignment[]
+        assert(childrenProps && childrenProps.length === 3)
+        childrenProps.forEach((childProp) => {
           assert(childProp.kind === ts.SyntaxKind.PropertyAssignment)
           assert(childProp.name)
           assert(childProp.name.kind === ts.SyntaxKind.Identifier)
 
           // @ts-ignore
-          const text2 = childProp.name && childProp.name.text ? childProp.name.text : ''
+          const text2 = childProp.name?.text ? childProp.name.text : ''
           if (text === 'tb_user') {
             assert(text2 === 'uid' || text2 === 'name' || text2 === 'ctime')
           }
