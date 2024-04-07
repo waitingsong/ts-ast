@@ -17,9 +17,16 @@ const srcRules = {
       await genModuleAbsolutePathIfExists(projectDir, 'node_modules/@mwcp/share'),
     ],
   }],
+  'import/default': 0,
+  'import/no-named-as-default-member': 0,
+  'import/no-named-as-default': 0,
+  'import/no-extraneous-dependencies': 0,
 }
 const testRules = {
-  '@typescript-eslint/no-explicit-any': 0
+  '@typescript-eslint/no-explicit-any': 0,
+  'import/default': 0,
+  'import/no-named-as-default-member': 0,
+  'import/no-named-as-default': 0,
 }
 
 const languageOptions = {
