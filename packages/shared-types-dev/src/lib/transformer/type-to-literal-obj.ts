@@ -109,7 +109,7 @@ function visitNode(node: ts.Node, options: VOpts): ts.Node | undefined {
       : symbol ? symbol.getName() : ''
 
     const { line, character } = pNode.getSourceFile().getLineAndCharacterOfPosition(start)
-    const fullKey = `${pNodeName}:${line + 1}:${character + 1}` as CallExpressionPosKey
+    const fullKey = `${pNodeName}:${line + 1}:${character + 1}`
 
     const literalObj = options.literalRet ? options.literalRet.fromPosKey(fullKey) : void 0
     if (! literalObj) { return node }
@@ -139,9 +139,7 @@ function visitNode(node: ts.Node, options: VOpts): ts.Node | undefined {
 }
 
 
-export function computeCallExpressionToLiteralObj(
-  funcName?: TransFormOptions['needle'] | undefined,
-): unknown {
+export function computeCallExpressionToLiteralObj(funcName?: TransFormOptions['needle'] | undefined): unknown {
 
   const callerInfo = getCallerStack(2, true)
   let file: SourceFile

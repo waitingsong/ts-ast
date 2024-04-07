@@ -52,13 +52,13 @@ export function createSourceFile(
       // compilerOptions: {
       //   ...defaultCompilerOptions,
       // },
-      ...options,
-    }
+        ...options,
+      }
     : {
-      compilerOptions: {
-        ...defaultCompilerOptions,
-      },
-    }
+        compilerOptions: {
+          ...defaultCompilerOptions,
+        },
+      }
 
   // console.warn({
   //   opts,
@@ -132,17 +132,13 @@ export function hasImportNecessaryType(
 }
 
 
-export function retrieveTypeArgsFromCallExpression(
-  input: CallExpression<ts.CallExpression>,
-): TypeNode<ts.TypeNode>[] {
+export function retrieveTypeArgsFromCallExpression(input: CallExpression<ts.CallExpression>): TypeNode<ts.TypeNode>[] {
 
   const nodes = input.getTypeArguments()
   return nodes
 }
 
-export function retrieveFirstTypeArgTextFromCallExpression(
-  input: CallExpression<ts.CallExpression>,
-): string {
+export function retrieveFirstTypeArgTextFromCallExpression(input: CallExpression<ts.CallExpression>): string {
 
   const [node] = retrieveTypeArgsFromCallExpression(input)
 
@@ -174,9 +170,7 @@ export function findCallExpressionsByName(
   return ret
 }
 
-export function retrieveVarnameFromCallExpression(
-  expression: CallExpression<ts.CallExpression>,
-): string {
+export function retrieveVarnameFromCallExpression(expression: CallExpression<ts.CallExpression>): string {
 
   // console.log('expression: ', expression.getText())
   const parentNode = expression.getParent()
@@ -187,9 +181,7 @@ export function retrieveVarnameFromCallExpression(
   return name
 }
 
-export function retrieveVarnameFromVariableDeclaration(
-  input: Node<ts.Node>,
-): string {
+export function retrieveVarnameFromVariableDeclaration(input: Node<ts.Node>): string {
 
   const info = retrieveVarInfoFromVariableDeclaration(input)
   return info ? info.name : ''
@@ -205,9 +197,7 @@ export interface VariableNameInfo {
   typeReferenceText: string
 }
 
-export function retrieveVarInfoFromCallExpression(
-  expression: CallExpression<ts.CallExpression>,
-): VariableNameInfo | undefined {
+export function retrieveVarInfoFromCallExpression(expression: CallExpression<ts.CallExpression>): VariableNameInfo | undefined {
 
   const parentNode = expression.getParent()
   if (! parentNode) {
@@ -219,9 +209,7 @@ export function retrieveVarInfoFromCallExpression(
 }
 
 
-export function retrieveVarInfoFromVariableDeclaration(
-  input: Node<ts.Node>,
-): VariableNameInfo | undefined {
+export function retrieveVarInfoFromVariableDeclaration(input: Node<ts.Node>): VariableNameInfo | undefined {
 
   const kind = input.getKind()
   const sym = input.getSymbol()
@@ -287,7 +275,8 @@ export function retrieveCallExpressionByPos(
 
   const key = needle
     ? needle
-    : options.funcName ? options.funcName
+    : options.funcName
+      ? options.funcName
       : options.methodName ? options.methodName : ''
 
 
@@ -327,9 +316,7 @@ export function retrieveCallExpressionByPos(
 /**
  * Retrieve variable name from CallExpression CallerInfo
  */
-export function retrieveVarnameFromCallExpressionCallerInfo(
-  options: CallerInfo,
-): string {
+export function retrieveVarnameFromCallExpressionCallerInfo(options: CallerInfo): string {
 
   const file = createSourceFile(options.path)
 

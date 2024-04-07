@@ -25,9 +25,8 @@ import {
 
 
 export class ComputedLiteralType {
-  constructor(
-    public retMap: CallExpressionToLiteralTypePosKeyMap,
-  ) { }
+
+  constructor(public retMap: CallExpressionToLiteralTypePosKeyMap) { }
 
   get size(): number {
     return this.retMap.size
@@ -45,7 +44,7 @@ export class ComputedLiteralType {
   }
 
   fromPosKey(inputPosKey: CallExpressionPosKey): LiteralObject | undefined {
-    const ret = this.retMap.get(inputPosKey as CallExpressionPosKey)
+    const ret = this.retMap.get(inputPosKey)
     return ret
   }
 
@@ -54,17 +53,16 @@ export class ComputedLiteralType {
    */
   private pluckKey(posKey: CallExpressionPosKey): string {
     const arr = posKey.split(':')
-    return arr[0] as string
+    return arr[0]!
   }
+
 }
 
 /**
  * Tansform varialbe declaraion
  * @returns Map<varname, computer object>
  */
-export function transformCallExpressionToLiteralType(
-  options: TransFormOptions,
-): ComputedLiteralType {
+export function transformCallExpressionToLiteralType(options: TransFormOptions): ComputedLiteralType {
 
   const {
     sourceFile,
@@ -91,7 +89,7 @@ export function transformCallExpressionToLiteralType(
     if (! typeText) {
       throw new Error('typeof variable is invalid')
     }
-    const posKey = `${info.name}:${info.line}:${info.column}` as CallExpressionPosKey
+    const posKey = `${info.name}:${info.line}:${info.column}`
     if (posKeyMap.has(posKey)) {
       throw new Error(`Duplicate varKey: "${posKey}"`)
     }
@@ -130,9 +128,7 @@ export function transformCallExpressionToLiteralType(
   return ret
 }
 
-export function genLiteralObjectFromExpression(
-  options: ProcessExpressionOptions,
-): LiteralObject {
+export function genLiteralObjectFromExpression(options: ProcessExpressionOptions): LiteralObject {
 
   const {
     file,
@@ -276,9 +272,7 @@ function _genTypeAliasDeclarationFaster(
 
 }
 
-function retrieveLiteralValueFromTypeAliasDeclaraion(
-  typeAliasDecla: TypeAliasDeclaration,
-): string | number | ts.PseudoBigInt | undefined {
+function retrieveLiteralValueFromTypeAliasDeclaraion(typeAliasDecla: TypeAliasDeclaration): string | number | ts.PseudoBigInt | undefined {
 
   const parentIdentifier: Identifier = typeAliasDecla.getNameNode()
   const tt = parentIdentifier.getType()

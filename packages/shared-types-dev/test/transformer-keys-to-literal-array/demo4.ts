@@ -2,8 +2,10 @@ import { transTypeKeystoLiteralArrayPlaceholder } from '../../src/lib/transforme
 
 
 class Foo {
+
   foo: string
   barz: string
+
 }
 interface Bar extends Foo {
   bar: string

@@ -21,9 +21,7 @@ export type VisitNodeHandler<T extends VisitNodeOpts> =
  * A ts.TransformerFactory generator,
  * generating ts.TransformerFactory
  */
-export function genTransformerFactor<T extends VisitNodeOpts>(
-  options: GenTransformerFactorOpts<T>,
-): ts.TransformerFactory<ts.SourceFile> {
+export function genTransformerFactor<T extends VisitNodeOpts>(options: GenTransformerFactorOpts<T>): ts.TransformerFactory<ts.SourceFile> {
 
   return (context: ts.TransformationContext) => (file: ts.SourceFile) => {
     const ret = visitNodeAndChildren<T>(file, context, options)

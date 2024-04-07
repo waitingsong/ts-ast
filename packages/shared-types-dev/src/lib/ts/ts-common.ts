@@ -7,9 +7,7 @@ import { LiteralObject } from '@waiting/shared-types'
 import ts from 'typescript'
 
 
-export function createObjectLiteralExpression(
-  input: LiteralObject,
-): ts.ObjectLiteralExpression {
+export function createObjectLiteralExpression(input: LiteralObject): ts.ObjectLiteralExpression {
 
   const arr: ts.ObjectLiteralElementLike[] = Object.entries(input).map(([key, value]) => {
     if (Array.isArray(value)) {

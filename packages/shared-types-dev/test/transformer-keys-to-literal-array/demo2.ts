@@ -2,8 +2,10 @@ import { transTypeKeystoLiteralArrayPlaceholder } from '../../src/lib/transforme
 
 
 class Foo {
+
   foo: string
   barz: string
+
 }
 export const fooKeys = transTypeKeystoLiteralArrayPlaceholder<Foo>()
 
