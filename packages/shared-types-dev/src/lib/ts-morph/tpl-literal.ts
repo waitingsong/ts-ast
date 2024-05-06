@@ -90,14 +90,10 @@ export function transformCallExpressionToLiteralType(options: TransFormOptions):
       return
     }
     const typeText = info.typeReferenceText ? info.typeReferenceText : info.type.getText()
-    if (! typeText) {
-      throw new Error('typeof variable is invalid')
-    }
+    assert(typeText, 'typeof variable is invalid')
     const posKey = `${info.name}:${info.line}:${info.column}`
     // @ts-expect-error types
-    if (posKeyMap.has(posKey)) {
-      throw new Error(`Duplicate varKey: "${posKey}"`)
-    }
+    assert(! posKeyMap.has(posKey), `Duplicate varKey: "${posKey}"`)
     const opts: ProcessExpressionOptions = {
       file: sourceFile,
       express,
