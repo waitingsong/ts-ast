@@ -1,11 +1,11 @@
 # ts-ast repository
 
 
-[![GitHub tag](https://img.shields.io/github/tag/waitingsong/npm-mono-base.svg)]()
+[![GitHub tag](https://img.shields.io/github/tag/waitingsong/ts-ast.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![](https://img.shields.io/badge/lang-TypeScript-blue.svg)]()
-[![ci](https://github.com/waitingsong/npm-mono-base/workflows/ci/badge.svg)](https://github.com/waitingsong/npm-mono-base/actions?query=workflow%3A%22ci%22)
-[![codecov](https://codecov.io/gh/waitingsong/npm-mono-base/branch/master/graph/badge.svg?token=Voxor5PtnG)](https://codecov.io/gh/waitingsong/npm-mono-base)
+[![ci](https://github.com/waitingsong/ts-ast/workflows/ci/badge.svg)](https://github.com/waitingsong/ts-at/actions?query=workflow%3A%22ci%22)
+[![codecov](https://codecov.io/github/waitingsong/ts-ast/graph/badge.svg?token=eq4UXXBn3q)](https://codecov.io/github/waitingsong/ts-ast)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/)
 
@@ -24,10 +24,9 @@ npm i -g c8 lerna madge rollup tsx zx
 
 ## Packages
 
-| Package      | Version                | Dependencies                 | DevDependencies                |
-| ------------ | ---------------------- | ---------------------------- | ------------------------------ |
-| [`demo`]     | [![main-svg]][main-ch] | [![main-d-svg]][main-d-link] | [![main-dd-svg]][main-dd-link] |
-| [`demo-cli`] | [![cli-svg]][cli-ch]   | [![cli-d-svg]][cli-d-link]   | [![cli-dd-svg]][cli-dd-link]   |
+| Package              | Version                |
+| -------------------- | ---------------------- |
+| [`shared-types-dev`] | [![main-svg]][main-ch] |
 
 ## Initialize and install dependencies
 
@@ -91,14 +90,8 @@ npm run purge
 
 <br>
 
-[`demo`]: https://github.com/waitingsong/npm-mono-base/tree/main/packages/demo
-[main-svg]: https://img.shields.io/npm/v/kmore.svg?maxAge=7200
-[main-ch]: https://github.com/waitingsong/kmore/tree/main/packages/demo/CHANGELOG.md
-
-
-[`demo-cli`]: https://github.com/waitingsong/kmore/tree/main/packages/kmore-cli
-[cli-svg]: https://img.shields.io/npm/v/kmore-cli.svg?maxAge=7200
-[cli-ch]: https://github.com/waitingsong/kmore/tree/main/packages/kmore-clie/CHANGELOG.md
-
+[`shared-types-dev`]: https://github.com/waitingsong/ts-ast/tree/main/packages/shared-types-dev
+[main-svg]: https://img.shields.io/npm/v/@waiting/shared-types-dev.svg?maxAge=7200
+[main-ch]: https://github.com/waitingsong/ts-ast/tree/main/packages/shared-types-dev/CHANGELOG.md
 
 
