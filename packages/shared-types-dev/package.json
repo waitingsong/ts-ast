@@ -32,8 +32,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@waiting/shared-core": "^23.6.1",
-    "@waiting/shared-types": "^23.6.0",
+    "@waiting/shared-core": "^23.18.1",
+    "@waiting/shared-types": "^23.18.0",
     "ts-morph": "^23.0.0"
   },
   "engines": {
