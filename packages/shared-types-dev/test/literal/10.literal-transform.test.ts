@@ -9,12 +9,12 @@ import { join } from 'node:path'
 import { fileShortPath, genCurrentDirname, isWin32 } from '@waiting/shared-core'
 import { $ } from 'zx'
 
+import type { TransFormOptions } from '../../src/index.js'
 import {
   createSourceFile,
   transformCallExpressionToLiteralType,
-  TransFormOptions,
 } from '../../src/index.js'
-import { CallExpressionPosKey } from '../../src/lib/ts-morph/tpl-literal.types.js'
+import type { CallExpressionPosKey } from '../../src/lib/ts-morph/tpl-literal.types.js'
 import { testConfig } from '../root.config.js'
 
 import { expectedDict, expectedDict2 } from './config.js'

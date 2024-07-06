@@ -2,7 +2,7 @@ import { createRequire } from 'node:module'
 import { dirname } from 'node:path'
 
 import { pathResolve } from '@waiting/shared-core'
-import { LiteralObject } from '@waiting/shared-types'
+import type { LiteralObject } from '@waiting/shared-types'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ts from 'typescript'
 

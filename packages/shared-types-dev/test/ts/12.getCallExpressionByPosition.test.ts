@@ -4,10 +4,8 @@ import { fileURLToPath } from 'node:url'
 
 import { fileShortPath, genCurrentDirname } from '@waiting/shared-core'
 
-import {
-  retrieveVarnameFromCallExpressionCallerInfo,
-  CallerInfo,
-} from '../../src/index.js'
+import type { CallerInfo } from '../../src/index.js'
+import { retrieveVarnameFromCallExpressionCallerInfo } from '../../src/index.js'
 
 
 const __dirname = genCurrentDirname(import.meta.url)

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import assert from 'assert'
 
-import { LiteralObject } from '@waiting/shared-types'
-import {
+import type { LiteralObject } from '@waiting/shared-types'
+import type {
   ts,
   Identifier,
   SourceFile,
@@ -18,7 +18,7 @@ import {
   retrieveFirstTypeArgTextFromCallExpression,
   retrieveVarInfoFromCallExpression,
 } from './morph-common.js'
-import {
+import type {
   CallExpressionPosKey,
   CallExpressionToLiteralTypePosKeyMap,
   ProcessExpressionOptions,

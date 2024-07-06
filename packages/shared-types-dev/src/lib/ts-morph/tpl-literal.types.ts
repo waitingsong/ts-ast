@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { LiteralObject } from '@waiting/shared-types'
-import {
+import type { LiteralObject } from '@waiting/shared-types'
+import type {
   ts,
   SourceFile,
   CallExpression,

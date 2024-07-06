@@ -1,19 +1,21 @@
 import assert from 'node:assert'
 
 import { genAbsolutePath } from '@waiting/shared-core'
-import {
+import type {
   SourceFile,
-  Project,
   Node,
   CallExpression,
-  SyntaxKind,
   TypeNode,
   ProjectOptions,
   Type,
+} from 'ts-morph'
+import {
+  Project,
+  SyntaxKind,
   ts,
 } from 'ts-morph'
 
-import { CallerInfo } from '../callstack/index.js'
+import type { CallerInfo } from '../callstack/index.js'
 
 
 export function createSourceFile(

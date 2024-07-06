@@ -6,10 +6,8 @@ import { fileURLToPath } from 'node:url'
 import { fileShortPath } from '@waiting/shared-core'
 import ts from 'typescript'
 
-import {
-  transTypetoLiteralObj,
-  TransTypetoLiteralObjOpts,
-} from '../../src/index.js'
+import type { TransTypetoLiteralObjOpts } from '../../src/index.js'
+import { transTypetoLiteralObj } from '../../src/index.js'
 import { expectedDict } from '../literal/config.js'
 
 

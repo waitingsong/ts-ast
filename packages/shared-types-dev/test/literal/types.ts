@@ -1,4 +1,4 @@
-import {
+import type {
   SnakeToCamel,
   SnakeToPascal,
 } from '@waiting/shared-types'

@@ -1,4 +1,5 @@
-import { CallerInfo, getCallerStack } from '@waiting/shared-core'
+import type { CallerInfo } from '@waiting/shared-core'
+import { getCallerStack } from '@waiting/shared-core'
 // Should not change code existing or insert, append it!
 
 

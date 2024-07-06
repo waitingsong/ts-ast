@@ -2,7 +2,8 @@
 import assert from 'node:assert'
 
 import { getCallerStack } from '@waiting/shared-core'
-import { SourceFile, SyntaxKind } from 'ts-morph'
+import type { SourceFile } from 'ts-morph'
+import { SyntaxKind } from 'ts-morph'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ts from 'typescript'
 
@@ -12,26 +13,24 @@ import {
   isKeysImportExpression,
   processImportDeclaration,
 } from '../ts/ts-common.js'
+import type { RetrieveCallExpressionByPosOpts } from '../ts-morph/morph-common.js'
 import {
-  RetrieveCallExpressionByPosOpts,
   createSourceFile,
   retrieveCallExpressionByPos,
   retrieveVarInfoFromCallExpressionCallerInfo,
 } from '../ts-morph/morph-common.js'
-import {
-  ComputedLiteralType,
-  transformCallExpressionToLiteralType,
-} from '../ts-morph/tpl-literal.js'
-import {
+import type { ComputedLiteralType } from '../ts-morph/tpl-literal.js'
+import { transformCallExpressionToLiteralType } from '../ts-morph/tpl-literal.js'
+import type {
   TransFormOptions,
   CallExpressionPosKey,
 } from '../ts-morph/tpl-literal.types.js'
 
-import {
-  genTransformerFactor,
+import type {
   GenTransformerFactorOpts,
   VisitNodeOpts,
 } from './common.js'
+import { genTransformerFactor } from './common.js'
 
 
 export interface TransTypetoLiteralObjOpts {

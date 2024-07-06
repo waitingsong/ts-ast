@@ -11,7 +11,8 @@ import {
   processImportDeclaration,
 } from '../ts/ts-common.js'
 
-import { genTransformerFactor, GenTransformerFactorOpts, VisitNodeOpts } from './common.js'
+import type { GenTransformerFactorOpts, VisitNodeOpts } from './common.js'
+import { genTransformerFactor } from './common.js'
 
 
 const _fileName = 'src/lib/transformer/keys-to-literal-array'

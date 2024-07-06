@@ -1,5 +1,5 @@
 import { genDbDict } from './dict.js'
-import { Db, Db2, DbDict } from './types.js'
+import type { Db, Db2, DbDict } from './types.js'
 
 
 export const dict = genDbDict<Db>()

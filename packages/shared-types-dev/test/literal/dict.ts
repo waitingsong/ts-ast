@@ -1,4 +1,4 @@
-import { DbDict } from './types.js'
+import type { DbDict } from './types.js'
 
 
 export declare function genDbDict<D>(): DbDict<D>

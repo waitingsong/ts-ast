@@ -3,7 +3,7 @@ import assert from 'assert/strict'
 import { fileShortPath } from '@waiting/shared-core'
 
 import { expectedDict } from '../literal/config.js'
-import { Db, DbDict } from '../literal/types.js'
+import type { Db, DbDict } from '../literal/types.js'
 
 import { genDbDict, alter, fake } from './demo6.js'
 
