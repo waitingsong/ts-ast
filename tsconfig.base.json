@@ -2,13 +2,14 @@
   "compilerOptions": {
     "baseUrl": "${configDir}",
     "declaration": true,
-    "declarationMap": true,
+    "declarationMap": false,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "exactOptionalPropertyTypes": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
+    "isolatedDeclarations": false,
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "newLine": "lf",
@@ -33,9 +34,10 @@
     "strict": true,
     "strictPropertyInitialization": false,
     "stripInternal": true,
-    "target": "ES2022",
+    "target": "ES2023",
     "tsBuildInfoFile": ".tsbuildinfo",
-    "types" : ["mocha", "node"]
+    "types" : ["mocha", "node"],
+    "verbatimModuleSyntax": false
   },
   "include": [
     "${configDir}/src/**/*.ts"

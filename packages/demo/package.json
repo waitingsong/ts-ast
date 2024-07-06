@@ -55,6 +55,7 @@
   },
   "scripts": {
     "build": "npm run tsc && tsc-alias && npm run rp",
+    "build:prod": "npm run tsc -- --declaration --declarationMap && tsc-alias && npm run rp",
     "build:unit": "tsc -p test/tsconfig.json",
     "clean": "npm run clean:lock && npm run clean:dist && npm run clean:log",
     "clean:cache": "rm -rf .eslintcache .tsbuildinfo",
@@ -62,12 +63,12 @@
     "clean:lock": "rm -f package-lock.json",
     "clean:log": "rm -rf ./logs ./run",
     "cov": "c8 --all npm run test --",
-    "lint": "eslint --fix --cache src test demo",
+    "lint": "eslint --fix --cache src test ",
     "lint:nofix": "eslint --cache src test",
     "pretest": "npm run build:unit",
     "rp": "tsx bin-hashbang.js",
     "test": "cross-env NODE_ENV=test TS_NODE_PROJECT=test/tsconfig.json mocha",
-    "deb8g": "cross-env NODE_ENV=test TS_NODE_PROJECT=test/tsconfig.json mocha --parallel=false",
+    "test:deb": "cross-env NODE_ENV=test TS_NODE_PROJECT=test/tsconfig.json mocha --parallel=false",
     "tsc": "tsc -p tsconfig.json"
   }
 }
