@@ -1,7 +1,7 @@
 {
   "name": "@waiting/shared-types-dev",
   "author": "waiting",
-  "version": "18.0.1",
+  "version": "18.0.2",
   "description": "shared typescript types develop",
   "private": false,
   "keywords": [
