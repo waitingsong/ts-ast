@@ -20,7 +20,7 @@ import {
   isImportDeclaration,
   isJSDocSignature,
   SyntaxKind,
- } from 'typescript'
+} from 'typescript'
 
 
 export function createObjectLiteralExpression(input: LiteralObject): ObjectLiteralExpression {

@@ -1,4 +1,4 @@
-import assert from 'node:assert/strict'
+import assert from 'node:assert'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
