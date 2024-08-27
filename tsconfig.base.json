@@ -28,7 +28,7 @@
     "preserveConstEnums": true,
     "pretty": true,
     "resolveJsonModule": true,
-    "rootDir": "${configDir}/src",
+    "rootDir": "src",
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
@@ -48,6 +48,7 @@
     "${configDir}/app/views",
     "${configDir}/dist",
     "${configDir}/fixtures",
+    "fixtures",
     "node_modules*",
     "**/*.d.ts",
     "**/*.spec.ts"
