@@ -1,14 +1,13 @@
-/* eslint-disable @typescript-eslint/ban-types */
-import assert from 'assert'
+import assert from 'node:assert'
 
 import type { LiteralObject } from '@waiting/shared-types'
 import type {
-  ts,
   Identifier,
   SourceFile,
-  TypeAliasDeclaration,
   Symbol,
+  TypeAliasDeclaration,
   TypeChecker,
+  ts,
 } from 'ts-morph'
 
 import { deepFind } from '../util.js'
@@ -308,7 +307,7 @@ export function genTypeAliasDeclaration(
     if (typeof tmpObj !== 'object') {
       throw new TypeError(`Value of resultObject "${pidPath.join('.')} is not object"`)
     }
-    const propKey = pidPath.length > 1 ? pidPath.slice(-1)[0] : ''
+    const propKey = pidPath.length > 1 ? pidPath.at(-1) : ''
     if (! propKey) {
       throw new TypeError('propKey empty')
     }

@@ -2,12 +2,12 @@ import assert from 'node:assert'
 
 import { genAbsolutePath } from '@waiting/shared-core'
 import type {
-  SourceFile,
-  Node,
   CallExpression,
-  TypeNode,
+  Node,
   ProjectOptions,
+  SourceFile,
   Type,
+  TypeNode,
 } from 'ts-morph'
 import {
   Project,
@@ -216,7 +216,7 @@ export function retrieveVarInfoFromVariableDeclaration(input: Node<ts.Node>): Va
   const kind = input.getKind()
   const sym = input.getSymbol()
   if (kind === SyntaxKind.VariableDeclaration && sym) {
-    // eslint-disable-next-line
+
     // const name = input.getNameNode().getText() as string
     const name = sym.getName() // variable name: dbDict
     const start = input.getStart()
@@ -238,13 +238,13 @@ export function retrieveVarInfoFromVariableDeclaration(input: Node<ts.Node>): Va
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         const typeReference = input.getTypeNodeOrThrow() as ts.TypeReferenceNode
         typeReferenceText = typeReference.getText()
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+
         // if (typeReference.getKind() !== SyntaxKind.TypeReference) {
         //   throw new TypeError(`Variable type must be TypeReference, like "const dict: DbDict<Db> = ..."`)
         // }
       }
     }
-    catch (ex) { void 0 }
+    catch { void 0 }
 
     const ret = {
       name, line, column, type, typeReferenceText,
@@ -263,14 +263,14 @@ export interface RetrieveCallExpressionByPosOpts extends CallerInfo {
 
 export function retrieveCallExpressionByPos(
   options: RetrieveCallExpressionByPosOpts,
-  needle?: string | undefined,
+  needle?: string,
 ): CallExpression | undefined {
 
   const file = options.sourceFile
   let expressions = file.getDescendantsOfKind(SyntaxKind.CallExpression)
   if (expressions.length === 0) {
     // ts.SyntaxKind.CallExpression may 203 or 204....
-    // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
+
     // @ts-ignore
     expressions = file.getDescendantsOfKind(203)
   }
@@ -347,8 +347,8 @@ export function retrieveVarnameFromCallExpressionCallerInfo(options: CallerInfo)
  */
 export function retrieveVarInfoFromCallExpressionCallerInfo(
   options: CallerInfo,
-  needle?: string | undefined,
-  sourceFile?: SourceFile | undefined,
+  needle?: string,
+  sourceFile?: SourceFile,
 ): VariableNameInfo | undefined {
 
   const file = sourceFile ?? createSourceFile(options.path)

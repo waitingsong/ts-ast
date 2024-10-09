@@ -1,10 +1,9 @@
-/* eslint-disable max-len */
+
 import assert from 'node:assert'
 
 import { getCallerStack } from '@waiting/shared-core'
 import type { SourceFile } from 'ts-morph'
 import { SyntaxKind } from 'ts-morph'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import ts from 'typescript'
 
 import {
@@ -22,8 +21,8 @@ import {
 import type { ComputedLiteralType } from '../ts-morph/tpl-literal.js'
 import { transformCallExpressionToLiteralType } from '../ts-morph/tpl-literal.js'
 import type {
-  TransFormOptions,
   CallExpressionPosKey,
+  TransFormOptions,
 } from '../ts-morph/tpl-literal.types.js'
 
 import type {
@@ -139,7 +138,7 @@ function visitNode(node: ts.Node, options: VOpts): ts.Node | undefined {
 }
 
 
-export function computeCallExpressionToLiteralObj(funcName?: TransFormOptions['needle'] | undefined): unknown {
+export function computeCallExpressionToLiteralObj(funcName?: TransFormOptions['needle']): unknown {
 
   const callerInfo = getCallerStack(2, true)
   let file: SourceFile

@@ -1,5 +1,5 @@
 
-export * from './callstack/index.js'
+export type * from './callstack/index.js'
 export * from './ts-morph/index.js'
 
 export {

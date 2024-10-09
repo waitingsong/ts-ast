@@ -1,25 +1,26 @@
+/* eslint-disable unicorn/prefer-module */
 import { createRequire } from 'node:module'
 import { dirname } from 'node:path'
 
 import { pathResolve } from '@waiting/shared-core'
 import type { LiteralObject } from '@waiting/shared-types'
 import {
+  type CallExpression,
   type ImportClause,
   type ImportDeclaration,
   type ImportSpecifier,
   type NamedImports,
   type Node,
-  type PropertyAssignment,
-  type ObjectLiteralExpression,
   type ObjectLiteralElementLike,
+  type ObjectLiteralExpression,
+  type PropertyAssignment,
   type StringLiteral,
   type TypeChecker,
-  type CallExpression,
+  SyntaxKind,
   factory,
   isCallExpression,
   isImportDeclaration,
   isJSDocSignature,
-  SyntaxKind,
 } from 'typescript'
 
 
@@ -166,7 +167,7 @@ export function isKeysImportExpression(
       return path === jsPath.toLocaleLowerCase() && !! path
     }
   }
-  catch (ex) {
+  catch {
     // console.info({ module })
     return false
   }

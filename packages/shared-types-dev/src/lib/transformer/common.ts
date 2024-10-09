@@ -1,5 +1,4 @@
-/* eslint-disable max-len */
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 import ts from 'typescript'
 
 

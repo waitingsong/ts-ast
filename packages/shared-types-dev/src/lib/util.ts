@@ -1,5 +1,3 @@
-
-// eslint-disable-next-line @typescript-eslint/ban-types
 export function deepFind(obj: object, paths: string[]): unknown {
   let ret = {
     ...obj,

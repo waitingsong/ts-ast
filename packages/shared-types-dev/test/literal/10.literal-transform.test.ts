@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import assert from 'node:assert/strict'
@@ -17,7 +15,7 @@ import {
 import type { CallExpressionPosKey } from '../../src/lib/ts-morph/tpl-literal.types.js'
 import { testConfig } from '../root.config.js'
 
-import { expectedDict, expectedDict2 } from './config.js'
+import { expectedDict2, expectedDict } from './config.js'
 
 
 const __dirname = genCurrentDirname(import.meta.url)
@@ -76,7 +74,7 @@ describe(fileShortPath(import.meta.url), () => {
       const dict = (await import(pathFix)).dict
       assert.deepStrictEqual(dict, expectedDict)
 
-      const code = await readFile(path, { encoding: 'utf-8' })
+      const code = await readFile(path, { encoding: 'utf8' })
       assert(code)
       assert(! code.includes(' as DbDict<'))
       assert(! code.includes(' as import('))
@@ -229,7 +227,7 @@ describe(fileShortPath(import.meta.url), () => {
       const dict = (await import(pathFix)).dict
       assert.deepStrictEqual(dict, expectedDict)
 
-      const code = await readFile(path, { encoding: 'utf-8' })
+      const code = await readFile(path, { encoding: 'utf8' })
       assert(code)
       assert(code.includes(' as DbDict<Db>'))
       assert(! code.includes(' as import('))

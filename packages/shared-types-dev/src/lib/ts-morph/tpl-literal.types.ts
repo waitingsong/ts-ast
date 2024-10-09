@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/ban-types */
 import type { LiteralObject } from '@waiting/shared-types'
 import type {
-  ts,
-  SourceFile,
   CallExpression,
+  SourceFile,
+  ts,
 } from 'ts-morph'
 
 

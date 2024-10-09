@@ -1,11 +1,11 @@
-import assert from 'assert/strict'
+import assert from 'node:assert/strict'
 
 import { fileShortPath } from '@waiting/shared-core'
 
 import { expectedDict } from '../literal/config.js'
 import type { Db, DbDict } from '../literal/types.js'
 
-import { genDbDict, alter, fake } from './demo6.js'
+import { alter, fake, genDbDict } from './demo6.js'
 
 
 describe(fileShortPath(import.meta.url), () => {

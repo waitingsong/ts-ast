@@ -1,7 +1,7 @@
-/* eslint-disable max-len */
+
 import { join } from 'node:path'
 
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 import ts from 'typescript'
 
 import { baseDir } from '../../base.js'
