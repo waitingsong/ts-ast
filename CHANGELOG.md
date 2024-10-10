@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [19.0.0](https://github.com/waitingsong/ts-ast/compare/v18.0.5...v19.0.0) (2024-10-10)
+
+
+### Bug Fixes
+
+* genLiteralObjectFromExpression() for ts-morph v24 ([ce14d4c](https://github.com/waitingsong/ts-ast/commit/ce14d4cbaa5b17ee491d74243b4e2ee80e825053))
+
+
+
+
+
 ## [18.0.5](https://github.com/waitingsong/ts-ast/compare/v18.0.4...v18.0.5) (2024-10-09)
 
 **Note:** Version bump only for package ts-ast
