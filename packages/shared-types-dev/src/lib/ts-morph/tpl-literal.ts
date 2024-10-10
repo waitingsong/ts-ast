@@ -158,8 +158,8 @@ export function genLiteralObjectFromExpression(options: ProcessExpressionOptions
   //   }
   //   typeText = `${resultType}<${doName}>`
   // }
-  const typeText = typeReferenceText
-  // const typeText = type.getText()
+
+  const typeText = patchJsExtForImportModulePath(typeReferenceText)
   const aliasName = 'T' + Math.random().toString().slice(-5)
 
   file.addStatements(`type ${aliasName} = ${typeText}`)
@@ -176,6 +176,24 @@ export function genLiteralObjectFromExpression(options: ProcessExpressionOptions
 
   const node = express.getParent()
   return node ? ret : {}
+}
+
+/**
+ * From 'import("F:/.../test/literal/types").DbDict<import("F:/.../test/literal/types").Db>' to
+ * 'import("F:/.../test/literal/types.js").DbDict<import("F:/.../test/literal/types.js").Db>'
+ */
+function patchJsExtForImportModulePath(path: string): string {
+  const ret = path.replaceAll(/import\("([^")]+?)"\)/gu, (substring: string) => {
+    if (substring.endsWith('.js")')) {
+      return substring
+    }
+    if (substring.endsWith('.ts")')) {
+      return substring.replace('.ts"', '.js"')
+    }
+    return substring.replace('")', '.js")')
+  })
+
+  return ret
 }
 
 export function genTypeAliasDeclarationFaster(
