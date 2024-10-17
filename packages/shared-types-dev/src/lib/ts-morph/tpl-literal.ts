@@ -267,6 +267,7 @@ function _genTypeAliasDeclarationFaster(
         pidPath: "${pidPath.join('.')}".
         try pass parameter tsConfigFilePath (path of tsconfig.json) during calling morph-common.createSourceFile()
         or --project <path-of-tsconfig.json> for cli
+        or generics type (like: "DbDict<Foo>" ) Foo is a Table model, NOT DataBase model type
       `
       throw new TypeError(msg)
       // console.warn(msg)
