@@ -266,6 +266,7 @@ function _genTypeAliasDeclarationFaster(
         propKey: "${propKey}",
         pidPath: "${pidPath.join('.')}".
         try pass parameter tsConfigFilePath (path of tsconfig.json) during calling morph-common.createSourceFile()
+        or --project <path-of-tsconfig.json> for cli
       `
       throw new TypeError(msg)
       // console.warn(msg)
