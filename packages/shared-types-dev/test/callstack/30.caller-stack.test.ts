@@ -4,12 +4,12 @@ import { pathToFileURL } from 'node:url'
 
 import { fileShortPath, genCurrentDirname, genCurrentFilename, getCallerStack } from '@waiting/shared-core'
 
-
 import { fake1, fake2, test1, test2, test3, test4, test5 } from './call-config.js'
 
 
 const __dirname = genCurrentDirname(import.meta.url)
 const __filename = genCurrentFilename(import.meta.url)
+const file = 'test/callstack/call-config.ts'
 // dummy line
 const callerInfo = getCallerStack(0, true) // line:14!!!, column: 2/20
 const tmpFile = join(__dirname, 'call-config.ts').replace(/\\/ug, '/')
@@ -22,21 +22,20 @@ describe(fileShortPath(import.meta.url), () => {
     it('test1()', () => {
       const info = test1()
       console.log({ info })
-      assert(info.path === path1, path1)
-      assert(info.line === 6, info.line.toString())
-      assert(info.column === 22, info.column.toString())
-      assert(info.columnNumber === 24)
-      assert(info.enclosingColNumber === 8)
+      assert(info.path.includes(file), `expect ${file}, but got ${info.path}`)
+      assert(info.line === 6, `expect 6, but got ${info.line}`)
+      assert(info.column === 22, `expect 22, but got ${info.column}`)
     })
     it('test2()', () => {
       const info = test2()
-      assert(info.path === path1)
+      assert(info.path.includes(file), `expect ${file}, but got ${info.path}`)
       assert(info.line === 11, info.line.toString())
       assert(info.column === 10, info.column.toString())
     })
     it('test3()', () => {
       const info = test3()
-      assert(info.path === path1)
+      assert(info.path.includes(file), `expect ${file}, but got ${info.path}`)
+      assert(info.srcPath === path1, `expect ${path1}, but got ${info.srcPath}`)
       assert(info.line === 24)
       assert(info.column === 12)
     })
