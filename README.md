@@ -91,7 +91,7 @@ npm run purge
 <br>
 
 [`shared-types-dev`]: https://github.com/waitingsong/ts-ast/tree/main/packages/shared-types-dev
-[main-svg]: https://img.shields.io/npm/v/@waiting/shared-types-dev.svg?maxAge=7200
+[main-svg]: https://img.shields.io/npm/v/@waiting/shared-types-dev.svg?maxAge=300
 [main-ch]: https://github.com/waitingsong/ts-ast/tree/main/packages/shared-types-dev/CHANGELOG.md
 
 
