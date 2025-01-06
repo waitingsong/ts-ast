@@ -41,6 +41,7 @@ describe(fileShortPath(import.meta.url), () => {
     it('demo1', async () => {
       const demo = '../literal/demo1.ts.example.ts'
       const path = join(__dirname, demo)
+      console.log('0000')
       const program = ts.createProgram(
         [path],
         compilerOpts,
@@ -49,29 +50,36 @@ describe(fileShortPath(import.meta.url), () => {
       if (! file) {
         throw new TypeError('sourceFile undefined')
       }
+      console.log('0001')
 
       const opts: TransTypetoLiteralObjOpts = {
         ...defaultOpts,
       }
       const tf = transTypetoLiteralObj(program, opts)
+      console.log('0002')
       const result: ts.TransformationResult<ts.SourceFile> = ts.transform<ts.SourceFile>(file, [tf])
+      console.log('0003')
       const [fileRet] = result.transformed
       if (! fileRet) {
         assert(false)
-        return
       }
       const printer = ts.createPrinter()
+      console.log('0004')
       const codeRet = printer.printFile(fileRet)
+      console.log('0005')
       await writeFile(testRetFile, codeRet)
+      console.log('0006')
 
       // const mod = require(testRetFile) as unknown
       const pathFix = `file://${testRetFile}`
       const mod = await import(pathFix) as unknown
+      console.log('0007')
       assert(mod)
       // @ts-expect-error
       const dict = mod.dict as typeof expectedDict
       // console.info({ codeRet, dict })
       assert.deepStrictEqual(dict, expectedDict)
+      console.log('0008')
     })
   })
 
